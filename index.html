@@ -200,15 +200,7 @@ section { padding: 5rem 3rem; }
 }
 
 /* SC state shape watermark */
-.hero-watermark {
-  position: fixed;
-  right: 4%;
-  top: 12vh;
-  width: min(500px, 40vw);
-  pointer-events: none;
-  z-index: 3;
-  will-change: transform;
-}
+/* SC watermark handled via inline styles and JS */
 
 /* All hero text sits above orb and watermark */
 .hero .container {
@@ -883,6 +875,19 @@ footer {
 
 <!-- TOP RULE -->
 <div class="top-rule"></div>
+<!-- SC WATERMARK - direct body child, nothing can clip it -->
+<svg id="sc-watermark" viewBox="0 0 520 320" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:3%; top:10vh; width:min(480px,40vw); pointer-events:none; z-index:3; will-change:transform;">
+  <defs>
+    <linearGradient id="scGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c9a84c"/>
+      <stop offset="100%" stop-color="#2a4a7f"/>
+    </linearGradient>
+  </defs>
+  <path d="M 68 44 L 82 38 L 100 34 L 120 32 L 140 33 L 158 37 L 174 44 L 188 54 L 200 67 L 208 82 L 212 98 L 212 114 L 208 128 L 218 122 L 232 116 L 250 110 L 272 106 L 298 104 L 326 105 L 354 110 L 380 118 L 404 130 L 424 144 L 440 161 L 452 180 L 458 200 L 458 220 L 452 238 L 442 252 L 428 263 L 412 270 L 393 274 L 372 274 L 349 271 L 323 264 L 293 255 L 260 247 L 226 242 L 192 240 L 160 241 L 130 245 L 104 251 L 82 259 L 65 267 L 54 274 L 46 268 L 38 258 L 30 244 L 24 228 L 20 210 L 18 191 L 18 172 L 20 154 L 25 137 L 32 121 L 42 107 L 53 95 L 62 84 L 67 72 L 68 58 Z"
+    fill="url(#scGrad)" stroke="url(#scGrad)" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="155" cy="90" r="9" fill="#c9a84c" stroke="#c9a84c" stroke-width="2"/>
+</svg>
+
 
 <!-- NAV -->
 <nav>
@@ -896,45 +901,6 @@ footer {
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <!-- SC State Watermark - parallax, outside hero container -->
-    <svg id="sc-watermark" class="hero-watermark" viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <linearGradient id="scGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#c9a84c" stop-opacity="1"/>
-          <stop offset="100%" stop-color="#2a4a7f" stop-opacity="1"/>
-        </linearGradient>
-      </defs>
-      <!-- Accurate South Carolina state outline -->
-      <path d="
-        M 68 44
-        L 82 38 L 100 34 L 120 32 L 140 33 L 158 37
-        L 174 44 L 188 54 L 200 67 L 208 82 L 212 98
-        L 212 114 L 208 128
-        L 218 122 L 232 116 L 250 110 L 272 106
-        L 298 104 L 326 105 L 354 110 L 380 118
-        L 404 130 L 424 144 L 440 161 L 452 180
-        L 458 200 L 458 220 L 452 238 L 442 252
-        L 428 263 L 412 270 L 393 274 L 372 274
-        L 349 271 L 323 264 L 293 255 L 260 247
-        L 226 242 L 192 240 L 160 241 L 130 245
-        L 104 251 L 82 259 L 65 267 L 54 274
-        L 46 268 L 38 258 L 30 244 L 24 228
-        L 20 210 L 18 191 L 18 172 L 20 154
-        L 25 137 L 32 121 L 42 107 L 53 95
-        L 62 84 L 67 72 L 68 58 Z
-      "
-      fill="url(#scGrad)"
-      fill-opacity="0.18"
-      stroke="url(#scGrad)"
-      stroke-width="3"
-      stroke-opacity="1"
-      stroke-linejoin="round"
-      stroke-linecap="round"
-      />
-      <!-- Crescent and palmetto are iconic SC symbols — small accent star -->
-      <circle cx="155" cy="95" r="8" fill="#c9a84c" fill-opacity="0.5"/>
-      <circle cx="155" cy="95" r="5" fill="none" stroke="#c9a84c" stroke-width="1.5" stroke-opacity="0.8"/>
-    </svg>
     <div class="hero-eyebrow reveal">An Energy Briefing for South Carolina Leadership</div>
     <h1 class="reveal reveal-delay-1">South Carolina's grid is under pressure.<br><em>Your constituents are paying for it.</em></h1>
     <p class="hero-lead reveal reveal-delay-2">
@@ -1320,16 +1286,13 @@ if (methodList) methodObserver.observe(methodList);
 // ── SC WATERMARK PARALLAX ──────────────────────────────────────
 const scMark = document.getElementById('sc-watermark');
 if (scMark) {
-  // Initial opacity
-  scMark.style.opacity = '0.22';
+  scMark.style.opacity = '0.35';
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
     const heroH = document.querySelector('.hero').offsetHeight;
-    // Parallax: moves up at 35% of scroll rate (slower than page)
-    const parallaxY = scrollY * -0.35;
-    // Fade out as hero scrolls away
-    const fadeProgress = Math.min(scrollY / (heroH * 0.8), 1);
-    const opacity = 0.22 * (1 - fadeProgress);
+    const parallaxY = scrollY * -0.4;
+    const fadeProgress = Math.min(scrollY / (heroH * 0.9), 1);
+    const opacity = 0.35 * (1 - fadeProgress);
     scMark.style.transform = `translateY(${parallaxY}px)`;
     scMark.style.opacity = opacity;
   }, { passive: true });
