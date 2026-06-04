@@ -230,15 +230,40 @@ section { padding: 5rem 3rem; }
   z-index: 0;
 }
 
+/* SC shape: gentle opacity breathe only */
 @keyframes scPulse {
+  0%, 100% { opacity: 0.18; }
+  50%       { opacity: 0.38; }
+}
+
+/* The glow bloom behind the shape - this is what overspills */
+@keyframes scGlowPulse {
   0%, 100% {
-    filter: drop-shadow(0 0 4px rgba(201,168,76,0.0)) drop-shadow(0 0 0px rgba(42,74,127,0.0));
-    opacity: 0.18;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85);
   }
   50% {
-    filter: drop-shadow(0 0 28px rgba(201,168,76,0.7)) drop-shadow(0 0 55px rgba(201,168,76,0.35)) drop-shadow(0 0 80px rgba(42,74,127,0.4));
-    opacity: 0.42;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
+}
+
+#sc-glow {
+  position: fixed;
+  pointer-events: none;
+  z-index: 2;
+  width: min(900px, 75vw);
+  height: min(720px, 60vw);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 45% 55%,
+    rgba(201,168,76,0.22) 0%,
+    rgba(201,168,76,0.12) 20%,
+    rgba(42,74,127,0.10) 40%,
+    rgba(201,168,76,0.04) 60%,
+    transparent 75%
+  );
+  animation: scGlowPulse 5s ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 /* SC state shape watermark */
@@ -924,6 +949,9 @@ footer {
 
 <!-- TOP RULE -->
 <div class="top-rule"></div>
+<!-- SC GLOW - separate layer so it truly overspills -->
+<div id="sc-glow"></div>
+
 <!-- SC WATERMARK - direct body child, nothing can clip it -->
 <svg id="sc-watermark" viewBox="0 0 85 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:3%; top:52vh; width:min(559px,45vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 5s ease-in-out infinite;">
   <defs>
@@ -1346,25 +1374,48 @@ const methodObserver = new IntersectionObserver((entries) => {
 const methodList = document.querySelector('.method-list');
 if (methodList) methodObserver.observe(methodList);
 
-// ── SC WATERMARK PARALLAX ──────────────────────────────────────
+// ── SC WATERMARK + GLOW PARALLAX ──────────────────────────────
 const scMark = document.getElementById('sc-watermark');
+const scGlow = document.getElementById('sc-glow');
+
+function positionGlow() {
+  if (!scMark || !scGlow) return;
+  const r = scMark.getBoundingClientRect();
+  const cx = r.left + r.width * 0.48;
+  const cy = r.top  + r.height * 0.52;
+  scGlow.style.left = cx + 'px';
+  scGlow.style.top  = cy + 'px';
+  scGlow.style.transform = 'translate(-50%, -50%)';
+}
+
+// Initial position
+positionGlow();
+
 if (scMark) {
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
     const heroH = document.querySelector('.hero').offsetHeight;
-    // Parallax: drifts up at 40% of scroll speed
     const parallaxY = scrollY * -0.4;
-    // Fade out past the hero
     const fadeProgress = Math.min(scrollY / (heroH * 0.9), 1);
-    // Only override opacity when fading out, otherwise let scPulse control it
+
     if (fadeProgress > 0) {
       scMark.style.animation = 'none';
-      scMark.style.opacity = Math.max(0, 0.27 * (1 - fadeProgress));
+      scMark.style.opacity = Math.max(0, 0.28 * (1 - fadeProgress));
+      if (scGlow) {
+        scGlow.style.animation = 'none';
+        scGlow.style.opacity = Math.max(0, 1 - fadeProgress * 2);
+      }
     } else {
       scMark.style.animation = 'scPulse 5s ease-in-out infinite';
       scMark.style.opacity = '';
+      if (scGlow) {
+        scGlow.style.animation = 'scGlowPulse 5s ease-in-out infinite';
+        scGlow.style.opacity = '';
+      }
     }
+
     scMark.style.transform = `translateY(${parallaxY}px)`;
+    positionGlow();
   }, { passive: true });
 }
 
