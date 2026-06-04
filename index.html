@@ -86,6 +86,17 @@ body::before {
 }
 .cred-card:hover::after { left: 160%; }
 
+
+/* ── CREDENTIAL PHOTO ── */
+.cred-photo {
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  margin-bottom: 1.4rem;
+  filter: grayscale(20%) contrast(1.05);
+}
 /* ── RESULT ROWS STAGGER ── */
 .optimizer-results .result-row {
   opacity: 0;
@@ -919,48 +930,6 @@ footer {
   .footer-right { text-align: left; }
 }
 </style>
-<style>
-/* ── FLOATING TEXT BUTTON ── */
-#float-text {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.65rem;
-  width: 50%;
-  max-width: 380px;
-  min-width: 180px;
-  background: var(--gold);
-  color: var(--ink);
-  font-family: 'DM Mono', monospace;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0.9rem 1.4rem;
-  border-radius: 6px;
-  box-shadow: 0 4px 20px rgba(201,168,76,0.25), 0 1px 4px rgba(0,0,0,0.3);
-  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-  animation: floatPulse 5s ease-in-out infinite;
-}
-#float-text:hover {
-  background: var(--gold-lt);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 28px rgba(201,168,76,0.38), 0 2px 6px rgba(0,0,0,0.3);
-}
-#float-text svg { flex-shrink: 0; }
-@keyframes floatPulse {
-  0%, 100% { box-shadow: 0 4px 20px rgba(201,168,76,0.22), 0 1px 4px rgba(0,0,0,0.3); opacity: 0.92; }
-  50%       { box-shadow: 0 4px 28px rgba(201,168,76,0.38), 0 1px 4px rgba(0,0,0,0.3); opacity: 1; }
-}
-@media (max-width: 680px) {
-  #float-text { bottom: 1.2rem; right: 1.2rem; left: 1.2rem; width: auto; max-width: none; border-radius: 6px; font-size: 0.8rem; padding: 1rem 1.4rem; }
-}
-</style>
 </head>
 <body>
 
@@ -1227,6 +1196,7 @@ footer {
         </div>
       </div>
       <div class="cred-card">
+        <img src="images/daniel.jpg" alt="Daniel Gutierrez, CEO + Founder of Energy Plus" class="cred-photo"/>
         <div class="cred-role">CEO + Founder</div>
         <div class="cred-name">Daniel Gutierrez</div>
         <div class="cred-bio">Spartanburg-based entrepreneur and energy advocate. Leads business development, legislative relationships, and the vendor-neutral program strategy that keeps Energy Plus accountable to client outcomes rather than product margins.</div>
@@ -1500,12 +1470,5 @@ window.addEventListener('scroll', () => {
   }
 }, { passive: true });
 </script>
-
-<!-- FLOATING TEXT BUTTON -->
-<a id="float-text" href="sms:+18647770688?body=Hey%20Dan%2C%20I%20saw%20the%20SC%20Power%20Forward%20briefing%20and%20want%20to%20learn%20more%20about%20bringing%20this%20to%20my%20constituents." aria-label="Text Dan directly">
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-  Text Dan Directly
-</a>
-
 </body>
 </html>
