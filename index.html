@@ -232,12 +232,12 @@ section { padding: 5rem 3rem; }
 
 @keyframes scPulse {
   0%, 100% {
-    filter: drop-shadow(0 0 6px rgba(201,168,76,0.0)) drop-shadow(0 0 0px rgba(42,74,127,0.0));
-    opacity: 0.22;
+    filter: drop-shadow(0 0 4px rgba(201,168,76,0.0)) drop-shadow(0 0 0px rgba(42,74,127,0.0));
+    opacity: 0.18;
   }
   50% {
-    filter: drop-shadow(0 0 18px rgba(201,168,76,0.45)) drop-shadow(0 0 32px rgba(42,74,127,0.25));
-    opacity: 0.32;
+    filter: drop-shadow(0 0 28px rgba(201,168,76,0.7)) drop-shadow(0 0 55px rgba(201,168,76,0.35)) drop-shadow(0 0 80px rgba(42,74,127,0.4));
+    opacity: 0.42;
   }
 }
 
@@ -925,7 +925,7 @@ footer {
 <!-- TOP RULE -->
 <div class="top-rule"></div>
 <!-- SC WATERMARK - direct body child, nothing can clip it -->
-<svg id="sc-watermark" viewBox="0 0 85 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:3%; top:52vh; width:min(420px,34vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 5s ease-in-out infinite;">
+<svg id="sc-watermark" viewBox="0 0 85 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:3%; top:52vh; width:min(559px,45vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 5s ease-in-out infinite;">
   <defs>
     <linearGradient id="scGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#c9a84c"/>
