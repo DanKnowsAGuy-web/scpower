@@ -922,7 +922,7 @@ footer {
 <!-- TOP RULE -->
 <div class="top-rule"></div>
 <!-- SC WATERMARK - direct body child, nothing can clip it -->
-<svg id="sc-watermark" viewBox="-30 -30 145 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:3%; top:52vh; width:min(1259px,95vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 3.4s ease-in-out infinite; overflow:visible;">
+<svg id="sc-watermark" viewBox="-30 -30 145 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:-4%; top:-6vh; width:min(1259px,95vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 3.4s ease-in-out infinite; overflow:visible;">
   <defs>
     <linearGradient id="scGrad" x1="0%" y1="100%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#1a3a7a"/>
@@ -1395,7 +1395,7 @@ if (scMark) {
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
     const heroH = document.querySelector('.hero').offsetHeight;
-    const parallaxY = scrollY * -0.4;
+    const parallaxY = scrollY * -0.65;
     const fadeProgress = Math.min(scrollY / (heroH * 0.9), 1);
     if (fadeProgress > 0) {
       scMark.style.animation = 'none';
