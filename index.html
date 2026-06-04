@@ -102,6 +102,8 @@ body::before {
   background: var(--ink-mid);
   border-bottom: 1px solid var(--rule);
   padding: 0.38rem 3rem;
+  position: relative;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -159,7 +161,7 @@ nav {
   background: rgba(14,15,17,0.97);
   position: sticky;
   top: 0;
-  z-index: 90;
+  z-index: 100;
   backdrop-filter: blur(12px);
 }
 
@@ -1439,12 +1441,11 @@ if (scMark) {
 
     scMark.style.transform = `translateY(${parallaxY}px)`;
 
+    // Never stop the animation - just layer opacity on top
     if (opacity !== null) {
-      scMark.style.animation = 'scPulse 5.4s ease-in-out infinite';
-      scMark.style.opacity = '';
-    } else {
-      scMark.style.animation = 'none';
       scMark.style.opacity = opacity;
+    } else {
+      scMark.style.opacity = '';
     }
   }, { passive: true });
 }
