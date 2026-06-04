@@ -243,10 +243,20 @@ section { padding: 5rem 3rem; }
 /* SC state shape watermark */
 /* SC watermark handled via inline styles and JS */
 
-/* All hero text sits above orb and watermark */
+/* Hero and all sections create stacking contexts above the watermark (z-index:3) */
 .hero .container {
   position: relative;
-  z-index: 1;
+  z-index: 10;
+}
+
+.hero {
+  isolation: isolate;
+}
+
+section, .problem-band, footer {
+  position: relative;
+  z-index: 10;
+  isolation: isolate;
 }
 
 .hero::after {
