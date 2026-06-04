@@ -232,8 +232,8 @@ section { padding: 5rem 3rem; }
 
 /* SC shape: gentle opacity breathe only */
 @keyframes scPulse {
-  0%, 100% { opacity: 0.18; }
-  50%       { opacity: 0.38; }
+  0%, 100% { opacity: 0.22; }
+  50%       { opacity: 0.48; }
 }
 
 /* The glow bloom behind the shape - this is what overspills */
@@ -256,13 +256,13 @@ section { padding: 5rem 3rem; }
   height: min(720px, 60vw);
   border-radius: 50%;
   background: radial-gradient(ellipse at 45% 55%,
-    rgba(201,168,76,0.22) 0%,
-    rgba(201,168,76,0.12) 20%,
-    rgba(42,74,127,0.10) 40%,
-    rgba(201,168,76,0.04) 60%,
+    rgba(201,168,76,0.275) 0%,
+    rgba(201,168,76,0.15) 20%,
+    rgba(42,74,127,0.125) 40%,
+    rgba(201,168,76,0.05) 60%,
     transparent 75%
   );
-  animation: scGlowPulse 5s ease-in-out infinite;
+  animation: scGlowPulse 4.5s ease-in-out infinite;
   will-change: transform, opacity;
 }
 
@@ -953,7 +953,7 @@ footer {
 <div id="sc-glow"></div>
 
 <!-- SC WATERMARK - direct body child, nothing can clip it -->
-<svg id="sc-watermark" viewBox="0 0 85 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:3%; top:52vh; width:min(559px,45vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 5s ease-in-out infinite;">
+<svg id="sc-watermark" viewBox="0 0 85 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:3%; top:52vh; width:min(559px,45vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 4.5s ease-in-out infinite;">
   <defs>
     <linearGradient id="scGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#c9a84c"/>
@@ -1406,10 +1406,10 @@ if (scMark) {
         scGlow.style.opacity = Math.max(0, 1 - fadeProgress * 2);
       }
     } else {
-      scMark.style.animation = 'scPulse 5s ease-in-out infinite';
+      scMark.style.animation = 'scPulse 4.5s ease-in-out infinite';
       scMark.style.opacity = '';
       if (scGlow) {
-        scGlow.style.animation = 'scGlowPulse 5s ease-in-out infinite';
+        scGlow.style.animation = 'scGlowPulse 4.5s ease-in-out infinite';
         scGlow.style.opacity = '';
       }
     }
