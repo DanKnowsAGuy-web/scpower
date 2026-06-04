@@ -236,15 +236,42 @@ section { padding: 5rem 3rem; }
   50%       { opacity: 0.48; }
 }
 
-/* The glow bloom behind the shape - this is what overspills */
+/* Flame glow - asymmetric, drifting, never perfectly circular */
 @keyframes scGlowPulse {
-  0%, 100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.85);
+  0% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(0.88, 0.82) rotate(-3deg);
+    filter: blur(18px);
   }
-  50% {
+  18% {
+    opacity: 0.75;
+    transform: translate(-47%, -53%) scale(0.95, 1.02) rotate(1deg);
+    filter: blur(14px);
+  }
+  35% {
+    opacity: 0.95;
+    transform: translate(-50%, -56%) scale(1.0, 1.08) rotate(-1deg);
+    filter: blur(10px);
+  }
+  52% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-52%, -54%) scale(1.04, 1.12) rotate(2deg);
+    filter: blur(8px);
+  }
+  68% {
+    opacity: 0.85;
+    transform: translate(-49%, -51%) scale(0.98, 1.05) rotate(-2deg);
+    filter: blur(12px);
+  }
+  84% {
+    opacity: 0.65;
+    transform: translate(-51%, -49%) scale(0.92, 0.95) rotate(1deg);
+    filter: blur(16px);
+  }
+  100% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(0.88, 0.82) rotate(-3deg);
+    filter: blur(18px);
   }
 }
 
@@ -252,18 +279,18 @@ section { padding: 5rem 3rem; }
   position: fixed;
   pointer-events: none;
   z-index: 2;
-  width: min(900px, 75vw);
-  height: min(720px, 60vw);
-  border-radius: 50%;
-  background: radial-gradient(ellipse at 45% 55%,
-    rgba(201,168,76,0.275) 0%,
-    rgba(201,168,76,0.15) 20%,
-    rgba(42,74,127,0.125) 40%,
-    rgba(201,168,76,0.05) 60%,
-    transparent 75%
+  width: min(860px, 72vw);
+  height: min(680px, 57vw);
+  border-radius: 44% 56% 38% 62% / 52% 44% 58% 46%;
+  background: radial-gradient(ellipse at 46% 58%,
+    rgba(201,168,76,0.30) 0%,
+    rgba(201,168,76,0.18) 18%,
+    rgba(42,74,127,0.13) 38%,
+    rgba(201,168,76,0.05) 58%,
+    transparent 74%
   );
   animation: scGlowPulse 4.5s ease-in-out infinite;
-  will-change: transform, opacity;
+  will-change: transform, opacity, filter;
 }
 
 /* SC state shape watermark */
