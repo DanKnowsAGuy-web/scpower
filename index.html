@@ -236,62 +236,7 @@ section { padding: 5rem 3rem; }
   50%       { opacity: 0.48; }
 }
 
-/* Flame glow - asymmetric, drifting, never perfectly circular */
-@keyframes scGlowPulse {
-  0% {
-    opacity: 0.55;
-    transform: translate(-50%, -50%) scale(0.88, 0.82) rotate(-3deg);
-    filter: blur(18px);
-  }
-  18% {
-    opacity: 0.75;
-    transform: translate(-47%, -53%) scale(0.95, 1.02) rotate(1deg);
-    filter: blur(14px);
-  }
-  35% {
-    opacity: 0.95;
-    transform: translate(-50%, -56%) scale(1.0, 1.08) rotate(-1deg);
-    filter: blur(10px);
-  }
-  52% {
-    opacity: 1;
-    transform: translate(-52%, -54%) scale(1.04, 1.12) rotate(2deg);
-    filter: blur(8px);
-  }
-  68% {
-    opacity: 0.85;
-    transform: translate(-49%, -51%) scale(0.98, 1.05) rotate(-2deg);
-    filter: blur(12px);
-  }
-  84% {
-    opacity: 0.65;
-    transform: translate(-51%, -49%) scale(0.92, 0.95) rotate(1deg);
-    filter: blur(16px);
-  }
-  100% {
-    opacity: 0.55;
-    transform: translate(-50%, -50%) scale(0.88, 0.82) rotate(-3deg);
-    filter: blur(18px);
-  }
-}
-
-#sc-glow {
-  position: fixed;
-  pointer-events: none;
-  z-index: 2;
-  width: min(860px, 72vw);
-  height: min(680px, 57vw);
-  border-radius: 44% 56% 38% 62% / 52% 44% 58% 46%;
-  background: radial-gradient(ellipse at 46% 58%,
-    rgba(201,168,76,0.30) 0%,
-    rgba(201,168,76,0.18) 18%,
-    rgba(42,74,127,0.13) 38%,
-    rgba(201,168,76,0.05) 58%,
-    transparent 74%
-  );
-  animation: scGlowPulse 4.5s ease-in-out infinite;
-  will-change: transform, opacity, filter;
-}
+/* SC glow handled inside the SVG via feTurbulence */
 
 /* SC state shape watermark */
 /* SC watermark handled via inline styles and JS */
@@ -976,20 +921,49 @@ footer {
 
 <!-- TOP RULE -->
 <div class="top-rule"></div>
-<!-- SC GLOW - separate layer so it truly overspills -->
-<div id="sc-glow"></div>
-
 <!-- SC WATERMARK - direct body child, nothing can clip it -->
-<svg id="sc-watermark" viewBox="0 0 85 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:3%; top:52vh; width:min(559px,45vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 4.5s ease-in-out infinite;">
+<svg id="sc-watermark" viewBox="-30 -30 145 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:3%; top:52vh; width:min(559px,45vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 4.5s ease-in-out infinite; overflow:visible;">
   <defs>
     <linearGradient id="scGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#c9a84c"/>
       <stop offset="100%" stop-color="#2a4a7f"/>
     </linearGradient>
+    <!-- Flame glow filter: turbulence warps a blurred halo organically -->
+    <filter id="flameGlow" x="-80%" y="-80%" width="260%" height="260%" color-interpolation-filters="sRGB">
+      <feTurbulence type="turbulence" baseFrequency="0.012 0.018" numOctaves="3" seed="8" result="turb">
+        <animate attributeName="baseFrequency"
+          values="0.012 0.018; 0.016 0.022; 0.010 0.015; 0.014 0.020; 0.012 0.018"
+          dur="4.5s" repeatCount="indefinite"/>
+        <animate attributeName="seed"
+          values="8;12;5;15;8"
+          dur="9s" repeatCount="indefinite"/>
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="turb" scale="14" xChannelSelector="R" yChannelSelector="G" result="warped"/>
+      <feGaussianBlur in="warped" stdDeviation="6" result="glow1"/>
+      <feGaussianBlur in="warped" stdDeviation="18" result="glow2"/>
+      <feGaussianBlur in="warped" stdDeviation="38" result="glow3"/>
+      <feColorMatrix in="glow3" type="matrix"
+        values="1.4 0.3 0 0 0
+                0.6 0.8 0 0 0
+                0   0   1.2 0 0
+                0   0   0   0.55 0" result="tinted3"/>
+      <feColorMatrix in="glow2" type="matrix"
+        values="1.2 0.2 0 0 0
+                0.5 0.7 0 0 0
+                0   0   1.0 0 0
+                0   0   0   0.7 0" result="tinted2"/>
+      <feMerge>
+        <feMergeNode in="tinted3"/>
+        <feMergeNode in="tinted2"/>
+        <feMergeNode in="glow1"/>
+        <feMergeNode in="warped"/>
+      </feMerge>
+    </filter>
   </defs>
   <path d="M68.24 46.080l0.32-0.72v-0.32l-0.32 0.32v0.72zM19.76 3.84l-0.24-0.32-0.64 0.8-4 0.88-1.040 1.040-5.84 1.28-3.2 3.36-0.8 2.16 2.96 2 1.92 2.24 2.96 0.8 2 5.52 1.84 2.32 0.56 1.68 4.8 3.68 1.52 3.2 1.84 0.72 2 2 0.16 2.16 1.36 1.12-0.16 0.88 1.2 0.96 0.16 1.040 4 2.32 0.32 2.16 1.52 3.52v2.24l3.36 2.8 1.12 3.2-0.48 2.48 1.36 2h1.2l1.84 1.040 1.68-4.16 0.16 0.8-0.72 1.84 2.32-2-1.84-2-1.12-4.32 1.2 0.96 0.48 2.56 1.28 1.12v-3.040h0.4l0.32 3.76 2.8-1.2 0.56-1.68-1.84 1.2 1.44-1.36-2.16-0.64 1.84-0.4-3.36-0.32 0.080-0.48h2.32l-0.16-0.88 2.48 1.68 0.48-1.12 0.56 0.96 2-1.52-0.88-1.28 1.36 1.12 2.72-0.8-0.24-0.72 1.2-0.16 1.2-0.96 0.16-0.72-1.68-0.8h0.64l-0.32-1.36h0.88l-0.24 1.040 1.36 0.8 3.84-3.12 0.32-0.4-0.64 0.4-0.32-0.4 0.64-1.52 1.040-0.48 0.48 0.88 1.68-0.4 0.32-0.96 1.2-0.88-0.72-0.96 1.040 0.64v-0.8l0.8 0.48 0.56-0.8-1.84-2.24 1.12-2.16 0.56-0.64-1.2 2.48 0.88 0.32 0.48 1.52 0.8-3.84 3.040-4.48 2.8-2.56 3.040-1.36-0.48-0.64 0.48-0.16-17.6-17.28-18-0.48-0.080-2.64-2.32-2.88-1.84 0.88-0.16-1.68z"
-    fill="url(#scGrad)" fill-opacity="0.35"
-    stroke="#c9a84c" stroke-width="0.8" stroke-linejoin="round"/>
+    fill="url(#scGrad)" fill-opacity="0.38"
+    stroke="#c9a84c" stroke-width="0.6" stroke-linejoin="round"
+    filter="url(#flameGlow)"/>
 </svg>
 
 
@@ -1403,46 +1377,20 @@ if (methodList) methodObserver.observe(methodList);
 
 // ── SC WATERMARK + GLOW PARALLAX ──────────────────────────────
 const scMark = document.getElementById('sc-watermark');
-const scGlow = document.getElementById('sc-glow');
-
-function positionGlow() {
-  if (!scMark || !scGlow) return;
-  const r = scMark.getBoundingClientRect();
-  const cx = r.left + r.width * 0.48;
-  const cy = r.top  + r.height * 0.52;
-  scGlow.style.left = cx + 'px';
-  scGlow.style.top  = cy + 'px';
-  scGlow.style.transform = 'translate(-50%, -50%)';
-}
-
-// Initial position
-positionGlow();
-
 if (scMark) {
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
     const heroH = document.querySelector('.hero').offsetHeight;
     const parallaxY = scrollY * -0.4;
     const fadeProgress = Math.min(scrollY / (heroH * 0.9), 1);
-
     if (fadeProgress > 0) {
       scMark.style.animation = 'none';
       scMark.style.opacity = Math.max(0, 0.28 * (1 - fadeProgress));
-      if (scGlow) {
-        scGlow.style.animation = 'none';
-        scGlow.style.opacity = Math.max(0, 1 - fadeProgress * 2);
-      }
     } else {
       scMark.style.animation = 'scPulse 4.5s ease-in-out infinite';
       scMark.style.opacity = '';
-      if (scGlow) {
-        scGlow.style.animation = 'scGlowPulse 4.5s ease-in-out infinite';
-        scGlow.style.opacity = '';
-      }
     }
-
     scMark.style.transform = `translateY(${parallaxY}px)`;
-    positionGlow();
   }, { passive: true });
 }
 
