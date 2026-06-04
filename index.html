@@ -101,7 +101,7 @@ body::before {
 .trust-bar {
   background: var(--ink-mid);
   border-bottom: 1px solid var(--rule);
-  padding: 0.38rem 3rem;
+  padding: 0.27rem 3rem;
   position: relative;
   z-index: 100;
   display: flex;
@@ -156,11 +156,10 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem 3rem;
+  padding: 0.52rem 3rem;
   border-bottom: 1px solid var(--rule);
   background: rgba(14,15,17,0.97);
-  position: sticky;
-  top: 0;
+  position: static;
   z-index: 100;
   backdrop-filter: blur(12px);
 }
@@ -243,20 +242,10 @@ section { padding: 5rem 3rem; }
 /* SC state shape watermark */
 /* SC watermark handled via inline styles and JS */
 
-/* Hero and all sections create stacking contexts above the watermark (z-index:3) */
+/* Hero text above internal orb */
 .hero .container {
   position: relative;
-  z-index: 10;
-}
-
-.hero {
-  isolation: isolate;
-}
-
-section, .problem-band, footer {
-  position: relative;
-  z-index: 10;
-  isolation: isolate;
+  z-index: 1;
 }
 
 .hero::after {
@@ -934,7 +923,7 @@ footer {
 <!-- TOP RULE -->
 <div class="top-rule"></div>
 <!-- SC WATERMARK - direct body child, nothing can clip it -->
-<svg id="sc-watermark" viewBox="-8 -8 101 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:-2%; top:0; width:min(1259px,95vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 5.4s ease-in-out infinite; overflow:visible;">
+<svg id="sc-watermark" viewBox="-8 -8 101 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:-2%; top:0; width:min(1259px,95vw); pointer-events:none; z-index:1; will-change:transform; animation: scPulse 5.4s ease-in-out infinite; overflow:visible; mix-blend-mode:screen;">
   <defs>
     <linearGradient id="scGrad" x1="0%" y1="100%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#1a3a7a"/>
