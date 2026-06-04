@@ -922,7 +922,7 @@ footer {
 <!-- TOP RULE -->
 <div class="top-rule"></div>
 <!-- SC WATERMARK - direct body child, nothing can clip it -->
-<svg id="sc-watermark" viewBox="-30 -30 145 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:0%; top:8vh; width:min(1259px,95vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 3.4s ease-in-out infinite; overflow:visible;">
+<svg id="sc-watermark" viewBox="-30 -30 145 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:-2%; top:0; width:min(1259px,95vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 3.4s ease-in-out infinite; overflow:visible;">
   <defs>
     <linearGradient id="scGrad" x1="0%" y1="100%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#1a3a7a"/>
@@ -1392,22 +1392,41 @@ if (methodList) methodObserver.observe(methodList);
 // ── SC WATERMARK + GLOW PARALLAX ──────────────────────────────
 const scMark = document.getElementById('sc-watermark');
 if (scMark) {
+  // Measure nav + trust bar to find exact bottom edge
+  function getHeaderBottom() {
+    const nav = document.querySelector('nav');
+    const trustBar = document.querySelector('.trust-bar');
+    const navBottom = nav ? nav.getBoundingClientRect().bottom + window.scrollY : 0;
+    const trustBottom = trustBar ? trustBar.getBoundingClientRect().bottom + window.scrollY : navBottom;
+    return trustBottom;
+  }
+
+  // Set initial top position to just below the trust bar
+  function initWatermark() {
+    const headerBottom = getHeaderBottom();
+    scMark.style.top = headerBottom + 'px';
+    scMark._baseTop = headerBottom;
+  }
+
+  initWatermark();
+  window.addEventListener('resize', initWatermark, { passive: true });
+
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
     const hero = document.querySelector('.hero');
     const h1 = document.querySelector('.hero h1');
     const heroTop = hero.offsetTop;
     const heroH = hero.offsetHeight;
-    const h1Bottom = heroTop + h1.offsetTop + h1.offsetHeight;
+    const h1Bottom = heroTop + (h1 ? h1.offsetTop + h1.offsetHeight : heroH * 0.5);
 
     let parallaxY, opacity;
 
     if (scrollY < h1Bottom) {
-      // Phase 1: headline still in view — nearly sticky, creeps at 0.08x
+      // Phase 1: nearly sticky while headline in view
       parallaxY = scrollY * -0.08;
-      opacity = null; // let CSS animation control
+      opacity = null;
     } else {
-      // Phase 2: past headline — accelerate fast, exit the page
+      // Phase 2: accelerate upward and exit
       const phase2Progress = scrollY - h1Bottom;
       parallaxY = (h1Bottom * -0.08) + (phase2Progress * -1.5);
       const fadeProgress = Math.min(phase2Progress / (heroH * 0.3), 1);
@@ -1417,11 +1436,11 @@ if (scMark) {
     scMark.style.transform = `translateY(${parallaxY}px)`;
 
     if (opacity !== null) {
-      scMark.style.animation = 'none';
-      scMark.style.opacity = opacity;
-    } else {
       scMark.style.animation = 'scPulse 3.4s ease-in-out infinite';
       scMark.style.opacity = '';
+    } else {
+      scMark.style.animation = 'none';
+      scMark.style.opacity = opacity;
     }
   }, { passive: true });
 }
