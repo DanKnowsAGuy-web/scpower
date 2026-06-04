@@ -97,7 +97,52 @@ body::before {
   transform: translateX(0);
 }
 
-/* ── TOP RULE ── */
+/* ── TRUST BAR ── */
+.trust-bar {
+  background: var(--ink-mid);
+  border-bottom: 1px solid var(--rule);
+  padding: 0.55rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  overflow: hidden;
+}
+
+.trust-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+}
+
+.trust-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--slate);
+  white-space: nowrap;
+  padding: 0 1.4rem;
+}
+
+.trust-item strong {
+  color: var(--slate-lt);
+  font-weight: 500;
+}
+
+.trust-divider {
+  width: 1px;
+  height: 10px;
+  background: var(--rule-lt);
+  flex-shrink: 0;
+}
+
+@media (max-width: 680px) {
+  .trust-bar { padding: 0.5rem 1rem; }
+  .trust-item { font-size: 0.52rem; padding: 0 0.8rem; letter-spacing: 0.12em; }
+}
 .top-rule {
   width: 100%;
   height: 3px;
@@ -840,7 +885,14 @@ footer {
   margin: 0;
 }
 
-/* ── ANIMATIONS ── */
+@media (max-width: 680px) {
+  .hero h1 .desktop-headline { display: none; }
+  .hero h1 .mobile-headline { display: inline; }
+}
+@media (min-width: 681px) {
+  .hero h1 .desktop-headline { display: inline; }
+  .hero h1 .mobile-headline { display: none; }
+}
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(18px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -894,10 +946,26 @@ footer {
   <a href="sms:+18647770688?body=Hi%2C%20I%20saw%20the%20Power%20Forward%20page%20and%20want%20to%20connect." class="nav-cta">Request a Briefing</a>
 </nav>
 
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <span class="trust-item"><strong>Sandia National Laboratories</strong></span>
+    <div class="trust-divider"></div>
+    <span class="trust-item"><strong>Salt River Project</strong></span>
+    <div class="trust-divider"></div>
+    <span class="trust-item"><strong>Department of Energy</strong> · Sole Source</span>
+    <div class="trust-divider"></div>
+    <span class="trust-item"><strong>Department of Defense</strong> · Sole Source</span>
+  </div>
+</div>
+
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <h1 class="reveal">South Carolina's grid is under pressure.<br><em>Your constituents are paying for it.</em></h1>
+    <h1 class="reveal">
+      <span class="desktop-headline">South Carolina's grid is under pressure.<br><em>Your constituents are paying for it.</em></span>
+      <span class="mobile-headline">Your constituents are paying for <em>South Carolina's energy problem.</em></span>
+    </h1>
     <p class="hero-lead reveal reveal-delay-2">
       Demand is rising, coal generation is retiring, and commercial electricity rates across South Carolina are climbing faster than nearly any state in the nation. The relief your constituents need doesn't require legislation, taxpayer funding, or new programs. It requires the right partner.
     </p>
