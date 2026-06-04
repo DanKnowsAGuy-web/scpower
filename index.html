@@ -174,11 +174,11 @@ nav {
 .nav-name {
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 900;
-  font-size: 1.6rem;
+  font-size: 1.45rem;
   letter-spacing: -0.02em;
-  line-height: 1;
+  line-height: 1.05;
   color: var(--white);
-  word-spacing: -0.08em;
+  word-spacing: -0.06em;
 }
 
 .nav-name span { color: var(--gold); }
@@ -928,32 +928,37 @@ footer {
   z-index: 200;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.65rem;
+  width: 40%;
+  max-width: 320px;
+  min-width: 180px;
   background: var(--gold);
   color: var(--ink);
   font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   text-decoration: none;
-  padding: 0.85rem 1.6rem;
-  box-shadow: 0 4px 24px rgba(201,168,76,0.35), 0 1px 4px rgba(0,0,0,0.4);
+  padding: 0.9rem 1.4rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(201,168,76,0.25), 0 1px 4px rgba(0,0,0,0.3);
   transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-  animation: floatPulse 3s ease-in-out infinite;
+  animation: floatPulse 5s ease-in-out infinite;
 }
 #float-text:hover {
   background: var(--gold-lt);
-  transform: translateY(-3px);
-  box-shadow: 0 8px 32px rgba(201,168,76,0.5), 0 2px 6px rgba(0,0,0,0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(201,168,76,0.38), 0 2px 6px rgba(0,0,0,0.3);
 }
 #float-text svg { flex-shrink: 0; }
 @keyframes floatPulse {
-  0%, 100% { box-shadow: 0 4px 24px rgba(201,168,76,0.35), 0 1px 4px rgba(0,0,0,0.4); }
-  50%       { box-shadow: 0 4px 36px rgba(201,168,76,0.55), 0 1px 4px rgba(0,0,0,0.4); }
+  0%, 100% { box-shadow: 0 4px 20px rgba(201,168,76,0.22), 0 1px 4px rgba(0,0,0,0.3); opacity: 0.92; }
+  50%       { box-shadow: 0 4px 28px rgba(201,168,76,0.38), 0 1px 4px rgba(0,0,0,0.3); opacity: 1; }
 }
 @media (max-width: 680px) {
-  #float-text { bottom: 1.2rem; right: 1.2rem; left: 1.2rem; justify-content: center; font-size: 0.8rem; padding: 1rem 1.4rem; }
+  #float-text { bottom: 1.2rem; right: 1.2rem; left: 1.2rem; width: auto; max-width: none; border-radius: 6px; font-size: 0.8rem; padding: 1rem 1.4rem; }
 }
 </style>
 </head>
@@ -1024,7 +1029,7 @@ footer {
 <!-- NAV -->
 <nav>
   <div class="nav-left">
-    <span class="nav-name">South Carolina <span>Power Forward</span></span>
+    <span class="nav-name">South Carolina<br><span>Power Forward</span></span>
   </div>
 </nav>
 
