@@ -922,14 +922,14 @@ footer {
 <!-- TOP RULE -->
 <div class="top-rule"></div>
 <!-- SC WATERMARK - direct body child, nothing can clip it -->
-<svg id="sc-watermark" viewBox="-30 -30 145 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:-2%; top:0; width:min(1259px,95vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 3.4s ease-in-out infinite; overflow:visible;">
+<svg id="sc-watermark" viewBox="-8 -8 101 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:-2%; top:0; width:min(1259px,95vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 3.4s ease-in-out infinite; overflow:visible;">
   <defs>
     <linearGradient id="scGrad" x1="0%" y1="100%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#1a3a7a"/>
       <stop offset="100%" stop-color="#4a7abf"/>
     </linearGradient>
     <!-- Glow-only filter: blurs and tints, NO displacement so shape stays crisp -->
-    <filter id="flameGlow" x="-120%" y="-120%" width="340%" height="340%" color-interpolation-filters="sRGB">
+    <filter id="flameGlow" x="-60%" y="-60%" width="220%" height="220%" color-interpolation-filters="sRGB">
       <!-- Just blur the source heavily to create a wide halo -->
       <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="glow1"/>
       <feGaussianBlur in="SourceGraphic" stdDeviation="22" result="glow2"/>
@@ -1402,10 +1402,14 @@ if (scMark) {
   }
 
   // Set initial top position to just below the trust bar
+  // Subtract viewBox top padding (8/96 of SVG height) so shape aligns to trust bar bottom
   function initWatermark() {
     const headerBottom = getHeaderBottom();
-    scMark.style.top = headerBottom + 'px';
-    scMark._baseTop = headerBottom;
+    const svgH = scMark.getBoundingClientRect().height;
+    const vbPaddingFraction = 8 / 96; // viewBox -8 offset / total viewBox height
+    const shapeOffset = svgH * vbPaddingFraction;
+    scMark.style.top = (headerBottom - shapeOffset) + 'px';
+    scMark._baseTop = headerBottom - shapeOffset;
   }
 
   initWatermark();
