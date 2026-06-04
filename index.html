@@ -233,7 +233,7 @@ section { padding: 5rem 3rem; }
 /* SC shape: gentle opacity breathe only */
 @keyframes scPulse {
   0%, 100% { opacity: 0.286; }
-  50%       { opacity: 0.624; }
+  50%       { opacity: 0.499; }
 }
 
 /* SC glow handled inside the SVG via feTurbulence */
@@ -922,7 +922,7 @@ footer {
 <!-- TOP RULE -->
 <div class="top-rule"></div>
 <!-- SC WATERMARK - direct body child, nothing can clip it -->
-<svg id="sc-watermark" viewBox="-8 -8 101 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:-2%; top:0; width:min(1259px,95vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 3.4s ease-in-out infinite; overflow:visible;">
+<svg id="sc-watermark" viewBox="-8 -8 101 96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:-2%; top:0; width:min(1259px,95vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 5.4s ease-in-out infinite; overflow:visible;">
   <defs>
     <linearGradient id="scGrad" x1="0%" y1="100%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#1a3a7a"/>
@@ -964,7 +964,7 @@ footer {
       <feTurbulence type="fractalNoise" baseFrequency="0.008 0.012" numOctaves="2" seed="4" result="noise">
         <animate attributeName="baseFrequency"
           values="0.008 0.012; 0.011 0.016; 0.007 0.010; 0.010 0.014; 0.008 0.012"
-          dur="3.4s" repeatCount="indefinite"/>
+          dur="5.4s" repeatCount="indefinite"/>
       </feTurbulence>
       <feDisplacementMap in="SourceGraphic" in2="noise" scale="22" xChannelSelector="R" yChannelSelector="G"/>
     </filter>
@@ -1440,7 +1440,7 @@ if (scMark) {
     scMark.style.transform = `translateY(${parallaxY}px)`;
 
     if (opacity !== null) {
-      scMark.style.animation = 'scPulse 3.4s ease-in-out infinite';
+      scMark.style.animation = 'scPulse 5.4s ease-in-out infinite';
       scMark.style.opacity = '';
     } else {
       scMark.style.animation = 'none';
