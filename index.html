@@ -922,7 +922,7 @@ footer {
 <!-- TOP RULE -->
 <div class="top-rule"></div>
 <!-- SC WATERMARK - direct body child, nothing can clip it -->
-<svg id="sc-watermark" viewBox="-30 -30 145 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:-4%; top:-6vh; width:min(1259px,95vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 3.4s ease-in-out infinite; overflow:visible;">
+<svg id="sc-watermark" viewBox="-30 -30 145 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:0%; top:8vh; width:min(1259px,95vw); pointer-events:none; z-index:3; will-change:transform; animation: scPulse 3.4s ease-in-out infinite; overflow:visible;">
   <defs>
     <linearGradient id="scGrad" x1="0%" y1="100%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#1a3a7a"/>
@@ -1394,17 +1394,35 @@ const scMark = document.getElementById('sc-watermark');
 if (scMark) {
   window.addEventListener('scroll', () => {
     const scrollY = window.scrollY;
-    const heroH = document.querySelector('.hero').offsetHeight;
-    const parallaxY = scrollY * -0.65;
-    const fadeProgress = Math.min(scrollY / (heroH * 0.9), 1);
-    if (fadeProgress > 0) {
+    const hero = document.querySelector('.hero');
+    const h1 = document.querySelector('.hero h1');
+    const heroTop = hero.offsetTop;
+    const heroH = hero.offsetHeight;
+    const h1Bottom = heroTop + h1.offsetTop + h1.offsetHeight;
+
+    let parallaxY, opacity;
+
+    if (scrollY < h1Bottom) {
+      // Phase 1: headline still in view — nearly sticky, creeps at 0.08x
+      parallaxY = scrollY * -0.08;
+      opacity = null; // let CSS animation control
+    } else {
+      // Phase 2: past headline — accelerate fast, exit the page
+      const phase2Progress = scrollY - h1Bottom;
+      parallaxY = (h1Bottom * -0.08) + (phase2Progress * -1.5);
+      const fadeProgress = Math.min(phase2Progress / (heroH * 0.3), 1);
+      opacity = Math.max(0, 1 - fadeProgress);
+    }
+
+    scMark.style.transform = `translateY(${parallaxY}px)`;
+
+    if (opacity !== null) {
       scMark.style.animation = 'none';
-      scMark.style.opacity = Math.max(0, 0.28 * (1 - fadeProgress));
+      scMark.style.opacity = opacity;
     } else {
       scMark.style.animation = 'scPulse 3.4s ease-in-out infinite';
       scMark.style.opacity = '';
     }
-    scMark.style.transform = `translateY(${parallaxY}px)`;
   }, { passive: true });
 }
 
