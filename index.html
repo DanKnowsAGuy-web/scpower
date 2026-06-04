@@ -109,7 +109,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.4rem 3rem;
+  padding: 0.75rem 3rem;
   border-bottom: 1px solid var(--rule);
   background: rgba(14,15,17,0.97);
   position: sticky;
@@ -120,27 +120,20 @@ nav {
 
 .nav-left {
   display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.5rem;
 }
 
 .nav-name {
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 900;
-  font-size: 1.1rem;
+  font-size: 1rem;
   letter-spacing: 0.02em;
   color: var(--white);
 }
 
 .nav-name span { color: var(--gold); }
-
-.nav-sub {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.58rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--slate);
-}
 
 .nav-cta {
   font-family: 'DM Mono', monospace;
@@ -170,7 +163,7 @@ section { padding: 5rem 3rem; }
 
 /* ── HERO ── */
 .hero {
-  padding: 7rem 3rem 5rem;
+  padding: 4rem 3rem 4rem;
   background: var(--ink);
   position: relative;
   overflow: visible;
@@ -876,7 +869,7 @@ footer {
 <!-- TOP RULE -->
 <div class="top-rule"></div>
 <!-- SC WATERMARK - direct body child, nothing can clip it -->
-<svg id="sc-watermark" viewBox="0 0 85 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:3%; top:10vh; width:min(480px,38vw); pointer-events:none; z-index:3; will-change:transform;">
+<svg id="sc-watermark" viewBox="0 0 85 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:fixed; right:3%; top:35vh; width:min(480px,38vw); pointer-events:none; z-index:3; will-change:transform;">
   <defs>
     <linearGradient id="scGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#c9a84c"/>
@@ -893,7 +886,6 @@ footer {
 <nav>
   <div class="nav-left">
     <span class="nav-name">South Carolina <span>Power Forward</span></span>
-    <span class="nav-sub">An Independent Energy Initiative</span>
   </div>
   <a href="sms:+18647770688?body=Hi%2C%20I%20saw%20the%20Power%20Forward%20page%20and%20want%20to%20connect." class="nav-cta">Request a Briefing</a>
 </nav>
@@ -901,8 +893,7 @@ footer {
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <div class="hero-eyebrow reveal">An Energy Briefing for South Carolina Leadership</div>
-    <h1 class="reveal reveal-delay-1">South Carolina's grid is under pressure.<br><em>Your constituents are paying for it.</em></h1>
+    <h1 class="reveal">South Carolina's grid is under pressure.<br><em>Your constituents are paying for it.</em></h1>
     <p class="hero-lead reveal reveal-delay-2">
       Demand is rising, coal generation is retiring, and commercial electricity rates across South Carolina are climbing faster than nearly any state in the nation. The relief your constituents need doesn't require legislation, taxpayer funding, or new programs. It requires the right partner.
     </p>
