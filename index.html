@@ -1221,7 +1221,6 @@ footer {
 }
 
 .regions-header h2 { margin-bottom: 0.8rem; }
-
 .regions-header p {
   font-size: 1rem;
   color: var(--slate-lt);
@@ -1231,47 +1230,60 @@ footer {
 }
 
 /* Sticky scroll container */
-.region-scroll-container {
-  position: relative;
-}
+.region-scroll-container { position: relative; }
 
-/* Each panel takes up 200vh so scroll has room to animate */
 .region-panel-wrapper {
-  height: 200vh;
+  height: 220vh;
   position: relative;
 }
 
-/* The sticky inner frame */
 .region-panel {
   position: sticky;
   top: 0;
   height: 100vh;
   overflow: hidden;
-  display: flex;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: 55% 45%;
   border-bottom: 1px solid var(--rule);
 }
 
-/* Left column: structure drawing */
+/* LEFT: drawing fills edge to edge, no wrapper box */
 .region-drawing-col {
-  flex: 0 0 55%;
   position: relative;
   background: var(--ink);
   overflow: hidden;
   display: flex;
   align-items: stretch;
-  justify-content: stretch;
-  min-height: 0;
 }
 
-/* SVG drawing canvas */
 .region-drawing-col svg {
   width: 100%;
   height: 100%;
   display: block;
 }
 
-/* All drawn paths start invisible */
+/* RIGHT: content — single background, no nested boxes */
+.region-content-col {
+  background: var(--ink-mid);
+  border-left: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 2.8rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Single gold accent: top border on the content column only */
+.region-content-col::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent 70%);
+}
+
+/* Draw paths */
 .draw-path {
   fill: none;
   stroke: rgba(201,168,76,0.75);
@@ -1279,36 +1291,13 @@ footer {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-
 .draw-path-thin {
-  stroke: rgba(201,168,76,0.5);
-  stroke-width: 1.2;
+  stroke: rgba(201,168,76,0.45);
+  stroke-width: 1.0;
 }
-
 .draw-path-bright {
   stroke: rgba(201,168,76,1.0);
   stroke-width: 2.5;
-}
-
-/* Right column: content */
-.region-content-col {
-  flex: 0 0 45%;
-  background: var(--ink-mid);
-  border-left: 1px solid var(--rule);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 4rem 3.5rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.region-content-col::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--gold), transparent);
 }
 
 .region-num {
@@ -1317,135 +1306,115 @@ footer {
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--slate);
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.5rem;
 }
 
 .region-name {
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 900;
-  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-size: clamp(2.2rem, 3.5vw, 3.4rem);
   line-height: 1.0;
   color: var(--white);
   letter-spacing: -0.02em;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.25rem;
+  word-break: break-word;
 }
 
 .region-cities {
   font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--gold);
   opacity: 0.75;
-  margin-bottom: 2rem;
+  margin-bottom: 1.8rem;
 }
 
 .region-big-num {
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 900;
-  font-size: clamp(3rem, 5vw, 4.8rem);
+  font-size: clamp(2.8rem, 4.5vw, 4.4rem);
   line-height: 1;
   color: var(--gold);
   letter-spacing: -0.03em;
-  text-shadow: 0 0 60px rgba(201,168,76,0.25);
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.3rem;
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(10px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
-
-.region-big-num.num-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.region-big-num.num-visible { opacity: 1; transform: translateY(0); }
 
 .region-num-label {
   font-family: 'DM Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.14em;
+  font-size: 0.68rem;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--slate);
-  margin-bottom: 2rem;
+  margin-bottom: 1.6rem;
   opacity: 0;
-  transition: opacity 0.6s ease 0.3s;
+  transition: opacity 0.6s ease 0.2s;
 }
-
 .region-num-label.num-visible { opacity: 1; }
 
 .region-sentence {
   font-family: 'Source Serif 4', Georgia, serif;
-  font-size: 1.05rem;
+  font-size: 1rem;
   line-height: 1.75;
   color: var(--white-dim);
   font-weight: 300;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
   opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.6s ease 0.5s, transform 0.6s ease 0.5s;
+  transform: translateY(6px);
+  transition: opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s;
 }
-
-.region-sentence.num-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
+.region-sentence.num-visible { opacity: 1; transform: translateY(0); }
 .region-sentence em { font-style: italic; color: var(--white); }
 
 .region-tag {
   font-family: 'DM Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
+  font-size: 0.65rem;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--gold);
-  border-left: 2px solid var(--gold);
-  padding-left: 0.8rem;
-  line-height: 1.6;
   opacity: 0;
-  transition: opacity 0.6s ease 0.7s;
+  transition: opacity 0.5s ease 0.6s;
+  padding-left: 0.8rem;
+  border-left: 1px solid rgba(201,168,76,0.4);
 }
+.region-tag.num-visible { opacity: 0.8; }
 
-.region-tag.num-visible { opacity: 1; }
-
-/* Progress bar showing draw completion */
 .region-progress {
   position: absolute;
   bottom: 0; left: 0;
   height: 2px;
   background: var(--gold);
   width: 0%;
-  transition: width 0.05s linear;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
-/* Mobile: unpin, stack */
+/* Mobile */
 @media (max-width: 860px) {
   .region-panel-wrapper { height: auto; }
   .region-panel {
     position: relative;
     height: auto;
-    flex-direction: column;
+    grid-template-columns: 1fr;
     min-height: auto;
   }
   .region-drawing-col {
-    flex: 0 0 auto;
-    height: 55vw;
-    min-height: 220px;
+    height: 56vw;
+    min-height: 200px;
   }
-  /* Show all paths on mobile */
   .draw-path { stroke-dashoffset: 0 !important; }
   .region-content-col {
-    flex: 0 0 auto;
-    padding: 2.5rem 1.5rem;
+    padding: 2rem 1.5rem;
     border-left: none;
     border-top: 1px solid var(--rule);
   }
   .region-big-num,
   .region-num-label,
   .region-sentence,
-  .region-tag,
-  .region-name,
-  .region-cities,
-  .region-num {
+  .region-tag {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
@@ -1685,49 +1654,66 @@ footer {
       <div class="region-panel" id="panel-upstate">
 
         <div class="region-drawing-col" id="drawing-upstate">
-          <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          <svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
 
-            <!-- Ground line -->
-            <line class="draw-path draw-path-thin" id="up-ground" x1="50" y1="480" x2="850" y2="480" stroke-dasharray="800" stroke-dashoffset="800"/>
+            <!-- Sky horizon / ground -->
+            <line class="draw-path draw-path-thin" x1="0" y1="420" x2="900" y2="420" stroke-dasharray="900" stroke-dashoffset="900"/>
 
-            <!-- Main plant building: massive low rectangle -->
-            <rect class="draw-path draw-path-bright" id="up-main" x="80" y="280" width="740" height="200" rx="2" stroke-dasharray="1900" stroke-dashoffset="1900"/>
+            <!-- Far background: small facility outline -->
+            <rect class="draw-path draw-path-thin" x="600" y="320" width="220" height="100" stroke-dasharray="640" stroke-dashoffset="640"/>
+            <rect class="draw-path draw-path-thin" x="680" y="280" width="80" height="40" stroke-dasharray="240" stroke-dashoffset="240"/>
 
-            <!-- Sawtooth roof profile (assembly line skylights - BMW signature) -->
-            <polyline class="draw-path" id="up-roof1"
-              points="80,280 120,240 160,280 200,240 240,280 280,240 320,280 360,240 400,280 440,240 480,280 520,240 560,280 600,240 640,280 680,240 720,280 760,240 800,280 820,280"
-              stroke-dasharray="2200" stroke-dashoffset="2200"/>
+            <!-- Main factory building: side elevation -->
+            <rect class="draw-path draw-path-bright" x="60" y="220" width="480" height="200" stroke-dasharray="1360" stroke-dashoffset="1360"/>
 
-            <!-- Internal assembly line indicators -->
-            <line class="draw-path draw-path-thin" id="up-line1" x1="80" y1="360" x2="820" y2="360" stroke-dasharray="740"/>
-            <line class="draw-path draw-path-thin" id="up-line2" x1="80" y1="420" x2="820" y2="420" stroke-dasharray="740"/>
+            <!-- Sawtooth roof on main building (4 peaks -- BMW signature roof) -->
+            <polyline class="draw-path draw-path-bright"
+              points="60,220 120,160 180,220 240,160 300,220 360,160 420,220 480,160 540,220"
+              stroke-dasharray="800" stroke-dashoffset="800"/>
 
-            <!-- Vertical structural columns inside -->
-            <line class="draw-path draw-path-thin" x1="200" y1="280" x2="200" y2="480" stroke-dasharray="200"/>
-            <line class="draw-path draw-path-thin" x1="360" y1="280" x2="360" y2="480" stroke-dasharray="200"/>
-            <line class="draw-path draw-path-thin" x1="520" y1="280" x2="520" y2="480" stroke-dasharray="200"/>
-            <line class="draw-path draw-path-thin" x1="680" y1="280" x2="680" y2="480" stroke-dasharray="200"/>
+            <!-- Chimney stacks (two tall ones) -->
+            <rect class="draw-path draw-path-bright" x="160" y="80" width="28" height="140" stroke-dasharray="336" stroke-dashoffset="336"/>
+            <rect class="draw-path draw-path-bright" x="220" y="110" width="22" height="110" stroke-dasharray="264" stroke-dashoffset="264"/>
 
-            <!-- Loading dock bumpers bottom -->
-            <rect class="draw-path draw-path-thin" x="110" y="470" width="40" height="10" stroke-dasharray="100"/>
-            <rect class="draw-path draw-path-thin" x="200" y="470" width="40" height="10" stroke-dasharray="100"/>
-            <rect class="draw-path draw-path-thin" x="290" y="470" width="40" height="10" stroke-dasharray="100"/>
-            <rect class="draw-path draw-path-thin" x="380" y="470" width="40" height="10" stroke-dasharray="100"/>
-            <rect class="draw-path draw-path-thin" x="470" y="470" width="40" height="10" stroke-dasharray="100"/>
-            <rect class="draw-path draw-path-thin" x="560" y="470" width="40" height="10" stroke-dasharray="100"/>
-            <rect class="draw-path draw-path-thin" x="650" y="470" width="40" height="10" stroke-dasharray="100"/>
-            <rect class="draw-path draw-path-thin" x="740" y="470" width="40" height="10" stroke-dasharray="100"/>
+            <!-- Smoke wisps from chimneys -->
+            <path class="draw-path draw-path-thin" d="M174 80 Q180 60 170 40 Q165 25 178 15" stroke-dasharray="80" stroke-dashoffset="80"/>
+            <path class="draw-path draw-path-thin" d="M231 110 Q238 90 228 68 Q223 52 236 42" stroke-dasharray="80" stroke-dashoffset="80"/>
 
-            <!-- Side office block -->
-            <rect class="draw-path" x="820" y="340" width="30" height="140" stroke-dasharray="340"/>
+            <!-- Large sliding door / bay on front -->
+            <rect class="draw-path" x="90" y="300" width="90" height="120" stroke-dasharray="420" stroke-dashoffset="420"/>
+            <!-- Door track lines -->
+            <line class="draw-path draw-path-thin" x1="90" y1="340" x2="180" y2="340" stroke-dasharray="90" stroke-dashoffset="90"/>
+            <line class="draw-path draw-path-thin" x1="90" y1="380" x2="180" y2="380" stroke-dasharray="90" stroke-dashoffset="90"/>
 
-            <!-- Parking lot grid suggestion -->
-            <line class="draw-path draw-path-thin" x1="80" y1="500" x2="820" y2="500" stroke-dasharray="740"/>
-            <line class="draw-path draw-path-thin" x1="80" y1="520" x2="820" y2="520" stroke-dasharray="740"/>
+            <!-- Windows along factory wall -->
+            <rect class="draw-path draw-path-thin" x="210" y="260" width="50" height="40" stroke-dasharray="180" stroke-dashoffset="180"/>
+            <rect class="draw-path draw-path-thin" x="280" y="260" width="50" height="40" stroke-dasharray="180" stroke-dashoffset="180"/>
+            <rect class="draw-path draw-path-thin" x="350" y="260" width="50" height="40" stroke-dasharray="180" stroke-dashoffset="180"/>
+            <rect class="draw-path draw-path-thin" x="420" y="260" width="50" height="40" stroke-dasharray="180" stroke-dashoffset="180"/>
+            <rect class="draw-path draw-path-thin" x="490" y="260" width="50" height="40" stroke-dasharray="180" stroke-dashoffset="180"/>
 
-            <!-- Label: 10M SQ FT -->
-            <text x="450" y="558" text-anchor="middle" font-family="DM Mono, monospace" font-size="11" fill="rgba(201,168,76,0.35)" letter-spacing="3">10,000,000 SQ FT CAMPUS</text>
-            <text x="450" y="572" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="rgba(201,168,76,0.2)" letter-spacing="2">BMW MANUFACTURING · SPARTANBURG, SC</text>
+            <!-- Conveyor / loading arm extending from building -->
+            <line class="draw-path draw-path-bright" x1="540" y1="290" x2="640" y2="260" stroke-dasharray="110" stroke-dashoffset="110"/>
+            <line class="draw-path draw-path-thin" x1="540" y1="305" x2="640" y2="275" stroke-dasharray="110" stroke-dashoffset="110"/>
+            <!-- Conveyor support legs -->
+            <line class="draw-path draw-path-thin" x1="575" y1="290" x2="575" y2="420" stroke-dasharray="130" stroke-dashoffset="130"/>
+            <line class="draw-path draw-path-thin" x1="615" y1="270" x2="615" y2="420" stroke-dasharray="150" stroke-dashoffset="150"/>
+
+            <!-- Parked vehicle silhouettes (BMW X vehicles) -->
+            <rect class="draw-path draw-path-thin" x="680" y="390" width="60" height="24" rx="4" stroke-dasharray="172" stroke-dashoffset="172"/>
+            <rect class="draw-path draw-path-thin" x="750" y="390" width="60" height="24" rx="4" stroke-dasharray="172" stroke-dashoffset="172"/>
+            <rect class="draw-path draw-path-thin" x="820" y="390" width="60" height="24" rx="4" stroke-dasharray="172" stroke-dashoffset="172"/>
+
+            <!-- Road markings -->
+            <line class="draw-path draw-path-thin" x1="60" y1="450" x2="860" y2="450" stroke-dasharray="800" stroke-dashoffset="800"/>
+            <line class="draw-path draw-path-thin" x1="200" y1="460" x2="240" y2="460" stroke-dasharray="40" stroke-dashoffset="40"/>
+            <line class="draw-path draw-path-thin" x1="380" y1="460" x2="420" y2="460" stroke-dasharray="40" stroke-dashoffset="40"/>
+            <line class="draw-path draw-path-thin" x1="560" y1="460" x2="600" y2="460" stroke-dasharray="40" stroke-dashoffset="40"/>
+            <line class="draw-path draw-path-thin" x1="740" y1="460" x2="780" y2="460" stroke-dasharray="40" stroke-dashoffset="40"/>
+
+            <!-- Label -->
+            <text x="300" y="510" text-anchor="middle" font-family="DM Mono, monospace" font-size="11" fill="rgba(201,168,76,0.4)" letter-spacing="3">BMW MANUFACTURING · SPARTANBURG</text>
+            <text x="300" y="526" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="rgba(201,168,76,0.2)" letter-spacing="2">10M SQ FT · 11,000 ASSOCIATES · 1,500 VEHICLES/DAY</text>
 
           </svg>
           <div class="region-progress" id="prog-upstate"></div>
@@ -2365,14 +2351,33 @@ setupRollers();
     return Math.max(0, Math.min(1, scrolled / total));
   }
 
+  // Get leftmost x coordinate of a path for left-to-right ordering
+  function getPathLeftX(path) {
+    const x1 = parseFloat(path.getAttribute('x1') || path.getAttribute('x') || '0');
+    const pts = path.getAttribute('points') || '';
+    if (pts) {
+      const xs = pts.trim().split(/[\s,]+/).filter((_, i) => i % 2 === 0).map(Number);
+      return Math.min(...xs);
+    }
+    const d = path.getAttribute('d') || '';
+    const nums = d.match(/[-\d.]+/g);
+    return nums ? parseFloat(nums[0]) : x1;
+  }
+
   function drawPaths(paths, progress) {
-    paths.forEach(path => {
-      // Use the element's own stroke-dasharray attribute as the total length
+    // Sort paths by left x so they animate left-to-right
+    const sorted = Array.from(paths).sort((a, b) => getPathLeftX(a) - getPathLeftX(b));
+    const count = sorted.length;
+    sorted.forEach((path, i) => {
+      // Each path gets a staggered progress window
+      const pathStart = (i / count) * 0.4;       // starts at 0–40% of total progress
+      const pathEnd   = pathStart + 0.6;           // each path has 60% of progress to complete
+      const localProgress = Math.max(0, Math.min(1, (progress - pathStart) / (pathEnd - pathStart)));
       const totalLen = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
-      const offset = totalLen * (1 - progress);
-      // Set both attribute and style to ensure override
+      const offset = totalLen * (1 - localProgress);
       path.setAttribute('stroke-dashoffset', offset);
       path.style.strokeDashoffset = offset;
+      path.style.strokeDasharray = path.getAttribute('stroke-dasharray') || '200';
     });
   }
 
@@ -2383,7 +2388,6 @@ setupRollers();
         const totalLen = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
         path.setAttribute('stroke-dashoffset', totalLen);
         path.style.strokeDashoffset = totalLen;
-        // Ensure dasharray is set
         path.style.strokeDasharray = path.getAttribute('stroke-dasharray') || '200';
       });
     });
