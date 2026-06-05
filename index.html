@@ -1037,6 +1037,7 @@ footer {
   background: var(--ink);
   position: relative;
   overflow: hidden;
+  will-change: transform;
 }
 .region-draw svg {
   position: absolute;
@@ -1062,7 +1063,6 @@ footer {
 .dp-bold  { fill:none; stroke:rgba(201,168,76,1.0);  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
 
 /* Text elements */
-.r-num    { font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.22em; text-transform:uppercase; color:var(--slate); margin-bottom:.4rem; }
 .r-name   { font-family:'Playfair Display',serif; font-weight:900; font-size:clamp(2rem,3.2vw,3.2rem); line-height:1; color:var(--white); letter-spacing:-.02em; margin-bottom:.2rem; }
 .r-cities { font-family:'DM Mono',monospace; font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); opacity:.75; margin-bottom:1.6rem; }
 .r-stat   { font-family:'Playfair Display',serif; font-weight:900; font-size:clamp(2.6rem,4.2vw,4.2rem); line-height:1; color:var(--gold); letter-spacing:-.03em; margin-bottom:.3rem; opacity:0; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease; }
@@ -1458,7 +1458,6 @@ footer {
       </div>
 
       <div class="region-text">
-        <div class="r-num">Region 01</div>
         <div class="r-name">The Upstate</div>
         <div class="r-cities">Greenville · Spartanburg · Anderson</div>
         <div class="r-stat" id="rs-up">$14.8B</div>
@@ -1516,7 +1515,6 @@ footer {
       </div>
 
       <div class="region-text">
-        <div class="r-num">Region 02</div>
         <div class="r-name">The Midlands</div>
         <div class="r-cities">Columbia · Lexington · Sumter</div>
         <div class="r-stat" id="rs-mid">3.7M</div>
@@ -1578,7 +1576,6 @@ footer {
       </div>
 
       <div class="region-text">
-        <div class="r-num">Region 03</div>
         <div class="r-name">The Lowcountry</div>
         <div class="r-cities">Charleston · Myrtle Beach · Hilton Head</div>
         <div class="r-stat" id="rs-low">$28B</div>
@@ -1907,67 +1904,104 @@ function setupRollers() {
 setupRollers();
 
 
-// ── REGION SCROLL-DRAW ────────────────────────────────────────
+// ── REGION SCROLL: PARALLAX + DIRECTIONAL DRAW ───────────────
 (function() {
-  if (window.innerWidth <= 860) return;
+  const mobile = window.innerWidth <= 860;
 
-  const panels = [
-    { wr:'wr-up',  pr:'rp-up',  draw:'dr-up',  ids:['rs-up','rl-up','rb-up','rt-up'] },
-    { wr:'wr-mid', pr:'rp-mid', draw:'dr-mid', ids:['rs-mid','rl-mid','rb-mid','rt-mid'] },
-    { wr:'wr-low', pr:'rp-low', draw:'dr-low', ids:['rs-low','rl-low','rb-low','rt-low'] },
-  ].map(p => ({
-    wrapper:  document.getElementById(p.wr),
-    progress: document.getElementById(p.pr),
-    paths:    document.querySelectorAll('#' + p.draw + ' [stroke-dasharray]'),
-    content:  p.ids.map(id => document.getElementById(id)).filter(Boolean),
+  const defs = [
+    {
+      wr:'wr-up',  draw:'dr-up',  pr:'rp-up',
+      ids:['rs-up','rl-up','rb-up','rt-up'],
+      dir: 1,   // 1 = right-to-left entry (SVG slides from right)
+    },
+    {
+      wr:'wr-mid', draw:'dr-mid', pr:'rp-mid',
+      ids:['rs-mid','rl-mid','rb-mid','rt-mid'],
+      dir: -1,  // -1 = left-to-right entry
+    },
+    {
+      wr:'wr-low', draw:'dr-low', pr:'rp-low',
+      ids:['rs-low','rl-low','rb-low','rt-low'],
+      dir: 1,   // right-to-left again
+    },
+  ];
+
+  const panels = defs.map(d => ({
+    wrapper:  document.getElementById(d.wr),
+    drawEl:   document.getElementById(d.draw),
+    progress: document.getElementById(d.pr),
+    paths:    document.querySelectorAll('#' + d.draw + ' [stroke-dasharray]'),
+    content:  d.ids.map(id => document.getElementById(id)).filter(Boolean),
+    dir:      d.dir,
     triggered: false,
   })).filter(p => p.wrapper);
 
   if (!panels.length) return;
 
-  // Init: hide all paths
-  panels.forEach(p => p.paths.forEach(path => {
-    const len = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
-    path.style.cssText += ';stroke-dasharray:' + len + ';stroke-dashoffset:' + len;
-  }));
+  // Sort paths by x for directional draw
+  function pathX(path, dir) {
+    const x1 = path.getAttribute('x1') || path.getAttribute('x');
+    let x = x1 ? parseFloat(x1) : 0;
+    const pts = path.getAttribute('points');
+    if (pts) {
+      const xs = pts.trim().split(/\s+|,/).filter((_,i)=>i%2===0).map(Number);
+      x = dir === 1 ? Math.min(...xs) : Math.max(...xs);
+    }
+    const d = path.getAttribute('d') || '';
+    if (!pts && d) { const m = d.match(/[-\d.]+/); x = m ? parseFloat(m[0]) : x; }
+    return dir === 1 ? x : (900 - x); // flip sort order for left-to-right
+  }
 
-  function progress(wrapper) {
+  // Init: all paths hidden
+  if (!mobile) {
+    panels.forEach(p => p.paths.forEach(path => {
+      const len = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
+      path.style.strokeDasharray = len;
+      path.style.strokeDashoffset = len;
+    }));
+  }
+
+  function getProgress(wrapper) {
     const r = wrapper.getBoundingClientRect();
     return Math.max(0, Math.min(1, -r.top / (wrapper.offsetHeight - window.innerHeight)));
   }
 
-  // Sort paths left-to-right by their starting x
-  function leftX(path) {
-    const x1 = path.getAttribute('x1') || path.getAttribute('x');
-    if (x1) return parseFloat(x1);
-    const pts = path.getAttribute('points');
-    if (pts) return Math.min(...pts.trim().split(/[\s,]+/).filter((_,i)=>i%2===0).map(Number));
-    const d = path.getAttribute('d') || '';
-    const m = d.match(/[-\d.]+/);
-    return m ? parseFloat(m[0]) : 0;
-  }
-
-  function draw(p, prog) {
-    const sorted = Array.from(p.paths).sort((a,b) => leftX(a) - leftX(b));
-    const n = sorted.length;
-    sorted.forEach((path, i) => {
-      const start = (i/n) * 0.35;
-      const loc = Math.max(0, Math.min(1, (prog - start) / 0.65));
-      const len = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
-      path.style.strokeDashoffset = len * (1 - loc);
-    });
-    if (p.progress) p.progress.style.width = (prog * 100) + '%';
-    if (prog >= 0.35 && !p.triggered) {
-      p.triggered = true;
-      p.content.forEach(el => el.classList.add('in'));
-    }
-  }
-
   function tick() {
-    panels.forEach(p => draw(p, progress(p.wrapper)));
+    panels.forEach(p => {
+      const prog = getProgress(p.wrapper);
+
+      // ── PARALLAX: SVG drifts at 35% scroll speed in alternating direction ──
+      if (p.drawEl && !mobile) {
+        // At prog=0: offset starts at +8% (right) or -8% (left)
+        // At prog=1: offset ends at -8% (right) or +8% (left)
+        const drift = p.dir * (0.08 - prog * 0.16) * 100;
+        p.drawEl.style.transform = 'translateX(' + drift.toFixed(2) + '%)';
+      }
+
+      // ── DIRECTIONAL DRAW: paths animate in direction of travel ──
+      if (!mobile) {
+        const sorted = Array.from(p.paths).sort((a,b) => pathX(a,p.dir) - pathX(b,p.dir));
+        const n = sorted.length;
+        sorted.forEach((path, i) => {
+          const window_start = (i / n) * 0.3;
+          const loc = Math.max(0, Math.min(1, (prog - window_start) / 0.7));
+          const len = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
+          path.style.strokeDashoffset = len * (1 - loc);
+        });
+
+        if (p.progress) p.progress.style.width = (prog * 100) + '%';
+
+        // Trigger text content at 30% draw completion
+        if (prog >= 0.3 && !p.triggered) {
+          p.triggered = true;
+          p.content.forEach(el => el.classList.add('in'));
+        }
+      }
+    });
   }
 
   window.addEventListener('scroll', tick, { passive: true });
+  window.addEventListener('resize', () => location.reload(), { passive: true });
   tick();
 })();
 
