@@ -1142,8 +1142,7 @@ footer {
   <span class="escalate-word" data-index="0" style="color:#6a8aaa;">Stable</span>
   <span class="escalate-word" data-index="1" style="color:#8a9e7a;">Moderate</span>
   <span class="escalate-word" data-index="2" style="color:#c9a84c;">Concerning</span>
-  <span class="escalate-word" data-index="3" style="color:#d4773a;">Critical</span>
-  <span class="escalate-word" data-index="4" style="color:#e05a1a;">Elevated</span>
+  <span class="escalate-word" data-index="3" style="color:#d4a832;">Elevated</span>
 </div>
       <div class="stat-desc">SERC-East, which includes South Carolina, flagged for reliability concerns by 2028 due to retiring generation and surging industrial demand.</div>
       <div class="stat-source">Source: NERC 2025 Long-Term Reliability Assessment</div>
@@ -1518,7 +1517,7 @@ if (methodList) methodObserver.observe(methodList);
   const words = document.querySelectorAll('.escalate-word');
   if (!words.length) return;
 
-  const durations  = [520, 520, 580, 620, 99999]; // ms each word is visible
+  const durations  = [416, 416, 464, 99999]; // ms each word is visible
   const holdAfter  = 300; // pause before next word appears
   let hasRun = false;
 
@@ -1546,7 +1545,7 @@ if (methodList) methodObserver.observe(methodList);
       } else {
         // Final word: add a gentle pulse glow after landing
         setTimeout(() => {
-          word.style.textShadow = '0 0 28px rgba(224,90,26,0.5)';
+          word.style.textShadow = '0 0 28px rgba(212,168,50,0.55)';
         }, delay + 400);
       }
     });
