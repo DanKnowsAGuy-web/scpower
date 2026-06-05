@@ -797,30 +797,40 @@ h2 em { font-style: italic; color: var(--gold); }
 
 .method-item {
   display: grid;
-  grid-template-columns: 44px 1fr;
-  gap: 1.5rem;
-  padding: 1.4rem 0;
+  grid-template-columns: 72px 1fr;
+  gap: 1.8rem;
+  padding: 1.6rem 0;
   border-bottom: 1px solid var(--rule);
   align-items: start;
+  position: relative;
 }
 
 .method-item:first-child { border-top: 1px solid var(--rule); }
 
 .method-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.88rem;
-  letter-spacing: 0.06em;
-  color: var(--gold);
-  padding-top: 0.15rem;
-  font-weight: 500;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: 3.8rem;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(201,168,76,0.3);
+  padding-top: 0.05rem;
+  user-select: none;
+  transition: -webkit-text-stroke 0.3s ease;
+}
+
+.method-item:hover .method-num {
+  -webkit-text-stroke: 1px rgba(201,168,76,0.65);
 }
 
 .method-title {
   font-family: 'Source Serif 4', Georgia, serif;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--white);
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.4rem;
+  padding-top: 0.5rem;
 }
 
 .method-body {
@@ -1508,28 +1518,28 @@ footer {
       </div>
       <div>
         <div class="pillars">
-          <div class="pillar">
+          <div class="pillar reveal-left reveal-delay-1">
             <div class="pillar-num">01</div>
             <div>
               <div class="pillar-title">No Taxpayer Funds Required</div>
               <div class="pillar-body">Every installation is structured with pre-arranged financing that makes businesses cash-flow positive from day one. This program costs the public nothing.</div>
             </div>
           </div>
-          <div class="pillar">
+          <div class="pillar reveal-left reveal-delay-2">
             <div class="pillar-num">02</div>
             <div>
               <div class="pillar-title">No Legislation Needed</div>
               <div class="pillar-body">We operate entirely within existing frameworks. Your role is straightforward: connect us to high energy-use businesses in your district. We handle the rest.</div>
             </div>
           </div>
-          <div class="pillar">
+          <div class="pillar reveal-left reveal-delay-3">
             <div class="pillar-num">03</div>
             <div>
               <div class="pillar-title">Vendor-Neutral by Design</div>
               <div class="pillar-body">We represent no manufacturer and sell no equipment. We design the right solution for each facility from a field of 45+ validated technologies.</div>
             </div>
           </div>
-          <div class="pillar">
+          <div class="pillar reveal-left reveal-delay-4">
             <div class="pillar-num">04</div>
             <div>
               <div class="pillar-title">The Credit Stays With You</div>
@@ -1552,7 +1562,7 @@ footer {
         <div class="section-label">What Your Constituents Would Save</div>
         <h2>Facilities in our program typically reduce energy spend by <em>20–30% in year one.</em></h2>
         <div class="body-text">
-          <p>That number comes from a 22-Minute Facility Review — a rapid, documented on-site assessment drawing from 45+ validated technologies. Financing is pre-structured. The business is cash-flow positive from day one.</p>
+          <p>That number comes from a 22-Minute Facility Review — a rapid, documented on-site assessment drawing from 45+ validated technologies. Every program is custom-designed for the facility.</p>
         </div>
         <div class="validation-badge">Third-Party Validated Methodology · v7 Documentation Available</div>
         <div class="validation-badge" style="margin-top:0.6rem;">45+ Technologies · Custom per facility · Zero upfront capital</div>
@@ -1604,8 +1614,8 @@ footer {
 <section class="credentials-section">
   <div class="container">
     <div class="narrow">
-      <div class="section-label">The Team Behind the Program</div>
-      <h2>The engineering standard that protects<br><em>nuclear and defense infrastructure</em> — now protecting your constituents' bottom line.</h2>
+      <div class="section-label reveal-fade">The Team Behind the Program</div>
+      <h2 class="reveal-scale">The engineering standard that protects<br><em>nuclear and defense infrastructure</em> — now protecting your constituents' bottom line.</h2>
     </div>
     <div class="cred-grid" style="margin-top:3rem;">
       <div class="cred-card">
@@ -1661,24 +1671,24 @@ footer {
       </div>
       <div class="method-list">
         <div class="method-item">
-          <div class="method-num">Step 01</div>
+          <div class="method-num">1</div>
           <div>
             <div class="method-title">The Introduction</div>
             <div class="method-body">You connect us to commercial businesses in your district with high energy use: manufacturers, grocery chains, school districts, QSRs, strip mall anchors, hospitality. We take it from there.</div>
           </div>
         </div>
         <div class="method-item">
-          <div class="method-num">Step 02</div>
+          <div class="method-num">2</div>
           <div>
             <div class="method-title">The 22-Minute Facility Review</div>
             <div class="method-body">Our engineers complete a rapid on-site assessment, identify the highest-impact savings opportunities, and deliver a documented baseline. No commitment required from the business owner at this stage.</div>
           </div>
         </div>
         <div class="method-item">
-          <div class="method-num">Step 03</div>
+          <div class="method-num">3</div>
           <div>
             <div class="method-title">Implementation &amp; Verification</div>
-            <div class="method-body">Financing is pre-structured. Installation is scheduled. Savings are measured against a verified baseline. The business is cash-flow positive from month one. Results are documented and available to you.</div>
+            <div class="method-body">Financing is pre-structured. Installation is scheduled. Savings are measured against a verified baseline and documented for your records.</div>
           </div>
         </div>
       </div>
@@ -1737,7 +1747,7 @@ const revealObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.12 });
 
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+document.querySelectorAll('.reveal, .reveal-left, .reveal-scale, .reveal-fade').forEach(el => revealObserver.observe(el));
 
 // ── RESULT ROW STAGGER ─────────────────────────────────────────
 function animateRows() {
