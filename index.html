@@ -998,6 +998,127 @@ footer {
   text-align: right;
 }
 
+
+/* ── THREE REGIONS ── */
+.regions-section {
+  background: var(--ink);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 5rem 3rem;
+}
+
+.regions-intro {
+  max-width: 640px;
+  margin: 0 auto 3.5rem;
+  text-align: center;
+}
+
+.regions-intro .section-label {
+  justify-content: center;
+  border-left: none;
+  padding-left: 0;
+  border-bottom: none;
+  display: flex;
+}
+
+.regions-intro .section-label::before { display: none; }
+
+.regions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  max-width: var(--wide);
+  margin: 0 auto;
+}
+
+.region-card {
+  background: var(--ink-mid);
+  padding: 2.2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  transition: background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.region-card:hover { background: var(--ink-soft); }
+
+.region-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.region-card:hover::before { transform: scaleX(1); }
+
+.region-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--white);
+  letter-spacing: -0.01em;
+  margin-bottom: 0.3rem;
+  line-height: 1.1;
+}
+
+.region-territory {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.2rem;
+}
+
+.region-industries {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  flex: 1;
+}
+
+.region-industry {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.92rem;
+  color: var(--slate-lt);
+  line-height: 1.4;
+}
+
+.region-industry::before {
+  content: '→';
+  color: var(--gold);
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.region-note {
+  margin-top: 1.4rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--rule);
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--slate);
+  line-height: 1.5;
+}
+
+@media (max-width: 860px) {
+  .regions-grid { grid-template-columns: 1fr; }
+  .regions-section { padding: 3.5rem 1.5rem; }
+  .region-card { padding: 1.8rem 1.5rem; }
+}
+
 /* ── DIVIDER ── */
 .rule-gold {
   height: 1px;
@@ -1255,7 +1376,7 @@ footer {
     <div class="optimizer-grid">
       <div>
         <div class="section-label">What Your Constituents Would Save</div>
-        <h2>The average facility in our program saves <em>$14,000 in year one.</em></h2>
+        <h2>Facilities in our program typically reduce energy spend by <em>20–30% in year one.</em></h2>
         <div class="body-text">
           <p>That number comes from a 22-Minute Facility Review — a rapid on-site assessment our engineers use to produce a documented, third-party validated savings baseline for any commercial building. No obligation, no cost, no commitment required at that stage.</p>
           <p>The review draws from a portfolio of 45+ validated technologies: HVAC optimization, power quality and harmonic correction, lighting, demand management, building controls, and more. Every program is custom-designed for the facility. Nothing is templated.</p>
@@ -1268,8 +1389,8 @@ footer {
         <div class="result-row-header"><span>Typical Program Results · Any Commercial Facility</span></div>
         <div class="optimizer-results">
           <div class="result-row">
-            <div class="result-label">Average Year-One Bill Savings</div>
-            <div class="result-value gold">$14,000</div>
+            <div class="result-label">Average Year-One Energy Reduction</div>
+            <div class="result-value gold">20–30%</div>
           </div>
           <div class="result-row">
             <div class="result-label">Average Energy Reduction</div>
@@ -1302,6 +1423,56 @@ footer {
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<hr class="rule-gold"/>
+
+<!-- THREE REGIONS -->
+<section class="regions-section">
+  <div class="regions-intro">
+    <div class="section-label" style="justify-content:center; border-left:none; padding-left:0;">Your State. Your Constituents.</div>
+    <h2 style="text-align:center; margin-bottom:0.8rem;">Every region of South Carolina<br><em>has a different energy story.</em></h2>
+    <p style="font-size:1rem; color:var(--slate-lt); line-height:1.7; text-align:center;">The businesses paying the most are the ones your district depends on. We know what they do and where they are.</p>
+  </div>
+  <div class="regions-grid">
+
+    <div class="region-card reveal">
+      <div class="region-name">The Upstate</div>
+      <div class="region-territory">Greenville · Spartanburg · Anderson</div>
+      <div class="region-industries">
+        <div class="region-industry">Automotive manufacturing — BMW, Michelin, 300+ suppliers</div>
+        <div class="region-industry">Aerospace — Lockheed Martin, GE Aviation, Honeywell</div>
+        <div class="region-industry">Advanced materials and composites</div>
+        <div class="region-industry">Healthcare systems — Prisma Health, Spartanburg Regional</div>
+      </div>
+      <div class="region-note">High 24/7 industrial load. Energy cost is a direct line item in every manufacturing margin.</div>
+    </div>
+
+    <div class="region-card reveal reveal-delay-2">
+      <div class="region-name">The Midlands</div>
+      <div class="region-territory">Columbia · Lexington · Sumter</div>
+      <div class="region-industries">
+        <div class="region-industry">State government facilities and agencies</div>
+        <div class="region-industry">Fort Jackson — largest Army training installation in the U.S.</div>
+        <div class="region-industry">University of South Carolina and education campuses</div>
+        <div class="region-industry">Paper, steel, and medical supply manufacturing</div>
+      </div>
+      <div class="region-note">Large public-sector footprint means energy waste comes directly out of taxpayer-funded budgets.</div>
+    </div>
+
+    <div class="region-card reveal reveal-delay-3">
+      <div class="region-name">The Lowcountry</div>
+      <div class="region-territory">Charleston · Myrtle Beach · Hilton Head</div>
+      <div class="region-industries">
+        <div class="region-industry">$28B tourism industry — hotels, resorts, restaurants</div>
+        <div class="region-industry">Port of Charleston — logistics, refrigerated warehousing</div>
+        <div class="region-industry">Boeing South Carolina — commercial aircraft production</div>
+        <div class="region-industry">Coastal healthcare and retirement communities</div>
+      </div>
+      <div class="region-note">HVAC runs year-round in the coastal climate. Hospitality margins are thin. Energy savings go straight to the bottom line.</div>
+    </div>
+
   </div>
 </section>
 
