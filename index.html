@@ -1092,6 +1092,17 @@ footer {
   .regions-header { padding:2.5rem 1.5rem 1.5rem; }
 }
 
+
+/* ── STAT GLOW PULSE (loops after count-up) ── */
+@keyframes statGlow {
+  0%, 100% { text-shadow: 0 0 0px rgba(201,168,76,0); }
+  50%       { text-shadow: 0 0 28px rgba(201,168,76,0.55), 0 0 8px rgba(201,168,76,0.3); }
+}
+
+.r-stat.glowing {
+  animation: statGlow 4s ease-in-out infinite;
+}
+
 /* ── DIVIDER ── */
 .rule-gold {
   height: 1px;
@@ -1463,10 +1474,10 @@ footer {
       <div class="region-text">
         <div class="r-name">The Upstate</div>
         <div class="r-cities">Greenville · Spartanburg · Anderson</div>
-        <div class="r-stat" id="rs-up">$14.8B</div>
+        <div class="r-stat" id="rs-up" data-prefix="$" data-value="14.8" data-suffix="B">0</div>
         <div class="r-statl" id="rl-up">BMW investment in Spartanburg alone</div>
         <p class="r-body" id="rb-up">The Upstate runs 24 hours a day. <em>BMW, Michelin, and 300+ automotive suppliers</em> operate continuous industrial loads where energy cost is a direct line item in every margin calculation.</p>
-        <div class="r-tag" id="rt-up">Automotive · Aerospace · Advanced Manufacturing</div>
+        <div class="r-tag" id="rt-up" data-type="Automotive · Aerospace · Advanced Manufacturing"></div>
       </div>
 
     </div>
@@ -1520,10 +1531,10 @@ footer {
       <div class="region-text">
         <div class="r-name">The Midlands</div>
         <div class="r-cities">Columbia · Lexington · Sumter</div>
-        <div class="r-stat" id="rs-mid">3.7M</div>
+        <div class="r-stat" id="rs-mid" data-prefix="" data-value="3.7" data-suffix="M">0</div>
         <div class="r-statl" id="rl-mid">Square feet at Fort Jackson alone</div>
         <p class="r-body" id="rb-mid">The Midlands is the seat of state government, the military, and public education. <em>Fort Jackson, the University of South Carolina, and state agencies</em> run enormous facilities on taxpayer-funded budgets. Every wasted kilowatt-hour comes out of public money.</p>
-        <div class="r-tag" id="rt-mid">Government · Military · Education · Healthcare</div>
+        <div class="r-tag" id="rt-mid" data-type="Government · Military · Education · Healthcare"></div>
       </div>
 
     </div>
@@ -1581,10 +1592,10 @@ footer {
       <div class="region-text">
         <div class="r-name">The Lowcountry</div>
         <div class="r-cities">Charleston · Myrtle Beach · Hilton Head</div>
-        <div class="r-stat" id="rs-low">$28B</div>
+        <div class="r-stat" id="rs-low" data-prefix="$" data-value="28" data-suffix="B">0</div>
         <div class="r-statl" id="rl-low">SC tourism industry running HVAC 365 days a year</div>
         <p class="r-body" id="rb-low">The coastal economy runs on hospitality. <em>Hotels, resorts, and restaurants</em> in Charleston, Myrtle Beach, and Hilton Head operate on thin margins in a climate where air conditioning never stops. Energy is one of the top three operating costs — and the most controllable one.</p>
-        <div class="r-tag" id="rt-low">Tourism · Hospitality · Ports · Aerospace</div>
+        <div class="r-tag" id="rt-low" data-type="Tourism · Hospitality · Ports · Aerospace"></div>
       </div>
 
     </div>
@@ -1965,6 +1976,59 @@ setupRollers();
     return Math.max(0, Math.min(1, -r.top / (wrapper.offsetHeight - window.innerHeight)));
   }
 
+
+  // ── TEXT ANIMATIONS: count-up, typewriter, glow ───────────────
+  function triggerTextAnimations(p) {
+    // Find stat, tag elements
+    const statEl = p.content.find(el => el.classList.contains('r-stat'));
+    const tagEl  = p.content.find(el => el.classList.contains('r-tag'));
+
+    // COUNT-UP
+    if (statEl && statEl.dataset.value) {
+      const prefix   = statEl.dataset.prefix || '';
+      const suffix   = statEl.dataset.suffix || '';
+      const target   = parseFloat(statEl.dataset.value);
+      const isFloat  = statEl.dataset.value.includes('.');
+      const duration = 1400;
+      const startTime = performance.now();
+
+      function countUp(now) {
+        const prog = Math.min((now - startTime) / duration, 1);
+        // Ease out cubic
+        const ease = 1 - Math.pow(1 - prog, 3);
+        const current = target * ease;
+        statEl.textContent = prefix + (isFloat ? current.toFixed(1) : Math.round(current)) + suffix;
+        if (prog < 1) {
+          requestAnimationFrame(countUp);
+        } else {
+          statEl.textContent = prefix + statEl.dataset.value + suffix;
+          // Start glow pulse after count-up lands
+          setTimeout(() => statEl.classList.add('glowing'), 200);
+        }
+      }
+      requestAnimationFrame(countUp);
+    }
+
+    // TYPEWRITER on tag (delayed to after body text fades in)
+    if (tagEl && tagEl.dataset.type) {
+      const text = tagEl.dataset.type;
+      const charDelay = 28; // ms per character
+      let i = 0;
+      tagEl.textContent = '';
+
+      setTimeout(() => {
+        function typeNext() {
+          if (i < text.length) {
+            tagEl.textContent += text[i];
+            i++;
+            setTimeout(typeNext, charDelay);
+          }
+        }
+        typeNext();
+      }, 700); // start after body text has faded in
+    }
+  }
+
   const onMobile = () => window.innerWidth <= 860;
 
   // Mobile: animate panel on scroll-into-view via IntersectionObserver
@@ -1994,6 +2058,7 @@ setupRollers();
       if (prog >= 0.3 && !p.triggered) {
         p.triggered = true;
         p.content.forEach(el => el.classList.add('in'));
+        triggerTextAnimations(p);
       }
       if (prog < 1) requestAnimationFrame(frame);
     }
@@ -2021,6 +2086,7 @@ setupRollers();
       if (prog >= 0.3 && !p.triggered) {
         p.triggered = true;
         p.content.forEach(el => el.classList.add('in'));
+        triggerTextAnimations(p);
       }
     });
   }
