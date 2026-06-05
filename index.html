@@ -486,6 +486,35 @@ section { padding: 5rem 3rem; }
   white-space: nowrap;
 }
 
+
+/* Uniform gold on all stat numbers */
+.stat-number span,
+.stat-number .roll-num,
+.stat-number .stat-dash,
+.stat-number .stat-suffix { color: var(--gold); }
+
+.stat-suffix {
+  font-size: 1.8rem;
+  vertical-align: baseline;
+}
+
+.stat-dash {
+  margin: 0 0.1em;
+}
+
+/* Roll animation container */
+.roll-num {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: baseline;
+  position: relative;
+}
+
+@keyframes rollUp {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+
 /* ── BODY SECTIONS ── */
 .section-label {
   font-family: 'DM Mono', monospace;
@@ -1150,14 +1179,14 @@ footer {
     <div class="stat-divider"></div>
     <div class="stat-block reveal reveal-delay-2">
       <div class="stat-label">Rate Trajectory</div>
-      <div class="stat-number" data-countup="true" data-from="0" data-to="15" data-suffix="%"><span>5</span>–<span>15</span><span style="font-size:1.8rem;">%</span></div>
+      <div class="stat-number" id="rate-stat"><span id="rate-low" class="roll-num">5</span><span class="stat-dash">–</span><span id="rate-high" class="roll-num">15</span><span class="stat-suffix">%</span></div>
       <div class="stat-desc">Commercial electricity rate increases projected for South Carolina businesses in 2026 from filed Duke Energy and Dominion rate cases.</div>
       <div class="stat-source">Source: Duke Energy Carolinas / Dominion Energy SC rate filings, 2025–2026</div>
     </div>
     <div class="stat-divider"></div>
     <div class="stat-block reveal reveal-delay-3">
       <div class="stat-label">State Cost Ranking</div>
-      <div class="stat-number">Top <span>5</span></div>
+      <div class="stat-number" id="top5-stat">Top&nbsp;<span id="top5-num" class="roll-num">5</span></div>
       <div class="stat-desc">South Carolina is projected to rank among the top five states for commercial electricity bill increases over the next decade. No new generation solves this alone.</div>
       <div class="stat-source">Source: EIA State Electricity Profiles &amp; rate projection analysis</div>
     </div>
@@ -1511,6 +1540,88 @@ const methodObserver = new IntersectionObserver((entries) => {
 const methodList = document.querySelector('.method-list');
 if (methodList) methodObserver.observe(methodList);
 
+
+
+// ── ROLLING NUMBER TICKERS ────────────────────────────────────
+function rollToNumber(el, finalVal, duration) {
+  if (!el) return;
+  const steps = finalVal;
+  const stepDuration = duration / steps;
+  let current = 0;
+
+  function showNext() {
+    current++;
+    // Create outgoing and incoming spans
+    const outgoing = document.createElement('span');
+    outgoing.textContent = current - 1;
+    outgoing.style.cssText = 'position:absolute; left:0; top:0; width:100%; transition: transform ' + stepDuration * 0.7 + 'ms ease, opacity ' + stepDuration * 0.5 + 'ms ease;';
+
+    const incoming = document.createElement('span');
+    incoming.textContent = current;
+    incoming.style.cssText = 'position:absolute; left:0; top:0; width:100%; transform:translateY(100%); transition: transform ' + stepDuration * 0.7 + 'ms ease;';
+
+    el.innerHTML = '';
+    el.style.position = 'relative';
+    el.style.display = 'inline-block';
+    // Size the container to fit the final number
+    el.style.minWidth = (String(finalVal).length * 0.6) + 'em';
+    el.style.verticalAlign = 'baseline';
+    el.appendChild(outgoing);
+    el.appendChild(incoming);
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        outgoing.style.transform = 'translateY(-100%)';
+        outgoing.style.opacity = '0';
+        incoming.style.transform = 'translateY(0)';
+      });
+    });
+
+    if (current < finalVal) {
+      setTimeout(showNext, stepDuration);
+    } else {
+      // Final: clean up to plain text
+      setTimeout(() => {
+        el.style.position = '';
+        el.style.minWidth = '';
+        el.textContent = finalVal;
+      }, stepDuration * 0.8);
+    }
+  }
+
+  el.textContent = '0';
+  setTimeout(showNext, stepDuration * 0.5);
+}
+
+// Observe and trigger when in view
+function setupRollers() {
+  const rateStat = document.getElementById('rate-stat');
+  const top5Stat = document.getElementById('top5-stat');
+
+  if (!rateStat || !top5Stat) return;
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      obs.unobserve(e.target);
+
+      if (e.target.id === 'rate-stat') {
+        // Roll both numbers with slight offset
+        rollToNumber(document.getElementById('rate-low'),  5,  900);
+        setTimeout(() => rollToNumber(document.getElementById('rate-high'), 15, 1200), 200);
+      }
+
+      if (e.target.id === 'top5-stat') {
+        rollToNumber(document.getElementById('top5-num'), 5, 900);
+      }
+    });
+  }, { threshold: 0.6 });
+
+  obs.observe(rateStat);
+  obs.observe(top5Stat);
+}
+
+setupRollers();
 
 // ── ESCALATING VERDICT ──────────────────────────────────────
 (function() {
