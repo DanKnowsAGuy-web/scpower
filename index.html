@@ -540,9 +540,6 @@ h2 {
   color: var(--white);
   letter-spacing: -0.01em;
   margin-bottom: 1.5rem;
-  max-width: 100%;
-  overflow-wrap: break-word;
-  word-break: break-word;
 }
 
 h2 em { font-style: italic; color: var(--gold); }
@@ -1007,419 +1004,89 @@ footer {
   background: var(--ink);
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
-  overflow: hidden;
 }
 
 .regions-header {
-  padding: 4rem 3rem 2rem;
+  padding: 4rem 3rem 2.5rem;
   text-align: center;
   border-bottom: 1px solid var(--rule);
 }
-
-.regions-header h2 {
-  margin-bottom: 0.6rem;
-}
-
 .regions-header p {
   font-size: 1rem;
   color: var(--slate-lt);
   max-width: 520px;
-  margin: 0 auto;
+  margin: 0.6rem auto 0;
   line-height: 1.7;
 }
 
-/* Each region band */
-.region-band {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  align-items: stretch;
-  border-bottom: 1px solid var(--rule);
-  position: relative;
-  overflow: hidden;
-  min-height: 280px;
-  opacity: 0;
-  transform: translateX(-30px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
-}
-
-.region-band.band-visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.region-band:last-child { border-bottom: none; }
-
-/* SVG pattern backdrop */
-.region-pattern {
-  position: absolute;
-  inset: 0;
-  opacity: 0.07;
-  pointer-events: none;
-  z-index: 0;
-  transition: opacity 0.4s ease;
-}
-
-.region-band:hover .region-pattern { opacity: 0.14; }
-
-/* Left: region name */
-.region-name-col {
-  padding: 2.8rem 3rem;
-  border-right: 1px solid var(--rule);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-  background: var(--ink);
-  transition: background 0.3s;
-}
-
-.region-band:hover .region-name-col { background: var(--ink-mid); }
-
-.region-eyebrow {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 0.7rem;
-  opacity: 0.8;
-}
-
-.region-name {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 900;
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  line-height: 1.02;
-  color: var(--white);
-  letter-spacing: -0.02em;
-}
-
-.region-cities {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--slate);
-  margin-top: 0.8rem;
-  line-height: 1.6;
-}
-
-/* Center: the number */
-.region-number-col {
-  padding: 2.8rem 2.5rem;
-  border-right: 1px solid var(--rule);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  background: var(--ink-mid);
-  transition: background 0.3s;
-}
-
-.region-band:hover .region-number-col { background: var(--ink-soft); }
-
-.region-big-number {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 900;
-  font-size: clamp(2.8rem, 4.5vw, 4.2rem);
-  line-height: 1;
-  color: var(--gold);
-  letter-spacing: -0.03em;
-  text-shadow: 0 0 60px rgba(201,168,76,0.2);
-  margin-bottom: 0.5rem;
-}
-
-.region-number-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--slate);
-  line-height: 1.5;
-  max-width: 160px;
-}
-
-/* Right: the political sentence */
-.region-text-col {
-  padding: 2.8rem 3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-  background: var(--ink);
-  transition: background 0.3s;
-}
-
-.region-band:hover .region-text-col { background: var(--ink-mid); }
-
-.region-sentence {
-  font-family: 'Source Serif 4', Georgia, serif;
-  font-size: 1.05rem;
-  line-height: 1.75;
-  color: var(--white-dim);
-  font-weight: 300;
-  margin-bottom: 1.2rem;
-}
-
-.region-sentence em {
-  font-style: italic;
-  color: var(--white);
-}
-
-.region-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold);
-  border-left: 2px solid var(--gold);
-  padding-left: 0.8rem;
-  line-height: 1.4;
-  opacity: 0.8;
-}
-
-/* Mobile */
-@media (max-width: 860px) {
-  .regions-header { padding: 3rem 1.5rem 1.5rem; }
-  .region-band {
-    grid-template-columns: 1fr;
-    min-height: auto;
-  }
-  .region-name-col,
-  .region-number-col,
-  .region-text-col {
-    padding: 1.8rem 1.5rem;
-    border-right: none;
-    border-bottom: 1px solid var(--rule);
-  }
-  .region-text-col { border-bottom: none; }
-  .region-number-col { align-items: flex-start; text-align: left; }
-  .region-big-number { font-size: clamp(3rem, 14vw, 5rem); }
-  .region-name { font-size: clamp(2.2rem, 8vw, 3rem); }
-  .region-band { transform: translateY(20px); }
-}
-
-
-/* ── THREE REGIONS: CINEMATIC PANELS ── */
-.regions-section {
-  background: var(--ink);
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-}
-
-.regions-header {
-  padding: 4.5rem 3rem 3rem;
-  text-align: center;
-  border-bottom: 1px solid var(--rule);
-  max-width: var(--wide);
-  margin: 0 auto;
-}
-
-.regions-header h2 { margin-bottom: 0.8rem; }
-.regions-header p {
-  font-size: 1rem;
-  color: var(--slate-lt);
-  max-width: 520px;
-  margin: 0 auto;
-  line-height: 1.7;
-}
-
-/* Sticky scroll container */
-.region-scroll-container { position: relative; }
-
-.region-panel-wrapper {
-  height: 220vh;
-  position: relative;
-}
+/* PANEL: full-width sticky, drawing on left, text on right */
+.region-panel-wrapper { height: 220vh; }
 
 .region-panel {
   position: sticky;
   top: 0;
   height: 100vh;
-  overflow: hidden;
   display: grid;
-  grid-template-columns: 55% 45%;
+  grid-template-columns: 55fr 45fr;
   border-bottom: 1px solid var(--rule);
-}
-
-/* LEFT: drawing fills edge to edge, no wrapper box */
-.region-drawing-col {
-  position: relative;
-  background: var(--ink);
   overflow: hidden;
-  display: flex;
-  align-items: stretch;
 }
 
-.region-drawing-col svg {
+/* Drawing side: pure ink, no borders, no box */
+.region-draw {
+  background: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+.region-draw svg {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  display: block;
 }
 
-/* RIGHT: content — single background, no nested boxes */
-.region-content-col {
+/* Text side: one background, left border only, no other borders */
+.region-text {
   background: var(--ink-mid);
   border-left: 1px solid var(--rule);
+  padding: 3rem 2.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 3rem 2.8rem;
-  position: relative;
   overflow: hidden;
 }
 
-/* Single gold accent: top border on the content column only */
-.region-content-col::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--gold), transparent 70%);
-}
+/* Path styles */
+.dp       { fill:none; stroke:rgba(201,168,76,0.7);  stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+.dp-thin  { fill:none; stroke:rgba(201,168,76,0.4);  stroke-width:0.9; stroke-linecap:round; stroke-linejoin:round; }
+.dp-bold  { fill:none; stroke:rgba(201,168,76,1.0);  stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; }
 
-/* Draw paths */
-.draw-path {
-  fill: none;
-  stroke: rgba(201,168,76,0.75);
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.draw-path-thin {
-  stroke: rgba(201,168,76,0.45);
-  stroke-width: 1.0;
-}
-.draw-path-bright {
-  stroke: rgba(201,168,76,1.0);
-  stroke-width: 2.5;
-}
+/* Text elements */
+.r-num    { font-family:'DM Mono',monospace; font-size:.7rem; letter-spacing:.22em; text-transform:uppercase; color:var(--slate); margin-bottom:.4rem; }
+.r-name   { font-family:'Playfair Display',serif; font-weight:900; font-size:clamp(2rem,3.2vw,3.2rem); line-height:1; color:var(--white); letter-spacing:-.02em; margin-bottom:.2rem; }
+.r-cities { font-family:'DM Mono',monospace; font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); opacity:.75; margin-bottom:1.6rem; }
+.r-stat   { font-family:'Playfair Display',serif; font-weight:900; font-size:clamp(2.6rem,4.2vw,4.2rem); line-height:1; color:var(--gold); letter-spacing:-.03em; margin-bottom:.3rem; opacity:0; transform:translateY(10px); transition:opacity .6s ease, transform .6s ease; }
+.r-stat.in   { opacity:1; transform:none; }
+.r-statl  { font-family:'DM Mono',monospace; font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; color:var(--slate); margin-bottom:1.4rem; opacity:0; transition:opacity .5s ease .2s; }
+.r-statl.in  { opacity:1; }
+.r-body   { font-family:'Source Serif 4',serif; font-size:.98rem; line-height:1.75; color:var(--white-dim); font-weight:300; margin-bottom:1.2rem; opacity:0; transform:translateY(6px); transition:opacity .6s ease .35s, transform .6s ease .35s; }
+.r-body.in   { opacity:1; transform:none; }
+.r-body em   { font-style:italic; color:var(--white); }
+.r-tag    { font-family:'DM Mono',monospace; font-size:.62rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); opacity:0; transition:opacity .5s ease .55s; }
+.r-tag.in    { opacity:.8; }
 
-.region-num {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--slate);
-  margin-bottom: 0.5rem;
-}
-
-.region-name {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 900;
-  font-size: clamp(2.2rem, 3.5vw, 3.4rem);
-  line-height: 1.0;
-  color: var(--white);
-  letter-spacing: -0.02em;
-  margin-bottom: 0.25rem;
-  word-break: break-word;
-}
-
-.region-cities {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gold);
-  opacity: 0.75;
-  margin-bottom: 1.8rem;
-}
-
-.region-big-num {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 900;
-  font-size: clamp(2.8rem, 4.5vw, 4.4rem);
-  line-height: 1;
-  color: var(--gold);
-  letter-spacing: -0.03em;
-  margin-bottom: 0.3rem;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-.region-big-num.num-visible { opacity: 1; transform: translateY(0); }
-
-.region-num-label {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--slate);
-  margin-bottom: 1.6rem;
-  opacity: 0;
-  transition: opacity 0.6s ease 0.2s;
-}
-.region-num-label.num-visible { opacity: 1; }
-
-.region-sentence {
-  font-family: 'Source Serif 4', Georgia, serif;
-  font-size: 1rem;
-  line-height: 1.75;
-  color: var(--white-dim);
-  font-weight: 300;
-  margin-bottom: 1.2rem;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s;
-}
-.region-sentence.num-visible { opacity: 1; transform: translateY(0); }
-.region-sentence em { font-style: italic; color: var(--white); }
-
-.region-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.65rem;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--gold);
-  opacity: 0;
-  transition: opacity 0.5s ease 0.6s;
-  padding-left: 0.8rem;
-  border-left: 1px solid rgba(201,168,76,0.4);
-}
-.region-tag.num-visible { opacity: 0.8; }
-
-.region-progress {
-  position: absolute;
-  bottom: 0; left: 0;
-  height: 2px;
-  background: var(--gold);
-  width: 0%;
-  opacity: 0.5;
-}
+/* Progress bar along bottom of drawing */
+.r-progress { position:absolute; bottom:0; left:0; height:2px; background:var(--gold); width:0; opacity:.5; transition:none; }
 
 /* Mobile */
 @media (max-width: 860px) {
-  .region-panel-wrapper { height: auto; }
-  .region-panel {
-    position: relative;
-    height: auto;
-    grid-template-columns: 1fr;
-    min-height: auto;
-  }
-  .region-drawing-col {
-    height: 56vw;
-    min-height: 200px;
-  }
-  .draw-path { stroke-dashoffset: 0 !important; }
-  .region-content-col {
-    padding: 2rem 1.5rem;
-    border-left: none;
-    border-top: 1px solid var(--rule);
-  }
-  .region-big-num,
-  .region-num-label,
-  .region-sentence,
-  .region-tag {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-  .regions-header { padding: 3rem 1.5rem 2rem; }
+  .region-panel-wrapper { height:auto; }
+  .region-panel { position:relative; height:auto; grid-template-columns:1fr; }
+  .region-draw  { height:52vw; min-height:180px; position:relative; }
+  .region-text  { border-left:none; border-top:1px solid var(--rule); padding:1.8rem 1.5rem; }
+  .dp, .dp-thin, .dp-bold { stroke-dashoffset:0 !important; }
+  .r-stat, .r-statl, .r-body, .r-tag { opacity:1 !important; transform:none !important; transition:none !important; }
+  .regions-header { padding:2.5rem 1.5rem 1.5rem; }
 }
 
 /* ── DIVIDER ── */
@@ -1485,10 +1152,6 @@ footer {
   .pillar, .method-item { overflow: hidden; }
   /* Nav name wraps gracefully */
   .nav-name { font-size: 1.2rem; }
-  /* Callout box mobile fix */
-  .callout-box { padding: 1.5rem; }
-  /* H2 mobile containment */
-  h2 { font-size: clamp(1.6rem, 7vw, 2.8rem); word-break: break-word; }
 }
 </style>
 </head>
@@ -1636,345 +1299,294 @@ footer {
         </div>
         <div class="callout-box">
           <p>"The legislator who brings a working energy solution to their district doesn't need a new program. They just need to make the introduction."</p>
-          <cite>S
+          <cite>South Carolina Power Forward</cite>
+        </div>
+      </div>
+      <div>
+        <div class="pillars">
+          <div class="pillar">
+            <div class="pillar-num">01</div>
+            <div>
+              <div class="pillar-title">No Taxpayer Funds Required</div>
+              <div class="pillar-body">Every installation is structured with pre-arranged financing that makes businesses cash-flow positive from day one. This program costs the public nothing.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">02</div>
+            <div>
+              <div class="pillar-title">No Legislation Needed</div>
+              <div class="pillar-body">We operate entirely within existing frameworks. Your role is straightforward: connect us to high energy-use businesses in your district. We handle the rest.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">03</div>
+            <div>
+              <div class="pillar-title">Vendor-Neutral by Design</div>
+              <div class="pillar-body">We represent no manufacturer and sell no equipment. We design the right solution for each facility from a field of 45+ validated technologies.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-num">04</div>
+            <div>
+              <div class="pillar-title">The Credit Stays With You</div>
+              <div class="pillar-body">The referral, the relationship, and the constituent win belong entirely to you. We do the technical work. You make the announcement.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-gold"/>
+
+<!-- THE PROOF -->
+<section class="optimizer-section">
+  <div class="container">
+    <div class="optimizer-grid">
+      <div>
+        <div class="section-label">What Your Constituents Would Save</div>
+        <h2>Facilities in our program typically reduce energy spend by <em>20–30% in year one.</em></h2>
+        <div class="body-text">
+          <p>That number comes from a 22-Minute Facility Review — a rapid on-site assessment our engineers use to produce a documented, third-party validated savings baseline for any commercial building. No obligation, no cost, no commitment required at that stage.</p>
+          <p>The review draws from a portfolio of 45+ validated technologies: HVAC optimization, power quality and harmonic correction, lighting, demand management, building controls, and more. Every program is custom-designed for the facility. Nothing is templated.</p>
+          <p>Financing is pre-structured so businesses are cash-flow positive from day one. The savings pay for the program. Your constituent keeps the difference.</p>
+        </div>
+        <div class="validation-badge">Third-Party Validated Methodology · v7 Documentation Available</div>
+        <div class="validation-badge" style="margin-top:0.6rem;">45+ Technologies · Custom per facility · Zero upfront capital</div>
+      </div>
+      <div>
+        <div class="result-row-header"><span>Typical Program Results · Any Commercial Facility</span></div>
+        <div class="optimizer-results">
+          <div class="result-row">
+            <div class="result-label">Average Year-One Energy Reduction</div>
+            <div class="result-value gold">20–30%</div>
+          </div>
+          <div class="result-row">
+            <div class="result-label">Average Energy Reduction</div>
+            <div class="result-value">20–30%</div>
+          </div>
+          <div class="result-row">
+            <div class="result-label">Facility Review Duration</div>
+            <div class="result-value">22 min.</div>
+          </div>
+          <div class="result-row">
+            <div class="result-label">Upfront Capital Required</div>
+            <div class="result-value">$0</div>
+          </div>
+          <div class="result-row">
+            <div class="result-label">Equipment Replacement Required</div>
+            <div class="result-value">None</div>
+          </div>
+          <div class="result-row">
+            <div class="result-label">Day-One Cash Flow Position</div>
+            <div class="result-value gold">Positive</div>
+          </div>
+          <div class="result-row">
+            <div class="result-label">Technologies Evaluated Per Site</div>
+            <div class="result-value">45+</div>
+          </div>
+          <div class="result-row" style="background:var(--gold-glow); border-top:1px solid var(--rule);">
+            <div class="result-label" style="color:var(--white-dim);">See what your constituents could save</div>
+            <a href="https://bit.ly/ep-calc" target="_blank" style="font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.13em; text-transform:uppercase; color:var(--gold); text-decoration:none; white-space:nowrap;">Run the Calculator →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule-gold"/>
 
 <!-- THREE REGIONS -->
 <section class="regions-section" id="regions-section">
 
   <div class="regions-header reveal">
-    <div class="section-label" style="justify-content:center; border-left:none; padding-left:0;">South Carolina Has Three Energy Stories</div>
+    <div class="section-label" style="justify-content:center;border-left:none;padding-left:0;">South Carolina Has Three Energy Stories</div>
     <h2>Every district is different.<br><em>The problem is the same.</em></h2>
     <p>Wherever your constituents live and work, they are paying more than they need to. Here is what that looks like in each part of the state.</p>
   </div>
 
-  <div class="region-scroll-container">
-
-    <!-- ── UPSTATE: BMW SPARTANBURG PLANT ── -->
-    <div class="region-panel-wrapper" id="wrapper-upstate">
-      <div class="region-panel" id="panel-upstate">
-
-        <div class="region-drawing-col" id="drawing-upstate">
-          <svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-
-            <!-- Sky horizon / ground -->
-            <line class="draw-path draw-path-thin" x1="0" y1="420" x2="900" y2="420" stroke-dasharray="900" stroke-dashoffset="900"/>
-
-            <!-- Far background: small facility outline -->
-            <rect class="draw-path draw-path-thin" x="600" y="320" width="220" height="100" stroke-dasharray="640" stroke-dashoffset="640"/>
-            <rect class="draw-path draw-path-thin" x="680" y="280" width="80" height="40" stroke-dasharray="240" stroke-dashoffset="240"/>
-
-            <!-- Main factory building: side elevation -->
-            <rect class="draw-path draw-path-bright" x="60" y="220" width="480" height="200" stroke-dasharray="1360" stroke-dashoffset="1360"/>
-
-            <!-- Sawtooth roof on main building (4 peaks -- BMW signature roof) -->
-            <polyline class="draw-path draw-path-bright"
-              points="60,220 120,160 180,220 240,160 300,220 360,160 420,220 480,160 540,220"
-              stroke-dasharray="800" stroke-dashoffset="800"/>
-
-            <!-- Chimney stacks (two tall ones) -->
-            <rect class="draw-path draw-path-bright" x="160" y="80" width="28" height="140" stroke-dasharray="336" stroke-dashoffset="336"/>
-            <rect class="draw-path draw-path-bright" x="220" y="110" width="22" height="110" stroke-dasharray="264" stroke-dashoffset="264"/>
-
-            <!-- Smoke wisps from chimneys -->
-            <path class="draw-path draw-path-thin" d="M174 80 Q180 60 170 40 Q165 25 178 15" stroke-dasharray="80" stroke-dashoffset="80"/>
-            <path class="draw-path draw-path-thin" d="M231 110 Q238 90 228 68 Q223 52 236 42" stroke-dasharray="80" stroke-dashoffset="80"/>
-
-            <!-- Large sliding door / bay on front -->
-            <rect class="draw-path" x="90" y="300" width="90" height="120" stroke-dasharray="420" stroke-dashoffset="420"/>
-            <!-- Door track lines -->
-            <line class="draw-path draw-path-thin" x1="90" y1="340" x2="180" y2="340" stroke-dasharray="90" stroke-dashoffset="90"/>
-            <line class="draw-path draw-path-thin" x1="90" y1="380" x2="180" y2="380" stroke-dasharray="90" stroke-dashoffset="90"/>
-
-            <!-- Windows along factory wall -->
-            <rect class="draw-path draw-path-thin" x="210" y="260" width="50" height="40" stroke-dasharray="180" stroke-dashoffset="180"/>
-            <rect class="draw-path draw-path-thin" x="280" y="260" width="50" height="40" stroke-dasharray="180" stroke-dashoffset="180"/>
-            <rect class="draw-path draw-path-thin" x="350" y="260" width="50" height="40" stroke-dasharray="180" stroke-dashoffset="180"/>
-            <rect class="draw-path draw-path-thin" x="420" y="260" width="50" height="40" stroke-dasharray="180" stroke-dashoffset="180"/>
-            <rect class="draw-path draw-path-thin" x="490" y="260" width="50" height="40" stroke-dasharray="180" stroke-dashoffset="180"/>
-
-            <!-- Conveyor / loading arm extending from building -->
-            <line class="draw-path draw-path-bright" x1="540" y1="290" x2="640" y2="260" stroke-dasharray="110" stroke-dashoffset="110"/>
-            <line class="draw-path draw-path-thin" x1="540" y1="305" x2="640" y2="275" stroke-dasharray="110" stroke-dashoffset="110"/>
-            <!-- Conveyor support legs -->
-            <line class="draw-path draw-path-thin" x1="575" y1="290" x2="575" y2="420" stroke-dasharray="130" stroke-dashoffset="130"/>
-            <line class="draw-path draw-path-thin" x1="615" y1="270" x2="615" y2="420" stroke-dasharray="150" stroke-dashoffset="150"/>
-
-            <!-- Parked vehicle silhouettes (BMW X vehicles) -->
-            <rect class="draw-path draw-path-thin" x="680" y="390" width="60" height="24" rx="4" stroke-dasharray="172" stroke-dashoffset="172"/>
-            <rect class="draw-path draw-path-thin" x="750" y="390" width="60" height="24" rx="4" stroke-dasharray="172" stroke-dashoffset="172"/>
-            <rect class="draw-path draw-path-thin" x="820" y="390" width="60" height="24" rx="4" stroke-dasharray="172" stroke-dashoffset="172"/>
-
-            <!-- Road markings -->
-            <line class="draw-path draw-path-thin" x1="60" y1="450" x2="860" y2="450" stroke-dasharray="800" stroke-dashoffset="800"/>
-            <line class="draw-path draw-path-thin" x1="200" y1="460" x2="240" y2="460" stroke-dasharray="40" stroke-dashoffset="40"/>
-            <line class="draw-path draw-path-thin" x1="380" y1="460" x2="420" y2="460" stroke-dasharray="40" stroke-dashoffset="40"/>
-            <line class="draw-path draw-path-thin" x1="560" y1="460" x2="600" y2="460" stroke-dasharray="40" stroke-dashoffset="40"/>
-            <line class="draw-path draw-path-thin" x1="740" y1="460" x2="780" y2="460" stroke-dasharray="40" stroke-dashoffset="40"/>
-
-            <!-- Label -->
-            <text x="300" y="510" text-anchor="middle" font-family="DM Mono, monospace" font-size="11" fill="rgba(201,168,76,0.4)" letter-spacing="3">BMW MANUFACTURING · SPARTANBURG</text>
-            <text x="300" y="526" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="rgba(201,168,76,0.2)" letter-spacing="2">10M SQ FT · 11,000 ASSOCIATES · 1,500 VEHICLES/DAY</text>
-
-          </svg>
-          <div class="region-progress" id="prog-upstate"></div>
-        </div>
-
-        <div class="region-content-col">
-          <div class="region-num">Region 01</div>
-          <div class="region-name">The<br>Upstate</div>
-          <div class="region-cities">Greenville · Spartanburg · Anderson</div>
-          <div class="region-big-num" id="num-upstate">$14.8B</div>
-          <div class="region-num-label" id="lbl-upstate">BMW investment in Spartanburg alone</div>
-          <p class="region-sentence" id="txt-upstate">The Upstate runs 24 hours a day. <em>BMW, Michelin, and 300+ automotive suppliers</em> operate continuous industrial loads. Energy cost is a direct line item in every manufacturing margin — and rates are rising.</p>
-          <div class="region-tag" id="tag-upstate">Automotive · Aerospace · Advanced Manufacturing</div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ── MIDLANDS: SC STATE HOUSE ── -->
-    <div class="region-panel-wrapper" id="wrapper-midlands">
-      <div class="region-panel" id="panel-midlands">
-
-        <div class="region-drawing-col" id="drawing-midlands">
-          <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-
-            <!-- Ground -->
-            <line class="draw-path draw-path-thin" x1="100" y1="500" x2="800" y2="500" stroke-dasharray="700"/>
-
-            <!-- Main building base: wide classical rectangle -->
-            <rect class="draw-path draw-path-bright" x="180" y="370" width="540" height="130" stroke-dasharray="1340"/>
-
-            <!-- Steps leading up (3 tiers) -->
-            <rect class="draw-path" x="210" y="490" width="480" height="10" stroke-dasharray="980"/>
-            <rect class="draw-path" x="190" y="498" width="520" height="10" stroke-dasharray="1060"/>
-
-            <!-- Portico: 8 Corinthian columns -->
-            <line class="draw-path draw-path-bright" x1="250" y1="370" x2="250" y2="490" stroke-dasharray="120"/>
-            <line class="draw-path draw-path-bright" x1="310" y1="370" x2="310" y2="490" stroke-dasharray="120"/>
-            <line class="draw-path draw-path-bright" x1="370" y1="370" x2="370" y2="490" stroke-dasharray="120"/>
-            <line class="draw-path draw-path-bright" x1="430" y1="370" x2="430" y2="490" stroke-dasharray="120"/>
-            <line class="draw-path draw-path-bright" x1="490" y1="370" x2="490" y2="490" stroke-dasharray="120"/>
-            <line class="draw-path draw-path-bright" x1="550" y1="370" x2="550" y2="490" stroke-dasharray="120"/>
-            <line class="draw-path draw-path-bright" x1="610" y1="370" x2="610" y2="490" stroke-dasharray="120"/>
-            <line class="draw-path draw-path-bright" x1="670" y1="370" x2="670" y2="490" stroke-dasharray="120"/>
-
-            <!-- Entablature (horizontal beam atop columns) -->
-            <line class="draw-path draw-path-bright" x1="230" y1="370" x2="700" y2="370" stroke-dasharray="470"/>
-
-            <!-- Triangular pediment -->
-            <polyline class="draw-path draw-path-bright" points="230,370 460,310 700,370" stroke-dasharray="560"/>
-
-            <!-- Drum below dome -->
-            <rect class="draw-path" x="380" y="250" width="140" height="60" stroke-dasharray="400"/>
-
-            <!-- The dome: arched profile -->
-            <path class="draw-path draw-path-bright" id="mid-dome"
-              d="M 375 250 Q 375 155 450 140 Q 525 155 525 250"
-              stroke-dasharray="280" stroke-dashoffset="280"/>
-
-            <!-- Lantern on top of dome -->
-            <rect class="draw-path" x="435" y="135" width="30" height="25" stroke-dasharray="110"/>
-            <line class="draw-path draw-path-bright" x1="450" y1="110" x2="450" y2="135" stroke-dasharray="25"/>
-
-            <!-- Flagpole -->
-            <line class="draw-path draw-path-bright" x1="450" y1="80" x2="450" y2="110" stroke-dasharray="30"/>
-
-            <!-- Flag -->
-            <polyline class="draw-path" points="450,82 490,88 450,95" stroke-dasharray="100"/>
-
-            <!-- Wing buildings flanking -->
-            <rect class="draw-path draw-path-thin" x="100" y="400" width="80" height="100" stroke-dasharray="360"/>
-            <rect class="draw-path draw-path-thin" x="720" y="400" width="80" height="100" stroke-dasharray="360"/>
-
-            <!-- Labels -->
-            <text x="450" y="555" text-anchor="middle" font-family="DM Mono, monospace" font-size="11" fill="rgba(201,168,76,0.35)" letter-spacing="3">SC STATE HOUSE · EST. 1855</text>
-            <text x="450" y="570" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="rgba(201,168,76,0.2)" letter-spacing="2">COLUMBIA, SC · 130,673 SQ FT</text>
-
-          </svg>
-          <div class="region-progress" id="prog-midlands"></div>
-        </div>
-
-        <div class="region-content-col">
-          <div class="region-num">Region 02</div>
-          <div class="region-name">The<br>Midlands</div>
-          <div class="region-cities">Columbia · Lexington · Sumter</div>
-          <div class="region-big-num" id="num-midlands">3.7M</div>
-          <div class="region-num-label" id="lbl-midlands">Square feet at Fort Jackson alone</div>
-          <p class="region-sentence" id="txt-midlands">The Midlands is the seat of state government, the military, and public education. <em>Fort Jackson, the University of South Carolina, and state agencies</em> run enormous facilities on taxpayer-funded budgets. Every wasted kilowatt-hour is money that should serve constituents.</p>
-          <div class="region-tag" id="tag-midlands">Government · Military · Education · Healthcare</div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ── LOWCOUNTRY: RAVENEL BRIDGE ── -->
-    <div class="region-panel-wrapper" id="wrapper-lowcountry">
-      <div class="region-panel" id="panel-lowcountry">
-
-        <div class="region-drawing-col" id="drawing-lowcountry">
-          <svg viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-
-            <!-- Water surface with gentle wave lines -->
-            <path class="draw-path draw-path-thin" d="M50 480 Q150 470 250 480 Q350 490 450 480 Q550 470 650 480 Q750 490 850 480" stroke-dasharray="900"/>
-            <path class="draw-path draw-path-thin" d="M50 495 Q150 485 250 495 Q350 505 450 495 Q550 485 650 495 Q750 505 850 495" stroke-dasharray="900"/>
-            <path class="draw-path draw-path-thin" d="M50 510 Q150 500 250 510 Q350 520 450 510 Q550 500 650 510 Q750 520 850 510" stroke-dasharray="900"/>
-
-            <!-- Bridge deck: main horizontal span -->
-            <line class="draw-path draw-path-bright" id="lc-deck" x1="50" y1="400" x2="850" y2="400" stroke-dasharray="800" stroke-dashoffset="800"/>
-
-            <!-- Approach spans left -->
-            <line class="draw-path" x1="50" y1="400" x2="50" y2="440" stroke-dasharray="40"/>
-            <line class="draw-path" x1="50" y1="440" x2="200" y2="480" stroke-dasharray="170"/>
-
-            <!-- Approach spans right -->
-            <line class="draw-path" x1="850" y1="400" x2="850" y2="440" stroke-dasharray="40"/>
-            <line class="draw-path" x1="850" y1="440" x2="700" y2="480" stroke-dasharray="170"/>
-
-            <!-- Left tower: diamond shape (the signature) -->
-            <!-- Tower shaft up from deck -->
-            <line class="draw-path draw-path-bright" id="lc-tower-l" x1="310" y1="400" x2="310" y2="150" stroke-dasharray="250" stroke-dashoffset="250"/>
-            <!-- Diamond crossbeam left tower -->
-            <polyline class="draw-path draw-path-bright" id="lc-diamond-l"
-              points="280,340 310,260 340,340 310,330 280,340"
-              stroke-dasharray="230" stroke-dashoffset="230"/>
-
-            <!-- Right tower -->
-            <line class="draw-path draw-path-bright" id="lc-tower-r" x1="590" y1="400" x2="590" y2="150" stroke-dasharray="250" stroke-dashoffset="250"/>
-            <!-- Diamond crossbeam right tower -->
-            <polyline class="draw-path draw-path-bright" id="lc-diamond-r"
-              points="560,340 590,260 620,340 590,330 560,340"
-              stroke-dasharray="230" stroke-dashoffset="230"/>
-
-            <!-- Stay cables left tower: fan from top of tower to deck -->
-            <line class="draw-path draw-path-thin" x1="310" y1="165" x2="120" y2="400" stroke-dasharray="250"/>
-            <line class="draw-path draw-path-thin" x1="310" y1="175" x2="160" y2="400" stroke-dasharray="210"/>
-            <line class="draw-path draw-path-thin" x1="310" y1="185" x2="200" y2="400" stroke-dasharray="180"/>
-            <line class="draw-path draw-path-thin" x1="310" y1="195" x2="240" y2="400" stroke-dasharray="160"/>
-            <line class="draw-path draw-path-thin" x1="310" y1="175" x2="400" y2="400" stroke-dasharray="140"/>
-            <line class="draw-path draw-path-thin" x1="310" y1="185" x2="380" y2="400" stroke-dasharray="120"/>
-            <line class="draw-path draw-path-thin" x1="310" y1="195" x2="360" y2="400" stroke-dasharray="100"/>
-            <line class="draw-path draw-path-thin" x1="310" y1="205" x2="340" y2="400" stroke-dasharray="90"/>
-
-            <!-- Stay cables right tower -->
-            <line class="draw-path draw-path-thin" x1="590" y1="165" x2="780" y2="400" stroke-dasharray="250"/>
-            <line class="draw-path draw-path-thin" x1="590" y1="175" x2="740" y2="400" stroke-dasharray="210"/>
-            <line class="draw-path draw-path-thin" x1="590" y1="185" x2="700" y2="400" stroke-dasharray="180"/>
-            <line class="draw-path draw-path-thin" x1="590" y1="195" x2="660" y2="400" stroke-dasharray="160"/>
-            <line class="draw-path draw-path-thin" x1="590" y1="175" x2="500" y2="400" stroke-dasharray="140"/>
-            <line class="draw-path draw-path-thin" x1="590" y1="185" x2="520" y2="400" stroke-dasharray="120"/>
-            <line class="draw-path draw-path-thin" x1="590" y1="195" x2="540" y2="400" stroke-dasharray="100"/>
-            <line class="draw-path draw-path-thin" x1="590" y1="205" x2="560" y2="400" stroke-dasharray="90"/>
-
-            <!-- Labels -->
-            <text x="450" y="555" text-anchor="middle" font-family="DM Mono, monospace" font-size="11" fill="rgba(201,168,76,0.35)" letter-spacing="3">ARTHUR RAVENEL JR. BRIDGE</text>
-            <text x="450" y="570" text-anchor="middle" font-family="DM Mono, monospace" font-size="9" fill="rgba(201,168,76,0.2)" letter-spacing="2">1,546 FT MAIN SPAN · CHARLESTON, SC · 2005</text>
-
-          </svg>
-          <div class="region-progress" id="prog-lowcountry"></div>
-        </div>
-
-        <div class="region-content-col">
-          <div class="region-num">Region 03</div>
-          <div class="region-name">The Low-<br>country</div>
-          <div class="region-cities">Charleston · Myrtle Beach · Hilton Head</div>
-          <div class="region-big-num" id="num-lowcountry">$28B</div>
-          <div class="region-num-label" id="lbl-lowcountry">SC tourism industry running HVAC 365 days a year</div>
-          <p class="region-sentence" id="txt-lowcountry">The coastal economy runs on hospitality. <em>Hotels, resorts, and restaurants</em> in Charleston, Myrtle Beach, and Hilton Head operate on thin margins in a hot, humid climate where air conditioning never stops. Energy is among the top three operating costs — and the most controllable one.</p>
-          <div class="region-tag" id="tag-lowcountry">Tourism · Hospitality · Ports · Aerospace</div>
-        </div>
-
-      </div>
-    </div>
-
-  </div><!-- /region-scroll-container -->
-
-</section>
-
-<hr class="rule-gold"/>
- is different.<br><em>The problem is the same.</em></h2>
-    <p>Wherever your constituents live and work, they are paying more than they need to. Here is what that looks like in each part of the state.</p>
-  </div>
-
   <!-- UPSTATE -->
-  <div class="region-band" id="band-upstate">
-    <!-- Factory floor diagonal grid pattern -->
-    <svg class="region-pattern" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="factory-grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
-          <line x1="0" y1="0" x2="0" y2="40" stroke="#c9a84c" stroke-width="0.8"/>
-          <line x1="0" y1="0" x2="40" y2="0" stroke="#c9a84c" stroke-width="0.5"/>
-        </pattern>
-      </defs>
-      <rect width="400" height="300" fill="url(#factory-grid)"/>
-    </svg>
-    <div class="region-name-col">
-      <div class="region-eyebrow">Region 01</div>
-      <div class="region-name">The<br>Upstate</div>
-      <div class="region-cities">Greenville · Spartanburg<br>Anderson · Gaffney</div>
-    </div>
-    <div class="region-number-col">
-      <div class="region-big-number">$14.8B</div>
-      <div class="region-number-label">BMW investment in Spartanburg alone</div>
-    </div>
-    <div class="region-text-col">
-      <p class="region-sentence">The Upstate runs 24 hours a day. <em>BMW, Michelin, and 300+ automotive suppliers</em> operate continuous industrial loads that make energy cost a direct line item in every margin calculation. When rates rise, manufacturers notice immediately.</p>
-      <div class="region-tag">Automotive · Aerospace · Advanced Manufacturing</div>
+  <div class="region-panel-wrapper" id="wr-up">
+    <div class="region-panel" id="pn-up">
+
+      <div class="region-draw" id="dr-up">
+        <svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
+          <!-- Ground -->
+          <line class="dp-thin" x1="0" y1="420" x2="900" y2="420" stroke-dasharray="900" stroke-dashoffset="900"/>
+          <!-- Background building -->
+          <rect class="dp-thin" x="620" y="320" width="200" height="100" stroke-dasharray="600" stroke-dashoffset="600"/>
+          <rect class="dp-thin" x="690" y="285" width="70" height="35" stroke-dasharray="210" stroke-dashoffset="210"/>
+          <!-- Main factory -->
+          <rect class="dp-bold" x="60" y="225" width="500" height="195" stroke-dasharray="1390" stroke-dashoffset="1390"/>
+          <!-- Sawtooth roof -->
+          <polyline class="dp-bold" points="60,225 120,160 180,225 240,160 300,225 360,160 420,225 480,160 540,225 560,225" stroke-dasharray="820" stroke-dashoffset="820"/>
+          <!-- Chimney 1 -->
+          <rect class="dp-bold" x="155" y="78" width="28" height="147" stroke-dasharray="350" stroke-dashoffset="350"/>
+          <!-- Chimney 2 -->
+          <rect class="dp-bold" x="215" y="105" width="22" height="120" stroke-dasharray="284" stroke-dashoffset="284"/>
+          <!-- Smoke 1 -->
+          <path class="dp-thin" d="M169 78 Q176 55 166 35 Q160 18 175 8" stroke-dasharray="85" stroke-dashoffset="85"/>
+          <!-- Smoke 2 -->
+          <path class="dp-thin" d="M226 105 Q234 82 224 60 Q218 42 232 32" stroke-dasharray="85" stroke-dashoffset="85"/>
+          <!-- Bay door -->
+          <rect class="dp" x="88" y="300" width="92" height="120" stroke-dasharray="424" stroke-dashoffset="424"/>
+          <line class="dp-thin" x1="88" y1="340" x2="180" y2="340" stroke-dasharray="92" stroke-dashoffset="92"/>
+          <line class="dp-thin" x1="88" y1="380" x2="180" y2="380" stroke-dasharray="92" stroke-dashoffset="92"/>
+          <!-- Windows -->
+          <rect class="dp-thin" x="210" y="260" width="48" height="38" stroke-dasharray="172" stroke-dashoffset="172"/>
+          <rect class="dp-thin" x="278" y="260" width="48" height="38" stroke-dasharray="172" stroke-dashoffset="172"/>
+          <rect class="dp-thin" x="346" y="260" width="48" height="38" stroke-dasharray="172" stroke-dashoffset="172"/>
+          <rect class="dp-thin" x="414" y="260" width="48" height="38" stroke-dasharray="172" stroke-dashoffset="172"/>
+          <rect class="dp-thin" x="482" y="260" width="48" height="38" stroke-dasharray="172" stroke-dashoffset="172"/>
+          <!-- Conveyor arm -->
+          <line class="dp-bold" x1="560" y1="290" x2="660" y2="258" stroke-dasharray="115" stroke-dashoffset="115"/>
+          <line class="dp-thin" x1="560" y1="305" x2="660" y2="273" stroke-dasharray="115" stroke-dashoffset="115"/>
+          <line class="dp-thin" x1="590" y1="292" x2="590" y2="420" stroke-dasharray="128" stroke-dashoffset="128"/>
+          <line class="dp-thin" x1="638" y1="264" x2="638" y2="420" stroke-dasharray="156" stroke-dashoffset="156"/>
+          <!-- Vehicles -->
+          <rect class="dp-thin" x="690" y="392" width="58" height="22" rx="3" stroke-dasharray="164" stroke-dashoffset="164"/>
+          <rect class="dp-thin" x="760" y="392" width="58" height="22" rx="3" stroke-dasharray="164" stroke-dashoffset="164"/>
+          <rect class="dp-thin" x="830" y="392" width="58" height="22" rx="3" stroke-dasharray="164" stroke-dashoffset="164"/>
+          <!-- Road -->
+          <line class="dp-thin" x1="60" y1="448" x2="900" y2="448" stroke-dasharray="840" stroke-dashoffset="840"/>
+          <!-- Label -->
+          <text x="290" y="505" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="rgba(201,168,76,0.4)" letter-spacing="3">BMW MANUFACTURING · SPARTANBURG</text>
+        </svg>
+        <div class="r-progress" id="rp-up"></div>
+      </div>
+
+      <div class="region-text">
+        <div class="r-num">Region 01</div>
+        <div class="r-name">The Upstate</div>
+        <div class="r-cities">Greenville · Spartanburg · Anderson</div>
+        <div class="r-stat" id="rs-up">$14.8B</div>
+        <div class="r-statl" id="rl-up">BMW investment in Spartanburg alone</div>
+        <p class="r-body" id="rb-up">The Upstate runs 24 hours a day. <em>BMW, Michelin, and 300+ automotive suppliers</em> operate continuous industrial loads where energy cost is a direct line item in every margin calculation.</p>
+        <div class="r-tag" id="rt-up">Automotive · Aerospace · Advanced Manufacturing</div>
+      </div>
+
     </div>
   </div>
 
   <!-- MIDLANDS -->
-  <div class="region-band" id="band-midlands">
-    <!-- Capitol dome grid: concentric arcs suggesting institutional architecture -->
-    <svg class="region-pattern" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="institutional-grid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
-          <rect x="0" y="0" width="60" height="60" fill="none" stroke="#c9a84c" stroke-width="0.6"/>
-          <rect x="15" y="15" width="30" height="30" fill="none" stroke="#c9a84c" stroke-width="0.4"/>
-          <circle cx="30" cy="30" r="6" fill="none" stroke="#c9a84c" stroke-width="0.5"/>
-        </pattern>
-      </defs>
-      <rect width="400" height="300" fill="url(#institutional-grid)"/>
-    </svg>
-    <div class="region-name-col">
-      <div class="region-eyebrow">Region 02</div>
-      <div class="region-name">The<br>Midlands</div>
-      <div class="region-cities">Columbia · Lexington<br>Sumter · Orangeburg</div>
-    </div>
-    <div class="region-number-col">
-      <div class="region-big-number">3.7M</div>
-      <div class="region-number-label">Square feet at Fort Jackson alone — just one Midlands installation</div>
-    </div>
-    <div class="region-text-col">
-      <p class="region-sentence">The Midlands is the seat of state government, the military, and public education. <em>Fort Jackson, the University of South Carolina, and dozens of state agencies</em> run enormous facilities on budgets funded by taxpayers. Every wasted kilowatt-hour is money that could serve constituents instead.</p>
-      <div class="region-tag">Government · Military · Education · Healthcare</div>
+  <div class="region-panel-wrapper" id="wr-mid">
+    <div class="region-panel" id="pn-mid">
+
+      <div class="region-draw" id="dr-mid">
+        <svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
+          <!-- Ground -->
+          <line class="dp-thin" x1="50" y1="490" x2="850" y2="490" stroke-dasharray="800" stroke-dashoffset="800"/>
+          <!-- Steps -->
+          <rect class="dp" x="185" y="470" width="530" height="20" stroke-dasharray="1100" stroke-dashoffset="1100"/>
+          <rect class="dp-thin" x="170" y="485" width="560" height="10" stroke-dasharray="1140" stroke-dashoffset="1140"/>
+          <!-- Main building body -->
+          <rect class="dp-bold" x="185" y="355" width="530" height="115" stroke-dasharray="1290" stroke-dashoffset="1290"/>
+          <!-- 8 columns -->
+          <line class="dp-bold" x1="245" y1="355" x2="245" y2="470" stroke-dasharray="115" stroke-dashoffset="115"/>
+          <line class="dp-bold" x1="305" y1="355" x2="305" y2="470" stroke-dasharray="115" stroke-dashoffset="115"/>
+          <line class="dp-bold" x1="365" y1="355" x2="365" y2="470" stroke-dasharray="115" stroke-dashoffset="115"/>
+          <line class="dp-bold" x1="425" y1="355" x2="425" y2="470" stroke-dasharray="115" stroke-dashoffset="115"/>
+          <line class="dp-bold" x1="485" y1="355" x2="485" y2="470" stroke-dasharray="115" stroke-dashoffset="115"/>
+          <line class="dp-bold" x1="545" y1="355" x2="545" y2="470" stroke-dasharray="115" stroke-dashoffset="115"/>
+          <line class="dp-bold" x1="605" y1="355" x2="605" y2="470" stroke-dasharray="115" stroke-dashoffset="115"/>
+          <line class="dp-bold" x1="655" y1="355" x2="655" y2="470" stroke-dasharray="115" stroke-dashoffset="115"/>
+          <!-- Entablature -->
+          <line class="dp-bold" x1="215" y1="355" x2="685" y2="355" stroke-dasharray="470" stroke-dashoffset="470"/>
+          <!-- Pediment triangle -->
+          <polyline class="dp-bold" points="215,355 450,288 685,355" stroke-dasharray="560" stroke-dashoffset="560"/>
+          <!-- Drum below dome -->
+          <rect class="dp" x="382" y="240" width="136" height="55" stroke-dasharray="382" stroke-dashoffset="382"/>
+          <!-- Dome arch -->
+          <path class="dp-bold" d="M 376 240 Q 376 148 450 132 Q 524 148 524 240" stroke-dasharray="290" stroke-dashoffset="290"/>
+          <!-- Lantern -->
+          <rect class="dp" x="434" y="126" width="32" height="24" stroke-dasharray="112" stroke-dashoffset="112"/>
+          <!-- Flagpole -->
+          <line class="dp-bold" x1="450" y1="78" x2="450" y2="126" stroke-dasharray="48" stroke-dashoffset="48"/>
+          <!-- Flag -->
+          <polyline class="dp" points="450,80 492,87 450,95" stroke-dasharray="92" stroke-dashoffset="92"/>
+          <!-- Wing buildings -->
+          <rect class="dp-thin" x="90" y="390" width="95" height="100" stroke-dasharray="390" stroke-dashoffset="390"/>
+          <rect class="dp-thin" x="715" y="390" width="95" height="100" stroke-dasharray="390" stroke-dashoffset="390"/>
+          <!-- Label -->
+          <text x="450" y="530" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="rgba(201,168,76,0.4)" letter-spacing="3">SC STATE HOUSE · COLUMBIA · EST. 1855</text>
+        </svg>
+        <div class="r-progress" id="rp-mid"></div>
+      </div>
+
+      <div class="region-text">
+        <div class="r-num">Region 02</div>
+        <div class="r-name">The Midlands</div>
+        <div class="r-cities">Columbia · Lexington · Sumter</div>
+        <div class="r-stat" id="rs-mid">3.7M</div>
+        <div class="r-statl" id="rl-mid">Square feet at Fort Jackson alone</div>
+        <p class="r-body" id="rb-mid">The Midlands is the seat of state government, the military, and public education. <em>Fort Jackson, the University of South Carolina, and state agencies</em> run enormous facilities on taxpayer-funded budgets. Every wasted kilowatt-hour comes out of public money.</p>
+        <div class="r-tag" id="rt-mid">Government · Military · Education · Healthcare</div>
+      </div>
+
     </div>
   </div>
 
   <!-- LOWCOUNTRY -->
-  <div class="region-band" id="band-lowcountry">
-    <!-- Coastal wave pattern: loose horizontal sine curves -->
-    <svg class="region-pattern" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <pattern id="wave-pattern" x="0" y="0" width="80" height="30" patternUnits="userSpaceOnUse">
-          <path d="M0 15 Q20 5 40 15 Q60 25 80 15" fill="none" stroke="#c9a84c" stroke-width="0.8"/>
-          <path d="M0 25 Q20 15 40 25 Q60 35 80 25" fill="none" stroke="#c9a84c" stroke-width="0.4"/>
-        </pattern>
-      </defs>
-      <rect width="400" height="300" fill="url(#wave-pattern)"/>
-    </svg>
-    <div class="region-name-col">
-      <div class="region-eyebrow">Region 03</div>
-      <div class="region-name">The Low-<br>country</div>
-      <div class="region-cities">Charleston · Myrtle Beach<br>Hilton Head · Beaufort</div>
-    </div>
-    <div class="region-number-col">
-      <div class="region-big-number">$28B</div>
-      <div class="region-number-label">SC tourism industry running HVAC 365 days a year</div>
-    </div>
-    <div class="region-text-col">
-      <p class="region-sentence">The coastal economy runs on hospitality. <em>Hotels, resorts, and restaurants</em> in Charleston, Myrtle Beach, and Hilton Head operate on thin margins in a hot, humid climate where air conditioning never stops. Energy is one of the top three operating costs — and the most controllable one.</p>
-      <div class="region-tag">Tourism · Hospitality · Ports · Aerospace</div>
+  <div class="region-panel-wrapper" id="wr-low">
+    <div class="region-panel" id="pn-low">
+
+      <div class="region-draw" id="dr-low">
+        <svg viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg">
+          <!-- Water lines -->
+          <path class="dp-thin" d="M0 470 Q112 458 225 470 Q337 482 450 470 Q562 458 675 470 Q787 482 900 470" stroke-dasharray="910" stroke-dashoffset="910"/>
+          <path class="dp-thin" d="M0 488 Q112 476 225 488 Q337 500 450 488 Q562 476 675 488 Q787 500 900 488" stroke-dasharray="910" stroke-dashoffset="910"/>
+          <path class="dp-thin" d="M0 505 Q112 493 225 505 Q337 517 450 505 Q562 493 675 505 Q787 517 900 505" stroke-dasharray="910" stroke-dashoffset="910"/>
+          <!-- Bridge deck -->
+          <line class="dp-bold" id="lc-deck" x1="30" y1="390" x2="870" y2="390" stroke-dasharray="840" stroke-dashoffset="840"/>
+          <!-- Left approach ramp -->
+          <line class="dp" x1="30" y1="390" x2="30" y2="430" stroke-dasharray="40" stroke-dashoffset="40"/>
+          <line class="dp" x1="30" y1="430" x2="185" y2="468" stroke-dasharray="180" stroke-dashoffset="180"/>
+          <!-- Right approach ramp -->
+          <line class="dp" x1="870" y1="390" x2="870" y2="430" stroke-dasharray="40" stroke-dashoffset="40"/>
+          <line class="dp" x1="870" y1="430" x2="715" y2="468" stroke-dasharray="180" stroke-dashoffset="180"/>
+          <!-- Left tower shaft -->
+          <line class="dp-bold" x1="305" y1="390" x2="305" y2="120" stroke-dasharray="270" stroke-dashoffset="270"/>
+          <!-- Left diamond -->
+          <polyline class="dp-bold" points="272,325 305,238 338,325 305,314 272,325" stroke-dasharray="250" stroke-dashoffset="250"/>
+          <!-- Right tower shaft -->
+          <line class="dp-bold" x1="595" y1="390" x2="595" y2="120" stroke-dasharray="270" stroke-dashoffset="270"/>
+          <!-- Right diamond -->
+          <polyline class="dp-bold" points="562,325 595,238 628,325 595,314 562,325" stroke-dasharray="250" stroke-dashoffset="250"/>
+          <!-- Left tower cables (fan) -->
+          <line class="dp-thin" x1="305" y1="135" x2="110" y2="390" stroke-dasharray="240" stroke-dashoffset="240"/>
+          <line class="dp-thin" x1="305" y1="148" x2="158" y2="390" stroke-dasharray="195" stroke-dashoffset="195"/>
+          <line class="dp-thin" x1="305" y1="162" x2="206" y2="390" stroke-dasharray="158" stroke-dashoffset="158"/>
+          <line class="dp-thin" x1="305" y1="175" x2="254" y2="390" stroke-dasharray="128" stroke-dashoffset="128"/>
+          <line class="dp-thin" x1="305" y1="148" x2="395" y2="390" stroke-dasharray="130" stroke-dashoffset="130"/>
+          <line class="dp-thin" x1="305" y1="162" x2="375" y2="390" stroke-dasharray="108" stroke-dashoffset="108"/>
+          <line class="dp-thin" x1="305" y1="175" x2="355" y2="390" stroke-dasharray="90" stroke-dashoffset="90"/>
+          <!-- Right tower cables -->
+          <line class="dp-thin" x1="595" y1="135" x2="790" y2="390" stroke-dasharray="240" stroke-dashoffset="240"/>
+          <line class="dp-thin" x1="595" y1="148" x2="742" y2="390" stroke-dasharray="195" stroke-dashoffset="195"/>
+          <line class="dp-thin" x1="595" y1="162" x2="694" y2="390" stroke-dasharray="158" stroke-dashoffset="158"/>
+          <line class="dp-thin" x1="595" y1="175" x2="646" y2="390" stroke-dasharray="128" stroke-dashoffset="128"/>
+          <line class="dp-thin" x1="595" y1="148" x2="505" y2="390" stroke-dasharray="130" stroke-dashoffset="130"/>
+          <line class="dp-thin" x1="595" y1="162" x2="515" y2="390" stroke-dasharray="108" stroke-dashoffset="108"/>
+          <line class="dp-thin" x1="595" y1="175" x2="535" y2="390" stroke-dasharray="90" stroke-dashoffset="90"/>
+          <!-- Label -->
+          <text x="450" y="538" text-anchor="middle" font-family="DM Mono,monospace" font-size="10" fill="rgba(201,168,76,0.4)" letter-spacing="3">ARTHUR RAVENEL JR. BRIDGE · CHARLESTON</text>
+          <text x="450" y="554" text-anchor="middle" font-family="DM Mono,monospace" font-size="8" fill="rgba(201,168,76,0.2)" letter-spacing="2">1,546 FT MAIN SPAN · 575 FT TOWERS · 128 CABLES</text>
+        </svg>
+        <div class="r-progress" id="rp-low"></div>
+      </div>
+
+      <div class="region-text">
+        <div class="r-num">Region 03</div>
+        <div class="r-name">The Lowcountry</div>
+        <div class="r-cities">Charleston · Myrtle Beach · Hilton Head</div>
+        <div class="r-stat" id="rs-low">$28B</div>
+        <div class="r-statl" id="rl-low">SC tourism industry running HVAC 365 days a year</div>
+        <p class="r-body" id="rb-low">The coastal economy runs on hospitality. <em>Hotels, resorts, and restaurants</em> in Charleston, Myrtle Beach, and Hilton Head operate on thin margins in a climate where air conditioning never stops. Energy is one of the top three operating costs — and the most controllable one.</p>
+        <div class="r-tag" id="rt-low">Tourism · Hospitality · Ports · Aerospace</div>
+      </div>
+
     </div>
   </div>
 
@@ -2295,129 +1907,69 @@ function setupRollers() {
 setupRollers();
 
 
-
-// ── REGION SCROLL-DRAW ANIMATION ──────────────────────────────
+// ── REGION SCROLL-DRAW ────────────────────────────────────────
 (function() {
-  const isMobile = window.innerWidth <= 860;
-
-  // On mobile: just show everything immediately
-  if (isMobile) return;
+  if (window.innerWidth <= 860) return;
 
   const panels = [
-    {
-      wrapper: document.getElementById('wrapper-upstate'),
-      panel:   document.getElementById('panel-upstate'),
-      prog:    document.getElementById('prog-upstate'),
-      paths:   document.querySelectorAll('#drawing-upstate .draw-path'),
-      numEl:   document.getElementById('num-upstate'),
-      lblEl:   document.getElementById('lbl-upstate'),
-      txtEl:   document.getElementById('txt-upstate'),
-      tagEl:   document.getElementById('tag-upstate'),
-      contentTriggered: false,
-    },
-    {
-      wrapper: document.getElementById('wrapper-midlands'),
-      panel:   document.getElementById('panel-midlands'),
-      prog:    document.getElementById('prog-midlands'),
-      paths:   document.querySelectorAll('#drawing-midlands .draw-path'),
-      numEl:   document.getElementById('num-midlands'),
-      lblEl:   document.getElementById('lbl-midlands'),
-      txtEl:   document.getElementById('txt-midlands'),
-      tagEl:   document.getElementById('tag-midlands'),
-      contentTriggered: false,
-    },
-    {
-      wrapper: document.getElementById('wrapper-lowcountry'),
-      panel:   document.getElementById('panel-lowcountry'),
-      prog:    document.getElementById('prog-lowcountry'),
-      paths:   document.querySelectorAll('#drawing-lowcountry .draw-path'),
-      numEl:   document.getElementById('num-lowcountry'),
-      lblEl:   document.getElementById('lbl-lowcountry'),
-      txtEl:   document.getElementById('txt-lowcountry'),
-      tagEl:   document.getElementById('tag-lowcountry'),
-      contentTriggered: false,
-    }
-  ].filter(p => p.wrapper && p.panel);
+    { wr:'wr-up',  pr:'rp-up',  draw:'dr-up',  ids:['rs-up','rl-up','rb-up','rt-up'] },
+    { wr:'wr-mid', pr:'rp-mid', draw:'dr-mid', ids:['rs-mid','rl-mid','rb-mid','rt-mid'] },
+    { wr:'wr-low', pr:'rp-low', draw:'dr-low', ids:['rs-low','rl-low','rb-low','rt-low'] },
+  ].map(p => ({
+    wrapper:  document.getElementById(p.wr),
+    progress: document.getElementById(p.pr),
+    paths:    document.querySelectorAll('#' + p.draw + ' [stroke-dasharray]'),
+    content:  p.ids.map(id => document.getElementById(id)).filter(Boolean),
+    triggered: false,
+  })).filter(p => p.wrapper);
 
   if (!panels.length) return;
 
-  function getScrollProgress(wrapper) {
-    const rect = wrapper.getBoundingClientRect();
-    const wrapperH = wrapper.offsetHeight;
-    const viewH = window.innerHeight;
-    // Progress from 0 (panel enters view) to 1 (panel fully scrolled)
-    const scrolled = -rect.top;
-    const total = wrapperH - viewH;
-    return Math.max(0, Math.min(1, scrolled / total));
+  // Init: hide all paths
+  panels.forEach(p => p.paths.forEach(path => {
+    const len = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
+    path.style.cssText += ';stroke-dasharray:' + len + ';stroke-dashoffset:' + len;
+  }));
+
+  function progress(wrapper) {
+    const r = wrapper.getBoundingClientRect();
+    return Math.max(0, Math.min(1, -r.top / (wrapper.offsetHeight - window.innerHeight)));
   }
 
-  // Get leftmost x coordinate of a path for left-to-right ordering
-  function getPathLeftX(path) {
-    const x1 = parseFloat(path.getAttribute('x1') || path.getAttribute('x') || '0');
-    const pts = path.getAttribute('points') || '';
-    if (pts) {
-      const xs = pts.trim().split(/[\s,]+/).filter((_, i) => i % 2 === 0).map(Number);
-      return Math.min(...xs);
-    }
+  // Sort paths left-to-right by their starting x
+  function leftX(path) {
+    const x1 = path.getAttribute('x1') || path.getAttribute('x');
+    if (x1) return parseFloat(x1);
+    const pts = path.getAttribute('points');
+    if (pts) return Math.min(...pts.trim().split(/[\s,]+/).filter((_,i)=>i%2===0).map(Number));
     const d = path.getAttribute('d') || '';
-    const nums = d.match(/[-\d.]+/g);
-    return nums ? parseFloat(nums[0]) : x1;
+    const m = d.match(/[-\d.]+/);
+    return m ? parseFloat(m[0]) : 0;
   }
 
-  function drawPaths(paths, progress) {
-    // Sort paths by left x so they animate left-to-right
-    const sorted = Array.from(paths).sort((a, b) => getPathLeftX(a) - getPathLeftX(b));
-    const count = sorted.length;
+  function draw(p, prog) {
+    const sorted = Array.from(p.paths).sort((a,b) => leftX(a) - leftX(b));
+    const n = sorted.length;
     sorted.forEach((path, i) => {
-      // Each path gets a staggered progress window
-      const pathStart = (i / count) * 0.4;       // starts at 0–40% of total progress
-      const pathEnd   = pathStart + 0.6;           // each path has 60% of progress to complete
-      const localProgress = Math.max(0, Math.min(1, (progress - pathStart) / (pathEnd - pathStart)));
-      const totalLen = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
-      const offset = totalLen * (1 - localProgress);
-      path.setAttribute('stroke-dashoffset', offset);
-      path.style.strokeDashoffset = offset;
-      path.style.strokeDasharray = path.getAttribute('stroke-dasharray') || '200';
+      const start = (i/n) * 0.35;
+      const loc = Math.max(0, Math.min(1, (prog - start) / 0.65));
+      const len = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
+      path.style.strokeDashoffset = len * (1 - loc);
     });
+    if (p.progress) p.progress.style.width = (prog * 100) + '%';
+    if (prog >= 0.35 && !p.triggered) {
+      p.triggered = true;
+      p.content.forEach(el => el.classList.add('in'));
+    }
   }
 
-  // Initialize all paths to hidden on load
-  function initPaths() {
-    panels.forEach(p => {
-      p.paths.forEach(path => {
-        const totalLen = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
-        path.setAttribute('stroke-dashoffset', totalLen);
-        path.style.strokeDashoffset = totalLen;
-        path.style.strokeDasharray = path.getAttribute('stroke-dasharray') || '200';
-      });
-    });
-  }
-  initPaths();
-
-  function triggerContent(p) {
-    if (p.contentTriggered) return;
-    p.contentTriggered = true;
-    if (p.numEl) p.numEl.classList.add('num-visible');
-    if (p.lblEl) p.lblEl.classList.add('num-visible');
-    if (p.txtEl) p.txtEl.classList.add('num-visible');
-    if (p.tagEl) p.tagEl.classList.add('num-visible');
+  function tick() {
+    panels.forEach(p => draw(p, progress(p.wrapper)));
   }
 
-  function onScroll() {
-    panels.forEach(p => {
-      const progress = getScrollProgress(p.wrapper);
-      drawPaths(p.paths, progress);
-      if (p.prog) p.prog.style.width = (progress * 100) + '%';
-      // Trigger content at 40% draw completion
-      if (progress >= 0.4) triggerContent(p);
-    });
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll, { passive: true });
-  onScroll(); // run once on load
+  window.addEventListener('scroll', tick, { passive: true });
+  tick();
 })();
-
 
 // ── ESCALATING VERDICT ──────────────────────────────────────
 (function() {
