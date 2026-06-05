@@ -1429,50 +1429,70 @@ footer {
 <hr class="rule-gold"/>
 
 <!-- THREE REGIONS -->
-<section class="regions-section">
-  <div class="regions-intro">
-    <div class="section-label" style="justify-content:center; border-left:none; padding-left:0;">Your State. Your Constituents.</div>
-    <h2 style="text-align:center; margin-bottom:0.8rem;">Every region of South Carolina<br><em>has a different energy story.</em></h2>
-    <p style="font-size:1rem; color:var(--slate-lt); line-height:1.7; text-align:center;">The businesses paying the most are the ones your district depends on. We know what they do and where they are.</p>
+<section class="regions-section" id="regions-section">
+
+  <!-- SC Map backdrop -->
+  <div class="regions-map-bg" id="regions-map-bg">
+    <svg viewBox="0 0 85 80" xmlns="http://www.w3.org/2000/svg">
+      <!-- SC outline -->
+      <path class="map-outline" id="map-outline-path"
+        d="M68.24 46.080l0.32-0.72v-0.32l-0.32 0.32v0.72zM19.76 3.84l-0.24-0.32-0.64 0.8-4 0.88-1.040 1.040-5.84 1.28-3.2 3.36-0.8 2.16 2.96 2 1.92 2.24 2.96 0.8 2 5.52 1.84 2.32 0.56 1.68 4.8 3.68 1.52 3.2 1.84 0.72 2 2 0.16 2.16 1.36 1.12-0.16 0.88 1.2 0.96 0.16 1.040 4 2.32 0.32 2.16 1.52 3.52v2.24l3.36 2.8 1.12 3.2-0.48 2.48 1.36 2h1.2l1.84 1.040 1.68-4.16 0.16 0.8-0.72 1.84 2.32-2-1.84-2-1.12-4.32 1.2 0.96 0.48 2.56 1.28 1.12v-3.040h0.4l0.32 3.76 2.8-1.2 0.56-1.68-1.84 1.2 1.44-1.36-2.16-0.64 1.84-0.4-3.36-0.32 0.080-0.48h2.32l-0.16-0.88 2.48 1.68 0.48-1.12 0.56 0.96 2-1.52-0.88-1.28 1.36 1.12 2.72-0.8-0.24-0.72 1.2-0.16 1.2-0.96 0.16-0.72-1.68-0.8h0.64l-0.32-1.36h0.88l-0.24 1.040 1.36 0.8 3.84-3.12 0.32-0.4-0.64 0.4-0.32-0.4 0.64-1.52 1.040-0.48 0.48 0.88 1.68-0.4 0.32-0.96 1.2-0.88-0.72-0.96 1.040 0.64v-0.8l0.8 0.48 0.56-0.8-1.84-2.24 1.12-2.16 0.56-0.64-1.2 2.48 0.88 0.32 0.48 1.52 0.8-3.84 3.040-4.48 2.8-2.56 3.040-1.36-0.48-0.64 0.48-0.16-17.6-17.28-18-0.48-0.080-2.64-2.32-2.88-1.84 0.88-0.16-1.68z"/>
+      <!-- Region dots: Upstate NW, Midlands center, Lowcountry SE -->
+      <circle class="map-dot" id="dot-upstate"   cx="22" cy="18" r="4"/>
+      <circle class="map-dot" id="dot-midlands"  cx="40" cy="38" r="4"/>
+      <circle class="map-dot" id="dot-lowcountry" cx="58" cy="55" r="4"/>
+    </svg>
   </div>
-  <div class="regions-grid">
 
-    <div class="region-card reveal">
-      <div class="region-name">The Upstate</div>
-      <div class="region-territory">Greenville · Spartanburg · Anderson</div>
-      <div class="region-industries">
-        <div class="region-industry">Automotive manufacturing — BMW, Michelin, 300+ suppliers</div>
-        <div class="region-industry">Aerospace — Lockheed Martin, GE Aviation, Honeywell</div>
-        <div class="region-industry">Advanced materials and composites</div>
-        <div class="region-industry">Healthcare systems — Prisma Health, Spartanburg Regional</div>
-      </div>
-      <div class="region-note">High 24/7 industrial load. Energy cost is a direct line item in every manufacturing margin.</div>
+  <div class="regions-content">
+    <div class="regions-intro">
+      <div class="section-label" style="justify-content:center; border-left:none; padding-left:0; text-align:center;">Your State. Your Constituents.</div>
+      <h2 style="text-align:center; margin-bottom:0.8rem;">Every region of South Carolina<br><em>has a different energy story.</em></h2>
+      <p style="font-size:1rem; color:var(--slate-lt); line-height:1.7; text-align:center;">The businesses paying the most are the ones your district depends on. We know what they do and where they are.</p>
     </div>
 
-    <div class="region-card reveal reveal-delay-2">
-      <div class="region-name">The Midlands</div>
-      <div class="region-territory">Columbia · Lexington · Sumter</div>
-      <div class="region-industries">
-        <div class="region-industry">State government facilities and agencies</div>
-        <div class="region-industry">Fort Jackson — largest Army training installation in the U.S.</div>
-        <div class="region-industry">University of South Carolina and education campuses</div>
-        <div class="region-industry">Paper, steel, and medical supply manufacturing</div>
-      </div>
-      <div class="region-note">Large public-sector footprint means energy waste comes directly out of taxpayer-funded budgets.</div>
-    </div>
+    <div class="regions-grid">
 
-    <div class="region-card reveal reveal-delay-3">
-      <div class="region-name">The Lowcountry</div>
-      <div class="region-territory">Charleston · Myrtle Beach · Hilton Head</div>
-      <div class="region-industries">
-        <div class="region-industry">$28B tourism industry — hotels, resorts, restaurants</div>
-        <div class="region-industry">Port of Charleston — logistics, refrigerated warehousing</div>
-        <div class="region-industry">Boeing South Carolina — commercial aircraft production</div>
-        <div class="region-industry">Coastal healthcare and retirement communities</div>
+      <div class="region-card" data-region="upstate" id="card-upstate">
+        <div class="region-dot-indicator"><span></span></div>
+        <div class="region-name">The Upstate</div>
+        <div class="region-territory">Greenville · Spartanburg · Anderson</div>
+        <div class="region-industries">
+          <div class="region-industry">Automotive manufacturing — BMW, Michelin, 300+ suppliers</div>
+          <div class="region-industry">Aerospace — Lockheed Martin, GE Aviation, Honeywell</div>
+          <div class="region-industry">Advanced materials and composites</div>
+          <div class="region-industry">Healthcare — Prisma Health, Spartanburg Regional</div>
+        </div>
+        <div class="region-note">High 24/7 industrial load. Energy cost is a direct line item in every manufacturing margin.</div>
       </div>
-      <div class="region-note">HVAC runs year-round in the coastal climate. Hospitality margins are thin. Energy savings go straight to the bottom line.</div>
-    </div>
 
+      <div class="region-card" data-region="midlands" id="card-midlands">
+        <div class="region-dot-indicator"><span></span></div>
+        <div class="region-name">The Midlands</div>
+        <div class="region-territory">Columbia · Lexington · Sumter</div>
+        <div class="region-industries">
+          <div class="region-industry">State government facilities and agencies</div>
+          <div class="region-industry">Fort Jackson — largest Army training base in the U.S.</div>
+          <div class="region-industry">University of South Carolina and education campuses</div>
+          <div class="region-industry">Paper, steel, and medical supply manufacturing</div>
+        </div>
+        <div class="region-note">Energy waste in the public sector comes directly out of taxpayer-funded budgets.</div>
+      </div>
+
+      <div class="region-card" data-region="lowcountry" id="card-lowcountry">
+        <div class="region-dot-indicator"><span></span></div>
+        <div class="region-name">The Lowcountry</div>
+        <div class="region-territory">Charleston · Myrtle Beach · Hilton Head</div>
+        <div class="region-industries">
+          <div class="region-industry">$28B tourism industry — hotels, resorts, restaurants</div>
+          <div class="region-industry">Port of Charleston — logistics, cold storage</div>
+          <div class="region-industry">Boeing South Carolina — commercial aircraft production</div>
+          <div class="region-industry">Coastal healthcare and retirement communities</div>
+        </div>
+        <div class="region-note">HVAC runs year-round in the coastal climate. Thin hospitality margins make energy savings immediate.</div>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -1789,6 +1809,64 @@ function setupRollers() {
 }
 
 setupRollers();
+
+
+// ── REGIONS SECTION ANIMATION ─────────────────────────────────
+(function() {
+  const section = document.getElementById('regions-section');
+  const mapBg   = document.getElementById('regions-map-bg');
+  const mapPath = document.getElementById('map-outline-path');
+  const dots    = {
+    upstate:    document.getElementById('dot-upstate'),
+    midlands:   document.getElementById('dot-midlands'),
+    lowcountry: document.getElementById('dot-lowcountry')
+  };
+  const cards = {
+    upstate:    document.getElementById('card-upstate'),
+    midlands:   document.getElementById('card-midlands'),
+    lowcountry: document.getElementById('card-lowcountry')
+  };
+
+  if (!section) return;
+
+  let fired = false;
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting || fired) return;
+      fired = true;
+      obs.unobserve(section);
+
+      // Step 1: fade in the map background
+      mapBg.classList.add('map-visible');
+
+      // Step 2: draw the SC outline
+      setTimeout(() => {
+        if (mapPath) mapPath.classList.add('map-drawing');
+      }, 300);
+
+      // Step 3: dots appear one by one, each card follows
+      const sequence = [
+        { dot: dots.upstate,    card: cards.upstate,    delay: 1200 },
+        { dot: dots.midlands,   card: cards.midlands,   delay: 1700 },
+        { dot: dots.lowcountry, card: cards.lowcountry, delay: 2200 },
+      ];
+
+      sequence.forEach(({ dot, card, delay }) => {
+        // Dot pulse
+        setTimeout(() => {
+          if (dot) dot.classList.add('dot-active');
+        }, delay);
+        // Card reveal slightly after dot
+        setTimeout(() => {
+          if (card) card.classList.add('card-visible');
+        }, delay + 180);
+      });
+    });
+  }, { threshold: 0.15 });
+
+  obs.observe(section);
+})();
 
 // ── ESCALATING VERDICT ──────────────────────────────────────
 (function() {
