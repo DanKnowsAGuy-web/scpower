@@ -1087,10 +1087,8 @@ footer {
 @media (max-width: 860px) {
   .region-panel-wrapper { height:auto; }
   .region-panel { position:relative; height:auto; grid-template-columns:1fr; }
-  .region-draw  { height:52vw; min-height:180px; position:relative; }
+  .region-draw  { height:56vw; min-height:200px; position:relative; overflow:hidden; }
   .region-text  { border-left:none; border-top:1px solid var(--rule); padding:1.8rem 1.5rem; }
-  .dp, .dp-thin, .dp-bold { stroke-dashoffset:0 !important; }
-  .r-stat, .r-statl, .r-body, .r-tag { opacity:1 !important; transform:none !important; transition:none !important; }
   .regions-header { padding:2.5rem 1.5rem 1.5rem; }
 }
 
@@ -1967,43 +1965,79 @@ setupRollers();
     return Math.max(0, Math.min(1, -r.top / (wrapper.offsetHeight - window.innerHeight)));
   }
 
+  const onMobile = () => window.innerWidth <= 860;
+
+  // Mobile: animate panel on scroll-into-view via IntersectionObserver
+  function animatePanelMobile(p) {
+    if (p.mobileAnimating) return;
+    p.mobileAnimating = true;
+    const sorted = Array.from(p.paths).sort((a,b) => pathX(a,p.dir) - pathX(b,p.dir));
+    const n = sorted.length;
+    const startTime = performance.now();
+    const duration = 1800;
+    // Slide in from direction of travel
+    if (p.drawEl) {
+      const startPct = p.dir * 8;
+      p.drawEl.style.transform = 'translateX(' + startPct + '%)';
+      p.drawEl.style.transition = 'transform 1.6s ease';
+      requestAnimationFrame(() => { p.drawEl.style.transform = 'translateX(0%)'; });
+    }
+    function frame(now) {
+      const prog = Math.min((now - startTime) / duration, 1);
+      sorted.forEach((path, i) => {
+        const ws = (i / n) * 0.3;
+        const loc = Math.max(0, Math.min(1, (prog - ws) / 0.7));
+        const len = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
+        path.style.strokeDashoffset = len * (1 - loc);
+      });
+      if (p.progress) p.progress.style.width = (prog * 100) + '%';
+      if (prog >= 0.3 && !p.triggered) {
+        p.triggered = true;
+        p.content.forEach(el => el.classList.add('in'));
+      }
+      if (prog < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // Desktop: scroll-driven parallax + draw
   function tick() {
+    if (onMobile()) return;
     panels.forEach(p => {
       const prog = getProgress(p.wrapper);
-
-      const isMobile = window.innerWidth <= 860;
-      // ── PARALLAX: SVG drifts at 35% scroll speed in alternating direction ──
-      if (p.drawEl && !isMobile) {
-        // At prog=0: offset starts at +8% (right) or -8% (left)
-        // At prog=1: offset ends at -8% (right) or +8% (left)
+      if (p.drawEl) {
         const drift = p.dir * (0.08 - prog * 0.16) * 100;
         p.drawEl.style.transform = 'translateX(' + drift.toFixed(2) + '%)';
       }
-
-      // ── DIRECTIONAL DRAW: paths animate in direction of travel ──
-      if (!isMobile) {
-        const sorted = Array.from(p.paths).sort((a,b) => pathX(a,p.dir) - pathX(b,p.dir));
-        const n = sorted.length;
-        sorted.forEach((path, i) => {
-          const window_start = (i / n) * 0.3;
-          const loc = Math.max(0, Math.min(1, (prog - window_start) / 0.7));
-          const len = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
-          path.style.strokeDashoffset = len * (1 - loc);
-        });
-
-        if (p.progress) p.progress.style.width = (prog * 100) + '%';
-
-        // Trigger text content at 30% draw completion
-        if (!isMobile && prog >= 0.3 && !p.triggered) {
-          p.triggered = true;
-          p.content.forEach(el => el.classList.add('in'));
-        }
+      const sorted = Array.from(p.paths).sort((a,b) => pathX(a,p.dir) - pathX(b,p.dir));
+      const n = sorted.length;
+      sorted.forEach((path, i) => {
+        const ws = (i / n) * 0.3;
+        const loc = Math.max(0, Math.min(1, (prog - ws) / 0.7));
+        const len = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
+        path.style.strokeDashoffset = len * (1 - loc);
+      });
+      if (p.progress) p.progress.style.width = (prog * 100) + '%';
+      if (prog >= 0.3 && !p.triggered) {
+        p.triggered = true;
+        p.content.forEach(el => el.classList.add('in'));
       }
     });
   }
 
+  // Setup: mobile uses IntersectionObserver, desktop uses scroll
+  if (onMobile()) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const p = panels.find(p => p.wrapper === e.target);
+        if (p) { animatePanelMobile(p); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.15 });
+    panels.forEach(p => obs.observe(p.wrapper));
+  }
+
   window.addEventListener('scroll', tick, { passive: true });
-  window.addEventListener('resize', () => location.reload(), { passive: true });
   tick();
 })();
 
