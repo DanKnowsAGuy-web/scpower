@@ -1006,6 +1006,10 @@ footer {
   border-bottom: 1px solid var(--rule);
 }
 
+.region-scroll-container {
+  overflow: hidden;
+}
+
 .regions-header {
   padding: 4rem 3rem 2.5rem;
   text-align: center;
@@ -1029,7 +1033,7 @@ footer {
   display: grid;
   grid-template-columns: 55fr 45fr;
   border-bottom: 1px solid var(--rule);
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Drawing side: pure ink, no borders, no box */
@@ -1038,10 +1042,11 @@ footer {
   position: relative;
   overflow: hidden;
   will-change: transform;
+  min-height: 0;
+  height: 100%;
 }
 .region-draw svg {
-  position: absolute;
-  inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
 }
@@ -1054,7 +1059,7 @@ footer {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Path styles */
@@ -1906,8 +1911,6 @@ setupRollers();
 
 // ── REGION SCROLL: PARALLAX + DIRECTIONAL DRAW ───────────────
 (function() {
-  const mobile = window.innerWidth <= 860;
-
   const defs = [
     {
       wr:'wr-up',  draw:'dr-up',  pr:'rp-up',
@@ -1952,14 +1955,12 @@ setupRollers();
     return dir === 1 ? x : (900 - x); // flip sort order for left-to-right
   }
 
-  // Init: all paths hidden
-  if (!mobile) {
-    panels.forEach(p => p.paths.forEach(path => {
-      const len = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
-      path.style.strokeDasharray = len;
-      path.style.strokeDashoffset = len;
-    }));
-  }
+  // Init: all paths hidden (always, mobile shows them via CSS !important)
+  panels.forEach(p => p.paths.forEach(path => {
+    const len = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+  }));
 
   function getProgress(wrapper) {
     const r = wrapper.getBoundingClientRect();
@@ -1970,8 +1971,9 @@ setupRollers();
     panels.forEach(p => {
       const prog = getProgress(p.wrapper);
 
+      const isMobile = window.innerWidth <= 860;
       // ── PARALLAX: SVG drifts at 35% scroll speed in alternating direction ──
-      if (p.drawEl && !mobile) {
+      if (p.drawEl && !isMobile) {
         // At prog=0: offset starts at +8% (right) or -8% (left)
         // At prog=1: offset ends at -8% (right) or +8% (left)
         const drift = p.dir * (0.08 - prog * 0.16) * 100;
@@ -1979,7 +1981,7 @@ setupRollers();
       }
 
       // ── DIRECTIONAL DRAW: paths animate in direction of travel ──
-      if (!mobile) {
+      if (!isMobile) {
         const sorted = Array.from(p.paths).sort((a,b) => pathX(a,p.dir) - pathX(b,p.dir));
         const n = sorted.length;
         sorted.forEach((path, i) => {
@@ -1992,7 +1994,7 @@ setupRollers();
         if (p.progress) p.progress.style.width = (prog * 100) + '%';
 
         // Trigger text content at 30% draw completion
-        if (prog >= 0.3 && !p.triggered) {
+        if (!isMobile && prog >= 0.3 && !p.triggered) {
           p.triggered = true;
           p.content.forEach(el => el.classList.add('in'));
         }
