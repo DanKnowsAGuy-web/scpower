@@ -1256,16 +1256,16 @@ footer {
   background: var(--ink);
   overflow: hidden;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: stretch;
+  justify-content: stretch;
+  min-height: 0;
 }
 
 /* SVG drawing canvas */
 .region-drawing-col svg {
   width: 100%;
   height: 100%;
-  position: absolute;
-  inset: 0;
+  display: block;
 }
 
 /* All drawn paths start invisible */
@@ -1275,9 +1275,6 @@ footer {
   stroke-width: 1.2;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 3000;
-  stroke-dashoffset: 3000;
-  transition: stroke-dashoffset 0.05s linear;
 }
 
 .draw-path-thin {
@@ -2358,11 +2355,28 @@ setupRollers();
 
   function drawPaths(paths, progress) {
     paths.forEach(path => {
-      const totalLen = parseFloat(path.getAttribute('stroke-dasharray')) || 3000;
+      // Use the element's own stroke-dasharray attribute as the total length
+      const totalLen = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
       const offset = totalLen * (1 - progress);
+      // Set both attribute and style to ensure override
+      path.setAttribute('stroke-dashoffset', offset);
       path.style.strokeDashoffset = offset;
     });
   }
+
+  // Initialize all paths to hidden on load
+  function initPaths() {
+    panels.forEach(p => {
+      p.paths.forEach(path => {
+        const totalLen = parseFloat(path.getAttribute('stroke-dasharray')) || 200;
+        path.setAttribute('stroke-dashoffset', totalLen);
+        path.style.strokeDashoffset = totalLen;
+        // Ensure dasharray is set
+        path.style.strokeDasharray = path.getAttribute('stroke-dasharray') || '200';
+      });
+    });
+  }
+  initPaths();
 
   function triggerContent(p) {
     if (p.contentTriggered) return;
