@@ -1004,119 +1004,234 @@ footer {
   background: var(--ink);
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
-  padding: 5rem 3rem;
-}
-
-.regions-intro {
-  max-width: 640px;
-  margin: 0 auto 3.5rem;
-  text-align: center;
-}
-
-.regions-intro .section-label {
-  justify-content: center;
-  border-left: none;
-  padding-left: 0;
-  border-bottom: none;
-  display: flex;
-}
-
-.regions-intro .section-label::before { display: none; }
-
-.regions-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 1px;
-  background: var(--rule);
-  border: 1px solid var(--rule);
-  max-width: var(--wide);
-  margin: 0 auto;
-}
-
-.region-card {
-  background: var(--ink-mid);
-  padding: 2.2rem 2rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  transition: background 0.2s;
+  padding: 4rem 0 0;
   position: relative;
   overflow: hidden;
 }
 
-.region-card:hover { background: var(--ink-soft); }
-
-.region-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-  background: var(--gold);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.4s ease;
+.regions-intro {
+  max-width: 640px;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+  padding: 0 2rem;
 }
 
-.region-card:hover::before { transform: scaleX(1); }
-
-.region-name {
-  font-family: 'Playfair Display', Georgia, serif;
-  font-weight: 900;
-  font-size: 1.5rem;
-  color: var(--white);
-  letter-spacing: -0.01em;
-  margin-bottom: 0.3rem;
-  line-height: 1.1;
+/* Swipe container */
+.regions-swipe-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
 
-.region-territory {
-  font-family: 'DM Mono', monospace;
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1.2rem;
+.regions-track {
+  display: flex;
+  width: 300%;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: grab;
 }
 
-.region-industries {
+.regions-track:active { cursor: grabbing; }
+
+/* Each slide */
+.region-slide {
+  width: 33.333%;
+  flex-shrink: 0;
+  position: relative;
+  min-height: 560px;
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
-  flex: 1;
+  justify-content: flex-end;
+  overflow: hidden;
 }
 
-.region-industry {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-  font-size: 0.92rem;
-  color: var(--slate-lt);
-  line-height: 1.4;
+/* Background texture per region */
+.region-slide[data-region="upstate"] {
+  background: var(--ink);
+}
+.region-slide[data-region="midlands"] {
+  background: var(--ink-mid);
+}
+.region-slide[data-region="lowcountry"] {
+  background: #0c1018;
 }
 
-.region-industry::before {
-  content: '→';
-  color: var(--gold);
+/* SVG geometric background pattern per region */
+.region-bg-pattern {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.region-bg-pattern.pattern-visible { opacity: 1; }
+
+/* Content layer */
+.region-slide-content {
+  position: relative;
+  z-index: 2;
+  padding: 3rem 3rem 3.5rem;
+}
+
+/* Large background number watermark */
+.region-bg-num {
+  position: absolute;
+  bottom: -0.1em;
+  right: -0.05em;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(8rem, 22vw, 18rem);
+  line-height: 0.85;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(201,168,76,0.08);
+  pointer-events: none;
+  z-index: 1;
+  letter-spacing: -0.04em;
+  user-select: none;
+}
+
+.region-slide-tag {
   font-family: 'DM Mono', monospace;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.region-slide-tag::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background: var(--gold);
   flex-shrink: 0;
-  margin-top: 0.15rem;
 }
 
-.region-note {
-  margin-top: 1.4rem;
-  padding-top: 1.2rem;
-  border-top: 1px solid var(--rule);
-  font-size: 0.82rem;
-  font-style: italic;
+.region-slide-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  line-height: 1.0;
+  color: var(--white);
+  letter-spacing: -0.03em;
+  margin-bottom: 0.4rem;
+}
+
+.region-slide-territory {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--slate);
-  line-height: 1.5;
+  margin-bottom: 2rem;
 }
 
-@media (max-width: 860px) {
-  .regions-grid { grid-template-columns: 1fr; }
-  .regions-section { padding: 3.5rem 1.5rem; }
-  .region-card { padding: 1.8rem 1.5rem; }
+.region-slide-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 1.8rem;
+  padding-left: 1.2rem;
+  border-left: 2px solid var(--gold);
+}
+
+.region-slide-stat-num {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: 2.6rem;
+  color: var(--gold);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.region-slide-stat-label {
+  font-size: 0.9rem;
+  color: var(--slate-lt);
+  line-height: 1.45;
+}
+
+.region-slide-note {
+  font-size: 0.95rem;
+  color: var(--slate-lt);
+  line-height: 1.65;
+  max-width: 500px;
+  border-top: 1px solid var(--rule);
+  padding-top: 1.2rem;
+  font-style: italic;
+}
+
+/* Pagination dots */
+.regions-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.8rem 0;
+}
+
+.region-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--rule-lt);
+  transition: background 0.3s, transform 0.3s;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+
+.region-dot.active {
+  background: var(--gold);
+  transform: scale(1.4);
+}
+
+/* Swipe hint arrow */
+.swipe-hint {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 4rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--slate);
+  animation: hintFade 3s ease-in-out 1.5s forwards;
+  opacity: 0;
+}
+
+@keyframes hintFade {
+  0%   { opacity: 0; transform: translateX(0); }
+  20%  { opacity: 1; transform: translateX(0); }
+  70%  { opacity: 1; transform: translateX(-6px); }
+  100% { opacity: 0; transform: translateX(-12px); }
+}
+
+/* Desktop: show all three side by side */
+@media (min-width: 900px) {
+  .regions-track {
+    width: 100%;
+    cursor: default;
+  }
+  .region-slide {
+    width: 33.333%;
+    min-height: 620px;
+  }
+  .regions-dots { display: none; }
+  .swipe-hint { display: none; }
+  .region-slide-name { font-size: clamp(2.2rem, 2.8vw, 3.2rem); }
+  .region-bg-num { font-size: clamp(6rem, 14vw, 12rem); }
+}
+
+@media (max-width: 899px) {
+  .regions-track { width: 300%; }
+  .region-slide { width: 33.333%; min-height: 520px; }
+  .region-slide-content { padding: 2rem 1.8rem 3rem; }
 }
 
 /* ── DIVIDER ── */
@@ -1430,116 +1545,128 @@ footer {
 
 <!-- THREE REGIONS -->
 <section class="regions-section" id="regions-section">
-
-  <!-- SC Map backdrop -->
-  <div class="regions-map-bg" id="regions-map-bg">
-    <svg viewBox="0 0 85 80" xmlns="http://www.w3.org/2000/svg">
-      <!-- SC outline -->
-      <path class="map-outline" id="map-outline-path"
-        d="M68.24 46.080l0.32-0.72v-0.32l-0.32 0.32v0.72zM19.76 3.84l-0.24-0.32-0.64 0.8-4 0.88-1.040 1.040-5.84 1.28-3.2 3.36-0.8 2.16 2.96 2 1.92 2.24 2.96 0.8 2 5.52 1.84 2.32 0.56 1.68 4.8 3.68 1.52 3.2 1.84 0.72 2 2 0.16 2.16 1.36 1.12-0.16 0.88 1.2 0.96 0.16 1.040 4 2.32 0.32 2.16 1.52 3.52v2.24l3.36 2.8 1.12 3.2-0.48 2.48 1.36 2h1.2l1.84 1.040 1.68-4.16 0.16 0.8-0.72 1.84 2.32-2-1.84-2-1.12-4.32 1.2 0.96 0.48 2.56 1.28 1.12v-3.040h0.4l0.32 3.76 2.8-1.2 0.56-1.68-1.84 1.2 1.44-1.36-2.16-0.64 1.84-0.4-3.36-0.32 0.080-0.48h2.32l-0.16-0.88 2.48 1.68 0.48-1.12 0.56 0.96 2-1.52-0.88-1.28 1.36 1.12 2.72-0.8-0.24-0.72 1.2-0.16 1.2-0.96 0.16-0.72-1.68-0.8h0.64l-0.32-1.36h0.88l-0.24 1.040 1.36 0.8 3.84-3.12 0.32-0.4-0.64 0.4-0.32-0.4 0.64-1.52 1.040-0.48 0.48 0.88 1.68-0.4 0.32-0.96 1.2-0.88-0.72-0.96 1.040 0.64v-0.8l0.8 0.48 0.56-0.8-1.84-2.24 1.12-2.16 0.56-0.64-1.2 2.48 0.88 0.32 0.48 1.52 0.8-3.84 3.040-4.48 2.8-2.56 3.040-1.36-0.48-0.64 0.48-0.16-17.6-17.28-18-0.48-0.080-2.64-2.32-2.88-1.84 0.88-0.16-1.68z"/>
-      <!-- Region dots: Upstate NW, Midlands center, Lowcountry SE -->
-      <circle class="map-dot" id="dot-upstate"   cx="22" cy="18" r="4"/>
-      <circle class="map-dot" id="dot-midlands"  cx="40" cy="38" r="4"/>
-      <circle class="map-dot" id="dot-lowcountry" cx="58" cy="55" r="4"/>
-    </svg>
+  <div class="regions-intro">
+    <div class="section-label" style="justify-content:center; border-left:none; padding-left:0;">Your State. Your Constituents.</div>
+    <h2 style="text-align:center; margin-bottom:0.8rem;">Every region has<br><em>a different energy story.</em></h2>
+    <p style="font-size:1rem; color:var(--slate-lt); line-height:1.7; text-align:center;">We know what runs your district. Swipe to see yours.</p>
   </div>
 
-  <div class="regions-content">
-    <div class="regions-intro">
-      <div class="section-label" style="justify-content:center; border-left:none; padding-left:0; text-align:center;">Your State. Your Constituents.</div>
-      <h2 style="text-align:center; margin-bottom:0.8rem;">Every region of South Carolina<br><em>has a different energy story.</em></h2>
-      <p style="font-size:1rem; color:var(--slate-lt); line-height:1.7; text-align:center;">The businesses paying the most are the ones your district depends on. We know what they do and where they are.</p>
-    </div>
-
-    <div class="regions-grid">
+  <div class="regions-swipe-wrap">
+    <div class="regions-track" id="regions-track">
 
       <!-- UPSTATE -->
-      <div class="region-card" data-region="upstate" id="card-upstate">
-        <!-- Geometric pattern: diagonal industrial lines -->
-        <div class="region-pattern">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="p-upstate" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                <line x1="0" y1="0" x2="0" y2="24" stroke="#c9a84c" stroke-width="1"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#p-upstate)"/>
-          </svg>
-        </div>
-        <div class="region-content-inner">
-          <div class="region-dot-indicator">
-            <span></span>
-            <span class="region-tag">The Upstate</span>
+      <div class="region-slide" data-region="upstate">
+        <!-- Geometric industrial SVG background -->
+        <svg class="region-bg-pattern" id="pat-upstate" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="grid-up" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(42,74,127,0.08)" stroke-width="1"/>
+            </pattern>
+            <pattern id="diag-up" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+              <line x1="0" y1="40" x2="40" y2="0" stroke="rgba(42,74,127,0.05)" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <rect width="800" height="600" fill="url(#grid-up)"/>
+          <rect width="800" height="600" fill="url(#diag-up)"/>
+          <!-- Corner accent lines suggesting precision engineering -->
+          <line x1="0" y1="0" x2="120" y2="0" stroke="rgba(201,168,76,0.12)" stroke-width="2"/>
+          <line x1="0" y1="0" x2="0" y2="80" stroke="rgba(201,168,76,0.12)" stroke-width="2"/>
+          <line x1="800" y1="600" x2="680" y2="600" stroke="rgba(201,168,76,0.07)" stroke-width="1.5"/>
+          <line x1="800" y1="600" x2="800" y2="520" stroke="rgba(201,168,76,0.07)" stroke-width="1.5"/>
+          <!-- Radial burst suggesting manufacturing precision -->
+          <circle cx="680" cy="120" r="200" fill="none" stroke="rgba(42,74,127,0.06)" stroke-width="1"/>
+          <circle cx="680" cy="120" r="140" fill="none" stroke="rgba(42,74,127,0.05)" stroke-width="1"/>
+          <circle cx="680" cy="120" r="80" fill="none" stroke="rgba(42,74,127,0.07)" stroke-width="1"/>
+        </svg>
+        <div class="region-bg-num">SC</div>
+        <div class="region-slide-content">
+          <div class="region-slide-tag">Region 01</div>
+          <div class="region-slide-name">The Upstate</div>
+          <div class="region-slide-territory">Greenville · Spartanburg · Anderson</div>
+          <div class="region-slide-stat">
+            <div class="region-slide-stat-num">700K</div>
+            <div class="region-slide-stat-label">Commercial &amp; industrial customers served by Duke Energy Carolinas — the highest-density energy corridor in the state.</div>
           </div>
-          <div class="region-big-number"><span>$1.7</span>B</div>
-          <div class="region-number-label">Annual commercial + industrial<br>energy spend · EIA 2023</div>
-          <div class="region-name">Manufacturing Country</div>
-          <div class="region-territory">Greenville · Spartanburg · Anderson</div>
-          <div class="region-desc">BMW, Michelin, Lockheed Martin, GE Aviation. Over 300 automotive suppliers. Energy runs 24 hours a day and sits on the P&amp;L of every facility.</div>
-          <div class="region-note">A 20% reduction here moves hundreds of millions of dollars back into the regional economy.</div>
+          <div class="region-slide-note">BMW, Michelin, GE Aviation, Lockheed Martin. The Upstate runs 24 hours a day, 7 days a week. Energy cost is a line item in every margin.</div>
         </div>
       </div>
 
       <!-- MIDLANDS -->
-      <div class="region-card" data-region="midlands" id="card-midlands">
-        <!-- Geometric pattern: grid/institutional squares -->
-        <div class="region-pattern">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="p-midlands" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                <rect x="0" y="0" width="9" height="9" fill="none" stroke="#c9a84c" stroke-width="0.8"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#p-midlands)"/>
-          </svg>
-        </div>
-        <div class="region-content-inner">
-          <div class="region-dot-indicator">
-            <span></span>
-            <span class="region-tag">The Midlands</span>
+      <div class="region-slide" data-region="midlands">
+        <svg class="region-bg-pattern" id="pat-midlands" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="dot-mid" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+              <circle cx="15" cy="15" r="1" fill="rgba(201,168,76,0.08)"/>
+            </pattern>
+          </defs>
+          <rect width="800" height="600" fill="url(#dot-mid)"/>
+          <!-- Capitol dome silhouette suggestion -->
+          <ellipse cx="400" cy="580" rx="320" ry="320" fill="none" stroke="rgba(201,168,76,0.05)" stroke-width="1.5"/>
+          <ellipse cx="400" cy="580" rx="220" ry="220" fill="none" stroke="rgba(201,168,76,0.04)" stroke-width="1"/>
+          <ellipse cx="400" cy="580" rx="130" ry="130" fill="none" stroke="rgba(201,168,76,0.06)" stroke-width="1"/>
+          <!-- Horizontal authority lines -->
+          <line x1="0" y1="180" x2="800" y2="180" stroke="rgba(201,168,76,0.04)" stroke-width="1"/>
+          <line x1="0" y1="240" x2="800" y2="240" stroke="rgba(201,168,76,0.03)" stroke-width="1"/>
+          <line x1="0" y1="300" x2="800" y2="300" stroke="rgba(201,168,76,0.04)" stroke-width="1"/>
+        </svg>
+        <div class="region-bg-num">SC</div>
+        <div class="region-slide-content">
+          <div class="region-slide-tag">Region 02</div>
+          <div class="region-slide-name">The Midlands</div>
+          <div class="region-slide-territory">Columbia · Lexington · Sumter</div>
+          <div class="region-slide-stat">
+            <div class="region-slide-stat-num">32%</div>
+            <div class="region-slide-stat-label">of South Carolina's total energy is consumed by the industrial sector — much of it centered in the Midlands corridor.</div>
           </div>
-          <div class="region-big-number"><span>$900</span>M</div>
-          <div class="region-number-label">Annual energy spend · commercial<br>+ public sector · EIA 2023</div>
-          <div class="region-name">The Seat of Government</div>
-          <div class="region-territory">Columbia · Lexington · Sumter</div>
-          <div class="region-desc">State agencies, Fort Jackson, USC, and a dense network of schools and medical facilities. Every wasted dollar here comes out of a public budget.</div>
-          <div class="region-note">Government and institutional facilities are among the highest-opportunity accounts in the program.</div>
+          <div class="region-slide-note">State agencies, Fort Jackson, USC, and a dense public-sector footprint. Every dollar wasted on energy here is a dollar out of the public budget.</div>
         </div>
       </div>
 
       <!-- LOWCOUNTRY -->
-      <div class="region-card" data-region="lowcountry" id="card-lowcountry">
-        <!-- Geometric pattern: wave/coastal arcs -->
-        <div class="region-pattern">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="p-lowcountry" x="0" y="0" width="40" height="20" patternUnits="userSpaceOnUse">
-                <path d="M0 10 Q10 0 20 10 Q30 20 40 10" fill="none" stroke="#c9a84c" stroke-width="0.9"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#p-lowcountry)"/>
-          </svg>
-        </div>
-        <div class="region-content-inner">
-          <div class="region-dot-indicator">
-            <span></span>
-            <span class="region-tag">The Lowcountry</span>
+      <div class="region-slide" data-region="lowcountry">
+        <svg class="region-bg-pattern" id="pat-lowcountry" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="wave-low" x="0" y="0" width="120" height="40" patternUnits="userSpaceOnUse">
+              <path d="M0 20 Q30 5 60 20 Q90 35 120 20" fill="none" stroke="rgba(42,127,110,0.07)" stroke-width="1.5"/>
+            </pattern>
+          </defs>
+          <rect width="800" height="600" fill="url(#wave-low)"/>
+          <!-- Horizon line -->
+          <line x1="0" y1="340" x2="800" y2="340" stroke="rgba(42,127,110,0.1)" stroke-width="1.5"/>
+          <!-- Sun/moon rising -->
+          <circle cx="400" cy="340" r="90" fill="none" stroke="rgba(201,168,76,0.06)" stroke-width="1"/>
+          <circle cx="400" cy="340" r="55" fill="none" stroke="rgba(201,168,76,0.05)" stroke-width="1"/>
+          <!-- Vertical palm/mast lines -->
+          <line x1="160" y1="0" x2="160" y2="340" stroke="rgba(42,127,110,0.05)" stroke-width="1"/>
+          <line x1="640" y1="0" x2="640" y2="340" stroke="rgba(42,127,110,0.05)" stroke-width="1"/>
+        </svg>
+        <div class="region-bg-num">SC</div>
+        <div class="region-slide-content">
+          <div class="region-slide-tag">Region 03</div>
+          <div class="region-slide-name">The Lowcountry</div>
+          <div class="region-slide-territory">Charleston · Myrtle Beach · Hilton Head</div>
+          <div class="region-slide-stat">
+            <div class="region-slide-stat-num">$28B</div>
+            <div class="region-slide-stat-label">tourism industry running HVAC 365 days a year in one of the most humid climates on the East Coast.</div>
           </div>
-          <div class="region-big-number"><span>$28</span>B</div>
-          <div class="region-number-label">Tourism industry annual revenue<br>HVAC runs 365 days a year</div>
-          <div class="region-name">Coast and Commerce</div>
-          <div class="region-territory">Charleston · Myrtle Beach · Hilton Head</div>
-          <div class="region-desc">Hotels, resorts, restaurants, Boeing, and the Port of Charleston. Thin hospitality margins make energy the most controllable cost on the books.</div>
-          <div class="region-note">The coastal climate means air conditioning never stops. Energy savings here go straight to the bottom line.</div>
+          <div class="region-slide-note">Hotels, restaurants, and resorts run on thin margins. Boeing, the Port of Charleston, and cold-chain logistics round out the highest-density commercial energy market in the state.</div>
         </div>
       </div>
 
-    </div>
+    </div><!-- /regions-track -->
+
+    <div class="swipe-hint">Swipe ←</div>
+  </div><!-- /regions-swipe-wrap -->
+
+  <div class="regions-dots" id="regions-dots">
+    <button class="region-dot active" data-slide="0" aria-label="Upstate"></button>
+    <button class="region-dot" data-slide="1" aria-label="Midlands"></button>
+    <button class="region-dot" data-slide="2" aria-label="Lowcountry"></button>
   </div>
+
 </section>
 
 <hr class="rule-gold"/>
-
 <!-- CREDENTIALS -->
 <section class="credentials-section">
   <div class="container">
@@ -1853,61 +1980,77 @@ function setupRollers() {
 setupRollers();
 
 
-// ── REGIONS SECTION ANIMATION ─────────────────────────────────
+// ── REGIONS SWIPE CARDS ───────────────────────────────────────
 (function() {
-  const section = document.getElementById('regions-section');
-  const mapBg   = document.getElementById('regions-map-bg');
-  const mapPath = document.getElementById('map-outline-path');
-  const dots    = {
-    upstate:    document.getElementById('dot-upstate'),
-    midlands:   document.getElementById('dot-midlands'),
-    lowcountry: document.getElementById('dot-lowcountry')
-  };
-  const cards = {
-    upstate:    document.getElementById('card-upstate'),
-    midlands:   document.getElementById('card-midlands'),
-    lowcountry: document.getElementById('card-lowcountry')
-  };
+  const track     = document.getElementById('regions-track');
+  const dots      = document.querySelectorAll('.region-dot');
+  const patterns  = document.querySelectorAll('.region-bg-pattern');
+  const section   = document.getElementById('regions-section');
+  if (!track) return;
 
-  if (!section) return;
+  let current = 0;
+  let startX = 0;
+  let isDragging = false;
+  let hasFired = false;
 
-  let fired = false;
+  const isMobile = () => window.innerWidth < 900;
 
+  function goTo(index) {
+    if (!isMobile()) return;
+    current = Math.max(0, Math.min(2, index));
+    track.style.transform = `translateX(-${current * 33.333}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  // Touch/mouse drag
+  track.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    isDragging = true;
+  }, { passive: true });
+
+  track.addEventListener('touchend', e => {
+    if (!isDragging) return;
+    isDragging = false;
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) goTo(current + (diff > 0 ? 1 : -1));
+  }, { passive: true });
+
+  track.addEventListener('mousedown', e => {
+    startX = e.clientX;
+    isDragging = true;
+  });
+
+  window.addEventListener('mouseup', e => {
+    if (!isDragging) return;
+    isDragging = false;
+    const diff = startX - e.clientX;
+    if (Math.abs(diff) > 60) goTo(current + (diff > 0 ? 1 : -1));
+  });
+
+  // Dot navigation
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => goTo(i));
+  });
+
+  // Animate patterns when section enters view
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (!e.isIntersecting || fired) return;
-      fired = true;
-      obs.unobserve(section);
-
-      // Step 1: fade in the map background
-      mapBg.classList.add('map-visible');
-
-      // Step 2: draw the SC outline
-      setTimeout(() => {
-        if (mapPath) mapPath.classList.add('map-drawing');
-      }, 300);
-
-      // Step 3: dots appear one by one, each card follows
-      const sequence = [
-        { dot: dots.upstate,    card: cards.upstate,    delay: 1200 },
-        { dot: dots.midlands,   card: cards.midlands,   delay: 1700 },
-        { dot: dots.lowcountry, card: cards.lowcountry, delay: 2200 },
-      ];
-
-      sequence.forEach(({ dot, card, delay }) => {
-        // Dot pulse
-        setTimeout(() => {
-          if (dot) dot.classList.add('dot-active');
-        }, delay);
-        // Card reveal slightly after dot
-        setTimeout(() => {
-          if (card) card.classList.add('card-visible');
-        }, delay + 180);
+      if (!e.isIntersecting || hasFired) return;
+      hasFired = true;
+      patterns.forEach((p, i) => {
+        setTimeout(() => p.classList.add('pattern-visible'), i * 200);
       });
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.1 });
 
-  obs.observe(section);
+  if (section) obs.observe(section);
+
+  // Keyboard navigation
+  document.addEventListener('keydown', e => {
+    if (!isMobile()) return;
+    if (e.key === 'ArrowRight') goTo(current + 1);
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+  });
 })();
 
 // ── ESCALATING VERDICT ──────────────────────────────────────
