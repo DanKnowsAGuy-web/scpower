@@ -998,6 +998,209 @@ footer {
   text-align: right;
 }
 
+
+/* ── THREE REGIONS ── */
+.regions-section {
+  background: var(--ink);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  overflow: hidden;
+}
+
+.regions-header {
+  padding: 4rem 3rem 2rem;
+  text-align: center;
+  border-bottom: 1px solid var(--rule);
+}
+
+.regions-header h2 {
+  margin-bottom: 0.6rem;
+}
+
+.regions-header p {
+  font-size: 1rem;
+  color: var(--slate-lt);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* Each region band */
+.region-band {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: stretch;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+  overflow: hidden;
+  min-height: 280px;
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.region-band.band-visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.region-band:last-child { border-bottom: none; }
+
+/* SVG pattern backdrop */
+.region-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.4s ease;
+}
+
+.region-band:hover .region-pattern { opacity: 0.14; }
+
+/* Left: region name */
+.region-name-col {
+  padding: 2.8rem 3rem;
+  border-right: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  background: var(--ink);
+  transition: background 0.3s;
+}
+
+.region-band:hover .region-name-col { background: var(--ink-mid); }
+
+.region-eyebrow {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.7rem;
+  opacity: 0.8;
+}
+
+.region-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.02;
+  color: var(--white);
+  letter-spacing: -0.02em;
+}
+
+.region-cities {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-top: 0.8rem;
+  line-height: 1.6;
+}
+
+/* Center: the number */
+.region-number-col {
+  padding: 2.8rem 2.5rem;
+  border-right: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  background: var(--ink-mid);
+  transition: background 0.3s;
+}
+
+.region-band:hover .region-number-col { background: var(--ink-soft); }
+
+.region-big-number {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  font-size: clamp(2.8rem, 4.5vw, 4.2rem);
+  line-height: 1;
+  color: var(--gold);
+  letter-spacing: -0.03em;
+  text-shadow: 0 0 60px rgba(201,168,76,0.2);
+  margin-bottom: 0.5rem;
+}
+
+.region-number-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--slate);
+  line-height: 1.5;
+  max-width: 160px;
+}
+
+/* Right: the political sentence */
+.region-text-col {
+  padding: 2.8rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+  background: var(--ink);
+  transition: background 0.3s;
+}
+
+.region-band:hover .region-text-col { background: var(--ink-mid); }
+
+.region-sentence {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--white-dim);
+  font-weight: 300;
+  margin-bottom: 1.2rem;
+}
+
+.region-sentence em {
+  font-style: italic;
+  color: var(--white);
+}
+
+.region-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-left: 2px solid var(--gold);
+  padding-left: 0.8rem;
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
+/* Mobile */
+@media (max-width: 860px) {
+  .regions-header { padding: 3rem 1.5rem 1.5rem; }
+  .region-band {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .region-name-col,
+  .region-number-col,
+  .region-text-col {
+    padding: 1.8rem 1.5rem;
+    border-right: none;
+    border-bottom: 1px solid var(--rule);
+  }
+  .region-text-col { border-bottom: none; }
+  .region-number-col { align-items: flex-start; text-align: left; }
+  .region-big-number { font-size: clamp(3rem, 14vw, 5rem); }
+  .region-name { font-size: clamp(2.2rem, 8vw, 3rem); }
+  .region-band { transform: translateY(20px); }
+}
+
 /* ── DIVIDER ── */
 .rule-gold {
   height: 1px;
@@ -1303,6 +1506,101 @@ footer {
       </div>
     </div>
   </div>
+</section>
+
+<hr class="rule-gold"/>
+
+<!-- THREE REGIONS -->
+<section class="regions-section" id="regions-section">
+
+  <div class="regions-header reveal">
+    <div class="section-label" style="justify-content:center; border-left:none; padding-left:0;">South Carolina Has Three Energy Stories</div>
+    <h2>Every district is different.<br><em>The problem is the same.</em></h2>
+    <p>Wherever your constituents live and work, they are paying more than they need to. Here is what that looks like in each part of the state.</p>
+  </div>
+
+  <!-- UPSTATE -->
+  <div class="region-band" id="band-upstate">
+    <!-- Factory floor diagonal grid pattern -->
+    <svg class="region-pattern" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="factory-grid" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(35)">
+          <line x1="0" y1="0" x2="0" y2="40" stroke="#c9a84c" stroke-width="0.8"/>
+          <line x1="0" y1="0" x2="40" y2="0" stroke="#c9a84c" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="400" height="300" fill="url(#factory-grid)"/>
+    </svg>
+    <div class="region-name-col">
+      <div class="region-eyebrow">Region 01</div>
+      <div class="region-name">The<br>Upstate</div>
+      <div class="region-cities">Greenville · Spartanburg<br>Anderson · Gaffney</div>
+    </div>
+    <div class="region-number-col">
+      <div class="region-big-number">$14.8B</div>
+      <div class="region-number-label">BMW investment in Spartanburg alone</div>
+    </div>
+    <div class="region-text-col">
+      <p class="region-sentence">The Upstate runs 24 hours a day. <em>BMW, Michelin, and 300+ automotive suppliers</em> operate continuous industrial loads that make energy cost a direct line item in every margin calculation. When rates rise, manufacturers notice immediately.</p>
+      <div class="region-tag">Automotive · Aerospace · Advanced Manufacturing</div>
+    </div>
+  </div>
+
+  <!-- MIDLANDS -->
+  <div class="region-band" id="band-midlands">
+    <!-- Capitol dome grid: concentric arcs suggesting institutional architecture -->
+    <svg class="region-pattern" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="institutional-grid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+          <rect x="0" y="0" width="60" height="60" fill="none" stroke="#c9a84c" stroke-width="0.6"/>
+          <rect x="15" y="15" width="30" height="30" fill="none" stroke="#c9a84c" stroke-width="0.4"/>
+          <circle cx="30" cy="30" r="6" fill="none" stroke="#c9a84c" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="400" height="300" fill="url(#institutional-grid)"/>
+    </svg>
+    <div class="region-name-col">
+      <div class="region-eyebrow">Region 02</div>
+      <div class="region-name">The<br>Midlands</div>
+      <div class="region-cities">Columbia · Lexington<br>Sumter · Orangeburg</div>
+    </div>
+    <div class="region-number-col">
+      <div class="region-big-number">3.7M</div>
+      <div class="region-number-label">Square feet at Fort Jackson alone — just one Midlands installation</div>
+    </div>
+    <div class="region-text-col">
+      <p class="region-sentence">The Midlands is the seat of state government, the military, and public education. <em>Fort Jackson, the University of South Carolina, and dozens of state agencies</em> run enormous facilities on budgets funded by taxpayers. Every wasted kilowatt-hour is money that could serve constituents instead.</p>
+      <div class="region-tag">Government · Military · Education · Healthcare</div>
+    </div>
+  </div>
+
+  <!-- LOWCOUNTRY -->
+  <div class="region-band" id="band-lowcountry">
+    <!-- Coastal wave pattern: loose horizontal sine curves -->
+    <svg class="region-pattern" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id="wave-pattern" x="0" y="0" width="80" height="30" patternUnits="userSpaceOnUse">
+          <path d="M0 15 Q20 5 40 15 Q60 25 80 15" fill="none" stroke="#c9a84c" stroke-width="0.8"/>
+          <path d="M0 25 Q20 15 40 25 Q60 35 80 25" fill="none" stroke="#c9a84c" stroke-width="0.4"/>
+        </pattern>
+      </defs>
+      <rect width="400" height="300" fill="url(#wave-pattern)"/>
+    </svg>
+    <div class="region-name-col">
+      <div class="region-eyebrow">Region 03</div>
+      <div class="region-name">The Low-<br>country</div>
+      <div class="region-cities">Charleston · Myrtle Beach<br>Hilton Head · Beaufort</div>
+    </div>
+    <div class="region-number-col">
+      <div class="region-big-number">$28B</div>
+      <div class="region-number-label">SC tourism industry running HVAC 365 days a year</div>
+    </div>
+    <div class="region-text-col">
+      <p class="region-sentence">The coastal economy runs on hospitality. <em>Hotels, resorts, and restaurants</em> in Charleston, Myrtle Beach, and Hilton Head operate on thin margins in a hot, humid climate where air conditioning never stops. Energy is one of the top three operating costs — and the most controllable one.</p>
+      <div class="region-tag">Tourism · Hospitality · Ports · Aerospace</div>
+    </div>
+  </div>
+
 </section>
 
 <hr class="rule-gold"/>
@@ -1618,6 +1916,32 @@ function setupRollers() {
 }
 
 setupRollers();
+
+
+// ── REGION BANDS STAGGER IN ───────────────────────────────────
+(function() {
+  const bands = [
+    document.getElementById('band-upstate'),
+    document.getElementById('band-midlands'),
+    document.getElementById('band-lowcountry'),
+  ].filter(Boolean);
+
+  if (!bands.length) return;
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const band = e.target;
+      const idx = bands.indexOf(band);
+      setTimeout(() => {
+        band.classList.add('band-visible');
+      }, idx * 180);
+      obs.unobserve(band);
+    });
+  }, { threshold: 0.15 });
+
+  bands.forEach(b => obs.observe(b));
+})();
 
 // ── ESCALATING VERDICT ──────────────────────────────────────
 (function() {
