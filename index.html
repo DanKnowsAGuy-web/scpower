@@ -494,6 +494,8 @@ h2 em { font-style: italic; color: var(--gold); }
   border-left: 3px solid var(--gold);
   padding: 2rem 2.5rem;
   margin-top: 2rem;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .callout-box p {
@@ -584,7 +586,9 @@ h2 em { font-style: italic; color: var(--gold); }
   align-items: center;
   padding: 1.1rem 1.5rem;
   border-bottom: 1px solid var(--rule);
-  gap: 2rem;
+  gap: 1rem;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .result-row:first-child {
@@ -940,6 +944,9 @@ footer {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 860px) {
+  /* Global overflow fix */
+  html, body { overflow-x: hidden; max-width: 100vw; }
+  .container, .narrow, section, .problem-band, nav { max-width: 100%; }
   nav { padding: 1.2rem 1.5rem; }
   section { padding: 3.5rem 1.5rem; }
   .hero { padding: 3rem 1.5rem 3rem; }
@@ -951,14 +958,26 @@ footer {
   .stat-divider { display: none; }
   .stat-block { padding: 0; border-bottom: 1px solid var(--rule); padding-bottom: 1.5rem; }
   .stat-block:last-child { border-bottom: none; padding-bottom: 0; }
-  /* First stat (grid risk) gets hero treatment on mobile */
-  .stat-block:first-child .stat-number { font-size: 5.5rem; }
+  /* Numeric stats get larger on mobile, text stat stays normal */
+  .stat-block:nth-child(3) .stat-number,
+  .stat-block:nth-child(5) .stat-number { font-size: 4.8rem; }
+  .stat-block:first-child .stat-number { font-size: 2.4rem; }
+  /* Ensure "Elevated" word wraps gracefully */
+  .stat-number { word-break: break-word; hyphens: auto; }
   .opp-grid,
   .optimizer-grid,
   .cred-grid { grid-template-columns: 1fr; }
   .cred-card:nth-child(even) { border-right: 1px solid var(--rule); }
   footer { flex-direction: column; align-items: flex-start; }
   .footer-right { text-align: left; }
+  /* Prevent table overflow on mobile */
+  .optimizer-results { overflow-x: hidden; }
+  .result-value { font-size: 1.1rem; white-space: nowrap; }
+  .result-label { font-size: 0.88rem; }
+  /* Contain pillars and method items */
+  .pillar, .method-item { overflow: hidden; }
+  /* Nav name wraps gracefully */
+  .nav-name { font-size: 1.2rem; }
 }
 </style>
 </head>
