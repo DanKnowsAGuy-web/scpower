@@ -540,6 +540,9 @@ h2 {
   color: var(--white);
   letter-spacing: -0.01em;
   margin-bottom: 1.5rem;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 h2 em { font-style: italic; color: var(--gold); }
@@ -1271,20 +1274,20 @@ footer {
 /* All drawn paths start invisible */
 .draw-path {
   fill: none;
-  stroke: rgba(201,168,76,0.55);
-  stroke-width: 1.2;
+  stroke: rgba(201,168,76,0.75);
+  stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .draw-path-thin {
-  stroke: rgba(201,168,76,0.25);
-  stroke-width: 0.6;
+  stroke: rgba(201,168,76,0.5);
+  stroke-width: 1.2;
 }
 
 .draw-path-bright {
-  stroke: rgba(201,168,76,0.85);
-  stroke-width: 1.8;
+  stroke: rgba(201,168,76,1.0);
+  stroke-width: 2.5;
 }
 
 /* Right column: content */
@@ -1425,9 +1428,11 @@ footer {
   }
   .region-drawing-col {
     flex: 0 0 auto;
-    height: 50vw;
-    min-height: 200px;
+    height: 55vw;
+    min-height: 220px;
   }
+  /* Show all paths on mobile */
+  .draw-path { stroke-dashoffset: 0 !important; }
   .region-content-col {
     flex: 0 0 auto;
     padding: 2.5rem 1.5rem;
@@ -1437,10 +1442,13 @@ footer {
   .region-big-num,
   .region-num-label,
   .region-sentence,
-  .region-tag {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  .region-tag,
+  .region-name,
+  .region-cities,
+  .region-num {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
   }
   .regions-header { padding: 3rem 1.5rem 2rem; }
 }
@@ -1508,6 +1516,10 @@ footer {
   .pillar, .method-item { overflow: hidden; }
   /* Nav name wraps gracefully */
   .nav-name { font-size: 1.2rem; }
+  /* Callout box mobile fix */
+  .callout-box { padding: 1.5rem; }
+  /* H2 mobile containment */
+  h2 { font-size: clamp(1.6rem, 7vw, 2.8rem); word-break: break-word; }
 }
 </style>
 </head>
