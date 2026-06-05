@@ -1453,43 +1453,85 @@ footer {
 
     <div class="regions-grid">
 
+      <!-- UPSTATE -->
       <div class="region-card" data-region="upstate" id="card-upstate">
-        <div class="region-dot-indicator"><span></span></div>
-        <div class="region-name">The Upstate</div>
-        <div class="region-territory">Greenville · Spartanburg · Anderson</div>
-        <div class="region-industries">
-          <div class="region-industry">Automotive manufacturing — BMW, Michelin, 300+ suppliers</div>
-          <div class="region-industry">Aerospace — Lockheed Martin, GE Aviation, Honeywell</div>
-          <div class="region-industry">Advanced materials and composites</div>
-          <div class="region-industry">Healthcare — Prisma Health, Spartanburg Regional</div>
+        <!-- Geometric pattern: diagonal industrial lines -->
+        <div class="region-pattern">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="p-upstate" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                <line x1="0" y1="0" x2="0" y2="24" stroke="#c9a84c" stroke-width="1"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#p-upstate)"/>
+          </svg>
         </div>
-        <div class="region-note">High 24/7 industrial load. Energy cost is a direct line item in every manufacturing margin.</div>
+        <div class="region-content-inner">
+          <div class="region-dot-indicator">
+            <span></span>
+            <span class="region-tag">The Upstate</span>
+          </div>
+          <div class="region-big-number"><span>$1.7</span>B</div>
+          <div class="region-number-label">Annual commercial + industrial<br>energy spend · EIA 2023</div>
+          <div class="region-name">Manufacturing Country</div>
+          <div class="region-territory">Greenville · Spartanburg · Anderson</div>
+          <div class="region-desc">BMW, Michelin, Lockheed Martin, GE Aviation. Over 300 automotive suppliers. Energy runs 24 hours a day and sits on the P&amp;L of every facility.</div>
+          <div class="region-note">A 20% reduction here moves hundreds of millions of dollars back into the regional economy.</div>
+        </div>
       </div>
 
+      <!-- MIDLANDS -->
       <div class="region-card" data-region="midlands" id="card-midlands">
-        <div class="region-dot-indicator"><span></span></div>
-        <div class="region-name">The Midlands</div>
-        <div class="region-territory">Columbia · Lexington · Sumter</div>
-        <div class="region-industries">
-          <div class="region-industry">State government facilities and agencies</div>
-          <div class="region-industry">Fort Jackson — largest Army training base in the U.S.</div>
-          <div class="region-industry">University of South Carolina and education campuses</div>
-          <div class="region-industry">Paper, steel, and medical supply manufacturing</div>
+        <!-- Geometric pattern: grid/institutional squares -->
+        <div class="region-pattern">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="p-midlands" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                <rect x="0" y="0" width="9" height="9" fill="none" stroke="#c9a84c" stroke-width="0.8"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#p-midlands)"/>
+          </svg>
         </div>
-        <div class="region-note">Energy waste in the public sector comes directly out of taxpayer-funded budgets.</div>
+        <div class="region-content-inner">
+          <div class="region-dot-indicator">
+            <span></span>
+            <span class="region-tag">The Midlands</span>
+          </div>
+          <div class="region-big-number"><span>$900</span>M</div>
+          <div class="region-number-label">Annual energy spend · commercial<br>+ public sector · EIA 2023</div>
+          <div class="region-name">The Seat of Government</div>
+          <div class="region-territory">Columbia · Lexington · Sumter</div>
+          <div class="region-desc">State agencies, Fort Jackson, USC, and a dense network of schools and medical facilities. Every wasted dollar here comes out of a public budget.</div>
+          <div class="region-note">Government and institutional facilities are among the highest-opportunity accounts in the program.</div>
+        </div>
       </div>
 
+      <!-- LOWCOUNTRY -->
       <div class="region-card" data-region="lowcountry" id="card-lowcountry">
-        <div class="region-dot-indicator"><span></span></div>
-        <div class="region-name">The Lowcountry</div>
-        <div class="region-territory">Charleston · Myrtle Beach · Hilton Head</div>
-        <div class="region-industries">
-          <div class="region-industry">$28B tourism industry — hotels, resorts, restaurants</div>
-          <div class="region-industry">Port of Charleston — logistics, cold storage</div>
-          <div class="region-industry">Boeing South Carolina — commercial aircraft production</div>
-          <div class="region-industry">Coastal healthcare and retirement communities</div>
+        <!-- Geometric pattern: wave/coastal arcs -->
+        <div class="region-pattern">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="p-lowcountry" x="0" y="0" width="40" height="20" patternUnits="userSpaceOnUse">
+                <path d="M0 10 Q10 0 20 10 Q30 20 40 10" fill="none" stroke="#c9a84c" stroke-width="0.9"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#p-lowcountry)"/>
+          </svg>
         </div>
-        <div class="region-note">HVAC runs year-round in the coastal climate. Thin hospitality margins make energy savings immediate.</div>
+        <div class="region-content-inner">
+          <div class="region-dot-indicator">
+            <span></span>
+            <span class="region-tag">The Lowcountry</span>
+          </div>
+          <div class="region-big-number"><span>$28</span>B</div>
+          <div class="region-number-label">Tourism industry annual revenue<br>HVAC runs 365 days a year</div>
+          <div class="region-name">Coast and Commerce</div>
+          <div class="region-territory">Charleston · Myrtle Beach · Hilton Head</div>
+          <div class="region-desc">Hotels, resorts, restaurants, Boeing, and the Port of Charleston. Thin hospitality margins make energy the most controllable cost on the books.</div>
+          <div class="region-note">The coastal climate means air conditioning never stops. Energy savings here go straight to the bottom line.</div>
+        </div>
       </div>
 
     </div>
