@@ -314,7 +314,7 @@ section { padding: 5rem 3rem; }
 .hero h1 {
   font-family: 'Playfair Display', Georgia, serif;
   font-weight: 900;
-  font-size: clamp(3.4rem, 8vw, 5.2rem);
+  font-size: clamp(2.8rem, 7.5vw, 5.2rem);
   line-height: 1.04;
   color: var(--white);
   letter-spacing: -0.02em;
@@ -419,7 +419,7 @@ section { padding: 5rem 3rem; }
   text-shadow: 0 0 40px rgba(201,168,76,0.25);
 }
 
-.stat-number span { color: var(--gold); }
+.stat-number span, .top5-label { color: var(--gold); }
 
 .stat-label {
   font-family: 'DM Mono', monospace;
@@ -1044,7 +1044,7 @@ footer {
     overflow-wrap: break-word;
     max-width: 100%;
   }
-  .stat-number { max-width: 100%; overflow: hidden; }
+  .stat-number { max-width: 100%; }
   .stat-desc { font-size: 0.95rem; }
   .stat-source { font-size: 0.65rem; }
   .opp-grid,
@@ -1186,7 +1186,7 @@ footer {
     <div class="stat-divider"></div>
     <div class="stat-block reveal reveal-delay-3">
       <div class="stat-label">State Cost Ranking</div>
-      <div class="stat-number" id="top5-stat">Top&nbsp;<span id="top5-num" class="roll-num">5</span></div>
+      <div class="stat-number" id="top5-stat"><span class="top5-label">Top&nbsp;</span><span id="top5-num" class="roll-num">5</span></div>
       <div class="stat-desc">South Carolina is projected to rank among the top five states for commercial electricity bill increases over the next decade. No new generation solves this alone.</div>
       <div class="stat-source">Source: EIA State Electricity Profiles &amp; rate projection analysis</div>
     </div>
@@ -1549,48 +1549,44 @@ function rollToNumber(el, finalVal, duration) {
   const stepDuration = duration / steps;
   let current = 0;
 
+  // Simple approach: just update the text content each step
+  // with a quick CSS scale pop for visual feedback
+  el.style.display = 'inline-block';
+  el.style.transition = 'transform 0.12s ease, opacity 0.12s ease';
+  el.textContent = '0';
+
   function showNext() {
     current++;
-    // Create outgoing and incoming spans
-    const outgoing = document.createElement('span');
-    outgoing.textContent = current - 1;
-    outgoing.style.cssText = 'position:absolute; left:0; top:0; width:100%; transition: transform ' + stepDuration * 0.7 + 'ms ease, opacity ' + stepDuration * 0.5 + 'ms ease;';
+    // Flash out
+    el.style.transform = 'translateY(-4px)';
+    el.style.opacity = '0.3';
 
-    const incoming = document.createElement('span');
-    incoming.textContent = current;
-    incoming.style.cssText = 'position:absolute; left:0; top:0; width:100%; transform:translateY(100%); transition: transform ' + stepDuration * 0.7 + 'ms ease;';
-
-    el.innerHTML = '';
-    el.style.position = 'relative';
-    el.style.display = 'inline-block';
-    // Size the container to fit the final number
-    el.style.minWidth = (String(finalVal).length * 0.6) + 'em';
-    el.style.verticalAlign = 'baseline';
-    el.appendChild(outgoing);
-    el.appendChild(incoming);
-
-    requestAnimationFrame(() => {
+    setTimeout(() => {
+      el.textContent = current;
+      el.style.transform = 'translateY(4px)';
+      // Flash in from below
       requestAnimationFrame(() => {
-        outgoing.style.transform = 'translateY(-100%)';
-        outgoing.style.opacity = '0';
-        incoming.style.transform = 'translateY(0)';
+        requestAnimationFrame(() => {
+          el.style.transform = 'translateY(0)';
+          el.style.opacity = '1';
+        });
       });
-    });
+    }, 60);
 
     if (current < finalVal) {
       setTimeout(showNext, stepDuration);
     } else {
-      // Final: clean up to plain text
+      // Done - remove inline styles
       setTimeout(() => {
-        el.style.position = '';
-        el.style.minWidth = '';
-        el.textContent = finalVal;
-      }, stepDuration * 0.8);
+        el.style.transition = '';
+        el.style.transform = '';
+        el.style.opacity = '';
+        el.style.display = '';
+      }, 300);
     }
   }
 
-  el.textContent = '0';
-  setTimeout(showNext, stepDuration * 0.5);
+  setTimeout(showNext, stepDuration * 0.3);
 }
 
 // Observe and trigger when in view
