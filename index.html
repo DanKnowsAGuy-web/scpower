@@ -462,6 +462,30 @@ section { padding: 5rem 3rem; }
   line-height: 1.35;
 }
 
+
+/* ── ESCALATING VERDICT ── */
+#escalate-verdict {
+  position: relative;
+  height: 2.8rem;
+  display: flex;
+  align-items: center;
+}
+
+.escalate-word {
+  position: absolute;
+  left: 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: 2.2rem;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: none;
+  white-space: nowrap;
+}
+
 /* ── BODY SECTIONS ── */
 .section-label {
   font-family: 'DM Mono', monospace;
@@ -1114,7 +1138,13 @@ footer {
   <div class="container">
     <div class="stat-block reveal">
       <div class="stat-label">Grid Reliability Risk</div>
-      <div class="stat-verdict">Elevated</div>
+      <div class="stat-verdict" id="escalate-verdict">
+  <span class="escalate-word" data-index="0" style="color:#6a8aaa;">Stable</span>
+  <span class="escalate-word" data-index="1" style="color:#8a9e7a;">Moderate</span>
+  <span class="escalate-word" data-index="2" style="color:#c9a84c;">Concerning</span>
+  <span class="escalate-word" data-index="3" style="color:#d4773a;">Critical</span>
+  <span class="escalate-word" data-index="4" style="color:#e05a1a;">Elevated</span>
+</div>
       <div class="stat-desc">SERC-East, which includes South Carolina, flagged for reliability concerns by 2028 due to retiring generation and surging industrial demand.</div>
       <div class="stat-source">Source: NERC 2025 Long-Term Reliability Assessment</div>
     </div>
@@ -1481,6 +1511,60 @@ const methodObserver = new IntersectionObserver((entries) => {
 
 const methodList = document.querySelector('.method-list');
 if (methodList) methodObserver.observe(methodList);
+
+
+// ── ESCALATING VERDICT ──────────────────────────────────────
+(function() {
+  const words = document.querySelectorAll('.escalate-word');
+  if (!words.length) return;
+
+  const durations  = [520, 520, 580, 620, 99999]; // ms each word is visible
+  const holdAfter  = 300; // pause before next word appears
+  let hasRun = false;
+
+  function runSequence() {
+    if (hasRun) return;
+    hasRun = true;
+    let delay = 0;
+    words.forEach((word, i) => {
+      const isFinal = i === words.length - 1;
+      // Fade in + rise
+      setTimeout(() => {
+        word.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+        word.style.opacity = '1';
+        word.style.transform = 'translateY(0)';
+      }, delay);
+
+      if (!isFinal) {
+        // Fade out
+        setTimeout(() => {
+          word.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+          word.style.opacity = '0';
+          word.style.transform = 'translateY(-5px)';
+        }, delay + durations[i]);
+        delay += durations[i] + holdAfter;
+      } else {
+        // Final word: add a gentle pulse glow after landing
+        setTimeout(() => {
+          word.style.textShadow = '0 0 28px rgba(224,90,26,0.5)';
+        }, delay + 400);
+      }
+    });
+  }
+
+  // Trigger when the verdict enters the viewport
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        runSequence();
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const verdict = document.getElementById('escalate-verdict');
+  if (verdict) observer.observe(verdict);
+})();
 
 // ── SC WATERMARK + GLOW PARALLAX ──────────────────────────────
 const scMark = document.getElementById('sc-watermark');
